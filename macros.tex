@@ -31,43 +31,8 @@
 % Draw black "slugs" whenever a line overflows, so that we can spot it easily.
 \overfullrule=1mm
 
-%%% Macros for definitions, theorems, claims, examples, ... (requires amsthm package)
-
-\theoremstyle{plain}
-\newtheorem{thm}{Theorem}
-\newtheorem{lemma}[thm]{Lemma}
-\newtheorem{claim}[thm]{Claim}
-
-\theoremstyle{plain}
-\newtheorem{defn}{Definition}
-
-\theoremstyle{remark}
-\newtheorem*{cor}{Corollary}
-\newtheorem*{rem}{Remark}
-\newtheorem*{example}{Example}
-
-%%% An environment for proofs
-
-%%% FIXME %%% \newenvironment{proof}{
-%%% FIXME %%%   \par\medskip\noindent
-%%% FIXME %%%   \textit{Proof}.
-%%% FIXME %%% }{
-%%% FIXME %%% \newline
-%%% FIXME %%% \rightline{$\square$}  % or \SquareCastShadowBottomRight from bbding package
-%%% FIXME %%% }
-
 %%% An environment for typesetting of program code and input/output
 %%% of programs. (Requires the fancyvrb package -- fancy verbatim.)
 
-\DefineVerbatimEnvironment{code}{Verbatim}{fontsize=\small, frame=single}
-
-%%% The field of all real and natural numbers
-\newcommand{\R}{\mathbb{R}}
-\newcommand{\N}{\mathbb{N}}
-
-%%% Transposition of a vector/matrix
-\newcommand{\T}[1]{#1^\top}
-
-%%% Various table goodies
-\newcommand{\pulrad}[1]{\raisebox{1.5ex}[0pt]{#1}}
-\newcommand{\mc}[1]{\multicolumn{1}{c}{#1}}
+% TODO: commented out, might not be needed
+% \DefineVerbatimEnvironment{code}{Verbatim}{fontsize=\small, frame=single}

@@ -12,9 +12,12 @@
 *.dvi
 *-converted-to.*
 # these rules might exclude image files for figures etc.
-# *.ps
-# *.eps
-# *.pdf
+*.ps
+*.eps
+*.pdf
+
+# Exceptions for ignored figures
+!img/logo.pdf
 
 ## Bibliography auxiliary files (bibtex/biblatex/biber):
 *.bbl
@@ -26,6 +29,7 @@
 *.run.xml
 
 ## Build tool auxiliary files:
+/build/
 *.fdb_latexmk
 *.synctex
 *.synctex.gz

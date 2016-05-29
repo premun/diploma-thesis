@@ -1,0 +1,39 @@
+\begin{antlr}
+	\textbf{grammar} \textit{SimpleXML};
+	
+	\parserrule{document}     :   \parserrule{prolog}? \parserrule{comment}? \parserrule{element} ;
+	
+	\parserrule{prolog}       :   \literal{\ap<?xml \ap} \parserrule{attribute}* \literal{\ap?>\ap} ;
+	
+	\parserrule{comment}      :   \literal{\ap<!--\ap} \lexerrule{TEXT} \literal{\ap-->\ap} ;
+	
+	\parserrule{element}      :   \literal{\ap<\ap} \lexerrule{Name} \parserrule{attribute}* \literal{\ap>\ap} \parserrule{content}* \literal{\ap</\ap} \lexerrule{Name} \literal{\ap>\ap}
+	             |   \literal{\ap<\ap} \lexerrule{Name} \parserrule{attribute}* \literal{\ap/>\ap}
+	             ;
+	
+	\parserrule{attribute}    :   \lexerrule{Name} \literal{\ap="\ap} \lexerrule{TEXT} \literal{\ap"\ap} ;
+	
+	\parserrule{content}      :   \lexerrule{TEXT}
+	             |   \parserrule{element}
+	             |   \parserrule{comment}
+	             |   \lexerrule{CDATA}
+	             ;
+	
+	\lexerrule{Name}         :   \lexerrule{NameStartChar} \lexerrule{NameChar}* ;
+	
+	\textbf{fragment}
+	\lexerrule{DIGIT}        :   \regex{[0-9]} ;
+	
+	\textbf{fragment}
+	\lexerrule{NameChar}     :   \lexerrule{NameStartChar}
+	             |   \literal{\ap-\ap} | \literal{\ap_\ap} | \literal{\ap.\ap}
+	             |   \lexerrule{DIGIT}
+	             ;
+	
+	\textbf{fragment}
+	\lexerrule{NameStartChar}:   \regex{[:a-zA-Z]} ;
+	
+	\lexerrule{TEXT}         :   \regex{~[<"]*} ;
+	
+	\lexerrule{CDATA}        :   \literal{\ap<![CDATA[\ap} \regex{.*?} \literal{\ap]]>\ap} ;
+\end{antlr}

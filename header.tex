@@ -25,10 +25,6 @@
 % \setlength\headheight{0mm}
 % \let\openright=\cleardoublepage
 
-% TODO: copied from bachelor thesis
-% \usepackage[czech]{babel}
-% \usepackage[IL2]{fontenc}
-
 %% Character encoding
 \usepackage[utf8]{inputenc}
 
@@ -50,6 +46,18 @@
 \usepackage{paralist}       % improved enumerate and itemize
 \usepackage[usenames]{xcolor}  % typesetting in color
 
+%%% My own packages (not from the template)
+\usepackage{adjustbox}
+\usepackage{alltt}
+\usepackage{textcomp}
+
+% Colors for ANTLR
+\definecolor{antlrbgcolor}{rgb}{.962, .962, .962}
+\definecolor{parserrulecolor}{RGB}{11,83,148}
+\definecolor{lexerrulecolor}{RGB}{191,144,0}
+\definecolor{literalcolor}{RGB}{133,32,12}
+\definecolor{regexcolor}{RGB}{56,118,29}
+
 %%% Basic information on the thesis
 
 % Thesis title in English
@@ -62,8 +70,6 @@
 \def\YearSubmitted{2016}
 
 % Name of the department or institute, where the work was officially assigned
-% (according to the Organizational Structure of MFF UK in English,
-%  or a full name of a department outside MFF)
 \def\Department{Department of Distributed and Dependable Systems}
 
 % Is it a department (katedra), or an institute (ústav)?
@@ -81,12 +87,11 @@
 
 % Abstract (recommended length around 80-200 words; this is not a copy of your thesis assignment!)
 \def\Abstract{%
-Abstract. % TODO
+% TODO
 }
 
-% 3 to 5 keywords (recommended), each enclosed in curly braces
 \def\Keywords{%
-{key} {words} % TODO
+{JetBrains MPS}, {grammar}, {convertor}, {language}
 }
 
 %% The hyperref package for clickable links in PDF and also for storing

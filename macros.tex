@@ -31,8 +31,29 @@
 % Draw black "slugs" whenever a line overflows, so that we can spot it easily.
 \overfullrule=1mm
 
+%%% Coloring commands
+\newcommand{\parserrule}[1]{\textcolor{parserrulecolor}{#1}}
+\newcommand{\lexerrule}[1]{\textcolor{lexerrulecolor}{#1}}
+\newcommand{\literal}[1]{\textcolor{literalcolor}{#1}}
+\newcommand{\regex}[1]{\textcolor{regexcolor}{#1}}
+\newcommand{\ap}{\textquotesingle}
+
 %%% An environment for typesetting of program code and input/output
 %%% of programs. (Requires the fancyvrb package -- fancy verbatim.)
 
-% TODO: commented out, might not be needed
-% \DefineVerbatimEnvironment{code}{Verbatim}{fontsize=\small, frame=single}
+%%% Environment for inputting ANTLR code
+\newenvironment{antlr}%
+	{%
+		\par
+		\noindent
+		\adjustbox{margin=3mm,bgcolor=antlrbgcolor,fbox}
+		\bgroup
+		\varwidth
+		\linewidth
+		\alltt%
+	}%
+	{%
+		\endalltt
+		\endvarwidth
+		\egroup%
+	}

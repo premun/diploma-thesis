@@ -1,17 +1,19 @@
+\chapter{Importing the grammar}
+
 \begin{antlr}
 	\textbf{grammar} \textit{SimpleXML};
 	
 	\parserrule{document}     :   \parserrule{prolog}? \parserrule{comment}? \parserrule{element} ;
 	
-	\parserrule{prolog}       :   \literal{\ap<?xml \ap} \parserrule{attribute}* \literal{\ap?>\ap} ;
+	\parserrule{prolog}       :   \literal{<?xml } \parserrule{attribute}* \literal{?>} ;
 	
-	\parserrule{comment}      :   \literal{\ap<!--\ap} \lexerrule{TEXT} \literal{\ap-->\ap} ;
+	\parserrule{comment}      :   \literal{<!--} \lexerrule{TEXT} \literal{-->} ;
 	
-	\parserrule{element}      :   \literal{\ap<\ap} \lexerrule{Name} \parserrule{attribute}* \literal{\ap>\ap} \parserrule{content}* \literal{\ap</\ap} \lexerrule{Name} \literal{\ap>\ap}
-	             |   \literal{\ap<\ap} \lexerrule{Name} \parserrule{attribute}* \literal{\ap/>\ap}
+	\parserrule{element}      :   \literal{<} \lexerrule{Name} \parserrule{attribute}* \literal{>} \parserrule{content}* \literal{</} \lexerrule{Name} \literal{>}
+	             |   \literal{<} \lexerrule{Name} \parserrule{attribute}* \literal{/>}
 	             ;
 	
-	\parserrule{attribute}    :   \lexerrule{Name} \literal{\ap="\ap} \lexerrule{TEXT} \literal{\ap"\ap} ;
+	\parserrule{attribute}    :   \lexerrule{Name} \literal{="} \lexerrule{TEXT} \literal{"} ;
 	
 	\parserrule{content}      :   \lexerrule{TEXT}
 	             |   \parserrule{element}
@@ -26,7 +28,7 @@
 	
 	\textbf{fragment}
 	\lexerrule{NameChar}     :   \lexerrule{NameStartChar}
-	             |   \literal{\ap-\ap} | \literal{\ap_\ap} | \literal{\ap.\ap}
+	             |   \literal{-} | \literal{_} | \literal{.}
 	             |   \lexerrule{DIGIT}
 	             ;
 	
@@ -35,5 +37,5 @@
 	
 	\lexerrule{TEXT}         :   \regex{~[<"]*} ;
 	
-	\lexerrule{CDATA}        :   \literal{\ap<![CDATA[\ap} \regex{.*?} \literal{\ap]]>\ap} ;
+	\lexerrule{CDATA}        :   \literal{<![CDATA[} \regex{.*?} \literal{]]>} ;
 \end{antlr}

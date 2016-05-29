@@ -1,7 +1,4 @@
 %%% This file contains definitions of various useful macros and environments %%%
-%%% Please add more macros here instead of cluttering other files with them. %%%
-
-%%% Minor tweaks of style
 
 % These macros employ a little dirty trick to convince LaTeX to typeset
 % chapter headings sanely, without lots of empty space above them.
@@ -32,21 +29,18 @@
 \overfullrule=1mm
 
 %%% Coloring commands
+\newcommand{\ap}{\textquotesingle}
 \newcommand{\parserrule}[1]{\textcolor{parserrulecolor}{#1}}
 \newcommand{\lexerrule}[1]{\textcolor{lexerrulecolor}{#1}}
-\newcommand{\literal}[1]{\textcolor{literalcolor}{#1}}
+\newcommand{\literal}[1]{\ap\textcolor{literalcolor}{#1}\ap}
 \newcommand{\regex}[1]{\textcolor{regexcolor}{#1}}
-\newcommand{\ap}{\textquotesingle}
-
-%%% An environment for typesetting of program code and input/output
-%%% of programs. (Requires the fancyvrb package -- fancy verbatim.)
 
 %%% Environment for inputting ANTLR code
 \newenvironment{antlr}%
 	{%
 		\par
 		\noindent
-		\adjustbox{margin=3mm,bgcolor=antlrbgcolor,fbox}
+		\adjustbox{margin=3mm,bgcolor=antlrbgcolor,frame}
 		\bgroup
 		\varwidth
 		\linewidth

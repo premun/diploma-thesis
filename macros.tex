@@ -16,7 +16,17 @@
    \par\nobreak
    \vskip 20\p@
 }}
+
+% Add another level of chapter numbering
+\renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
+	{-2.5ex\@plus -1ex \@minus -.25ex}%
+	{1.25ex \@plus .25ex}%
+	{\normalfont\normalsize\bfseries}}
 \makeatother
+
+% Increase max number of numbering levels
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{4}
 
 % This macro defines a chapter, which is not numbered, but is included
 % in the table of contents.

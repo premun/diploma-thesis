@@ -1,0 +1,39 @@
+\section{The structure aspect}
+
+After we have mined the structure of the language out of the grammar file, we can finally start working with MPS. We will need to translate our tree structure into the terms of MPS. That means creating concepts inside the structure aspect and linking them together appropriately. We will describe several different attempts the author has tried out and show some problems these attempts introduced. We consider it a better approach than just simple description of the final solution because it might prevent others from falling into similar pitfalls such as we discovered ourselves. It might also give the reader a better impression of how complicated problematics is touched. 
+
+\subsection{Concept types}
+
+Before we start describing how we decided to import our tree structure into MPS, we should remind in more detail which means of expression are available to us. As stated before concepts are building blocks of an MPS language and they can be treated similarly as Java classes. They can:
+
+\begin{itemize}
+	\item extend a parent concept
+	\item inherit any number of interfaces (interface concepts)
+	\item have properties (similar to class fields) with a given data type --- either a primitive type such as string or integer, or a constraint data type --- a string whose value is restricted by a regular expression
+	\item have children concepts (defined as a concept or an interface concept)
+	\item hold references to other nodes (e.g. function call statement would know reference to the function definition)
+\end{itemize}
+
+\subsection{Common ground}
+
+Some of the import steps are common for all approaches. Firstly, we have noticed that whenever there is a string literal inside a parser rule's alternative (think of the “for” keyword from a Java loop), it will appear only in that rule's projectional editor. There is no need for it to have any function as it is set in stone as an unchangeable part of that alternative's appearance. It might serve its purpose when describing or naming this alternative inside an auto-complete menu, but we will get to that part later.
+\\
+
+Secondly, we can take the flattened lexer rules that contain the regular expression we have built by gluing its parts together in the parsing stage. For each one of these, we will create a constraint data type concept, which is exactly what we need. We will be able to later create properties of concepts and set their data type as this constraint data type concept.
+\\
+
+To illustrate what a concept for a sample alternative will look like, we will take a look at an element concept that represents the full XML tag with content:
+
+\begin{antlr}
+	\parserrule{element}      :   \literal{<} \lexerrule{Name} \parserrule{attribute}* \literal{>} \parserrule{content}* \literal{</} \lexerrule{Name} \literal{>}
+             \textcolor{gray}{|   \ap<\ap Name attribute* \ap/>\ap}
+             \textcolor{gray}{;}
+\end{antlr}
+
+The concept will be named \concept{Element{\_}1} (we will mark concepts \concept{purple} and interfaces \interface{pink}) and will only contain two properties with their data type set as the constraint data type that holds the regular expression representing the \lexerrule{Name} lexer rule. Literals are skipped and parser rules will be explained further down the road as they are the part where following attempts differ. The difference concerns the way we create children fields for parser rules and the way we are going to link them together using interfaces.
+
+\input{chapters/importing_the_grammar/the_straightforward_approach}
+
+\pagebreak
+
+\input{chapters/importing_the_grammar/the_shortcut_approach}

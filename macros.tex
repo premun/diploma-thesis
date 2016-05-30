@@ -38,6 +38,15 @@
 % Draw black "slugs" whenever a line overflows, so that we can spot it easily.
 \overfullrule=1mm
 
+% Colors for ANTLR
+\definecolor{antlrbgcolor}{rgb}{.962, .962, .962}
+\definecolor{parserrulecolor}{RGB}{11,83,148}
+\definecolor{lexerrulecolor}{RGB}{191,144,0}
+\definecolor{literalcolor}{RGB}{133,32,12}
+\definecolor{regexcolor}{RGB}{56,118,29}
+\definecolor{conceptcolor}{RGB}{170,0,229}
+\definecolor{interfacecolor}{RGB}{229,0,150}
+
 %%% Coloring commands
 \newcommand{\ap}{\textquotesingle}
 \newcommand{\parserrule}[1]{\textcolor{parserrulecolor}{#1}}
@@ -45,6 +54,8 @@
 \newcommand{\literalnoap}[1]{\textcolor{literalcolor}{#1}}
 \newcommand{\literal}[1]{\ap\literalnoap{#1}\ap}
 \newcommand{\regex}[1]{\textcolor{regexcolor}{#1}}
+\newcommand{\concept}[1]{\textcolor{conceptcolor}{#1}}
+\newcommand{\interface}[1]{\textcolor{interfacecolor}{#1}}
 
 %%% Environment for inputting ANTLR code
 \newenvironment{antlr}%

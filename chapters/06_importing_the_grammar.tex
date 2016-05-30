@@ -1,41 +1,10 @@
 \chapter{Importing the grammar}
 
-\begin{antlr}
-	\textbf{grammar} \textit{SimpleXML};
-	
-	\parserrule{document}     :   \parserrule{prolog}? \parserrule{comment}? \parserrule{element} ;
-	
-	\parserrule{prolog}       :   \literal{<?xml } \parserrule{attribute}* \literal{?>} ;
-	
-	\parserrule{comment}      :   \literal{<!--} \lexerrule{TEXT} \literal{-->} ;
-	
-	\parserrule{element}      :   \literal{<} \lexerrule{Name} \parserrule{attribute}* \literal{>} \parserrule{content}* \literal{</} \lexerrule{Name} \literal{>}
-	             |   \literal{<} \lexerrule{Name} \parserrule{attribute}* \literal{/>}
-	             ;
-	
-	\parserrule{attribute}    :   \lexerrule{Name} \literal{="} \lexerrule{TEXT} \literal{"} ;
-	
-	\parserrule{content}      :   \lexerrule{TEXT}
-	             |   \parserrule{element}
-	             |   \parserrule{comment}
-	             |   \lexerrule{CDATA}
-	             ;
-	
-	\lexerrule{Name}         :   \lexerrule{NameStartChar} \lexerrule{NameChar}* ;
-	
-	\textbf{fragment}
-	\lexerrule{DIGIT}        :   \regex{[0-9]} ;
-	
-	\textbf{fragment}
-	\lexerrule{NameChar}     :   \lexerrule{NameStartChar}
-	             |   \literal{-} | \literal{_} | \literal{.}
-	             |   \lexerrule{DIGIT}
-	             ;
-	
-	\textbf{fragment}
-	\lexerrule{NameStartChar}:   \regex{[:a-zA-Z]} ;
-	
-	\lexerrule{TEXT}         :   \regex{~[<"]*} ;
-	
-	\lexerrule{CDATA}        :   \literal{<![CDATA[} \regex{.*?} \literal{]]>} ;
-\end{antlr}
+This part of the thesis will describe author's efforts to import a language inside MPS. We will show all steps needed and we will keep this chapter in the form of an implementation diary, talking about the way the author gradually proceeded. It will allow us to slowly walk through all the obstacles the author has encountered. We believe that this will give the reader better insight into the problematics than just describing the final solution. It might also help others who might deal with similar problems and help them to understand the problems more deeply, maybe choose a different path or perhaps just to avoid some pitfalls we have discovered on our own. 
+
+\input{chapters/06/01_the_simplexml_language}
+
+\pagebreak
+
+\input{chapters/06/02_parsing_the_grammar}
+

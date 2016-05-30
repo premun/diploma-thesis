@@ -1,0 +1,69 @@
+\section{The SimpleXML language}
+
+Throughout the whole chapter we will be using an example language so that we are not switching from one context into another frequently. We will be showing what this language needs for its good usability and what problems it contains as we will add more and more features into the import process.
+\\
+
+The language is a simplified version of XML\footnote{https://en.wikipedia.org/wiki/XML}. We created this grammar by taking the official XML ANTLRv4 grammar\footnote{https://github.com/antlr/grammars-v4/tree/master/xml} and stripped it down from some not so interesting features such as XML entities. We decided to remove these features as they don't add any extra value to our cause and it will be easier to reason about the language as the grammar notation becomes shorter. We have also made some further adjustments that make the grammar better suitable for our cause. We will talk about these later in chapter [TODO: reference to grammar problems chapter] and explain why they were necessary.
+\\
+
+For the sake of the text we will call this language \textbf{\textit{SimpleXML}}.
+
+\subsection{SimpleXML grammar}
+
+\begin{antlr}
+	\textbf{grammar} \textit{SimpleXML};
+	
+	\parserrule{document}     :   \parserrule{prolog}? \parserrule{comment}? \parserrule{element} ;
+	
+	\parserrule{prolog}       :   \literal{<?xml } \parserrule{attribute}* \literal{?>} ;
+	
+	\parserrule{comment}      :   \literal{<!--} \lexerrule{TEXT} \literal{-->} ;
+	
+	\parserrule{element}      :   \literal{<} \lexerrule{Name} \parserrule{attribute}* \literal{>} \parserrule{content}* \literal{</} \lexerrule{Name} \literal{>}
+	             |   \literal{<} \lexerrule{Name} \parserrule{attribute}* \literal{/>}
+	             ;
+	
+	\parserrule{attribute}    :   \lexerrule{Name} \literal{="} \lexerrule{TEXT} \literal{"} ;
+	
+	\parserrule{content}      :   \lexerrule{TEXT}
+	             |   \parserrule{element}
+	             |   \parserrule{comment}
+	             |   \lexerrule{CDATA}
+	             ;
+	
+	\lexerrule{Name}         :   \lexerrule{NameStartChar} \lexerrule{NameChar}* ;
+	
+	\textbf{fragment}
+	\lexerrule{DIGIT}        :   \regex{[0-9]} ;
+	
+	\textbf{fragment}
+	\lexerrule{NameChar}     :   \lexerrule{NameStartChar}
+	             |   \literal{-} | \literal{_} | \literal{.}
+	             |   \lexerrule{DIGIT}
+	             ;
+	
+	\textbf{fragment}
+	\lexerrule{NameStartChar}:   \regex{[:a-zA-Z]} ;
+	
+	\lexerrule{TEXT}         :   \regex{~[<"]*} ;
+	
+	\lexerrule{CDATA}        :   \literal{<![CDATA[} \regex{.*?} \literal{]]>} ;
+\end{antlr}
+
+\pagebreak
+
+We have coloured the grammar out so it is easier to find our way around it when using it. The grammar contains following basic elements:
+
+\begin{itemize}
+	\item \textbf{ANTLRv4 keywords} -- In black, they don't add any extra value in this particular scenario. Nonetheless, they are required by the specification.
+	
+	\item \parserrule{\textbf{Parser rules}} -- Stated in blue, they are the rules describing language's structure. Every rule consists of a set of alternatives that the element might break into. These alternatives are separated by the pipe ($|$) character. For example the basic XML element (rule called element), can appear in two different forms - either containing both the start and the end tag or its simplified self-closing form when the tag is empty. The element rule therefore contains two alternatives describing both forms. The ANTLRv4 notation dictates that all parser rules must start with a lowercased letter and there is a semicolon behind the last alternative.
+	
+	\item \lexerrule{\textbf{Lexer rules}} -- In yellow, always starting with an uppercased letter, they are rules describing terminal symbols. The parser is matching these against the input. Lexer rules can also break into more sub rules in the same manner parser rules break into alternatives. This breaking, however, eventually stops at string values and regular expressions at the bottom level, so in the end these rules are describing some string. Parser rules also eventually break into lexer rules too. The \textbf{fragment} keyword states, that the lexer sub rule is just a helper rule that brings more clarity into the notation but is not visible in the parser output.
+	
+	\item \literalnoap{\textbf{String values (literals)}} -- In red, always inside of a pair of apostrophes, they are similar to lexer rules. They describe a terminal string, but not using regular expressions but exact string match.
+	
+	\item \regex{\textbf{Regular expressions}} -- Coloured green, they describe a string token to be matched using a regular expression with the special ANTLRv4 regex notation\footnote{https://github.com/antlr/antlr4/blob/master/doc/lexer-rules.md}.
+	
+	\item \textbf{Rule operators (?+*)} - Left in black, following any element, they quantify the number of occurrences the prepending element can appear in. They are appended to one or more elements (enclosed in braces) of a rule's alternative. These operators can also be prepended by asterisk (*), meaning they are non-greedy. This allows us for example to simplify rules such as the \lexerrule{CDATA} one. The parser will use this rule as expected while there is no need to exclude the \literal{\texttt{]]>}} sequence inside the regular expression.
+\end{itemize}

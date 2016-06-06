@@ -1,9 +1,10 @@
-
 \subsection{The straightforward approach}
+\label{chap:straightforward_approach}
 
 The first attempt was quite straightforward and a little bit explorative in the way that the author had to discover the MPS API that allows programmatical language generation. Because MPS is still in development, the API isn't that well documented and some features had to be discovered through trial and error or by examination of the PE4MPS project (\ref{chap:pe4mps}) which served a great aid here. Another big topic here was how to split the code and whether to use only MPS for writing the BaseLang code that will be compiled into Java, or whether to create separate Java projects and use other tools because creating a large volume of BaseLang code in MPS isn't always a comfortable experience. We will talk about this further down in chapter [TODO: chapter reference].
 
 \subsubsection{The algorithm}
+\label{chap:straight_algorithm}
 The main idea behind the first attempt comes from the realization, that when a parser rules breaks into more alternatives, for example like the \parserrule{content} rule:
 
 \begin{antlr}
@@ -26,6 +27,7 @@ We will need to have 4 elements that are somehow marked as belonging to this par
 When the \parserrule{content} parser rule is then referenced inside some alternative (e.g. first alternative of the \parserrule{element} rule), we will set the \interface{IContent} interface as the child instead and all of the four implementors can be assigned to this child. For rules with a single alternative, no interface is needed. For rules that contain inline block rules, we have already created artificial rules in our tree representation that we generated in the parser stage which means they have already been taken care of.
 
 \subsubsection{The layer problem}
+\label{chap:layer_problem}
 
 This simple algorithm will leave us with an MPS language that follows given structure correctly and could be used to represent code in that language inside MPS (coding will not be possible as there is no editor aspect defined yet). There is one problem, however, concerning usability of such language. We will demonstrate this problem on the SimpleXML language, using \parserrule{element} and \parserrule{content} rules:
 

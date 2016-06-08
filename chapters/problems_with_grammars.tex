@@ -1,4 +1,5 @@
 \chapter{Problems with grammars}
+\label{chap:problems_with_grammars}
 
 As we could see in previous chapters, it is very easy to write the grammar in a way that will cause problems once it is imported into MPS. These problems might occur during creation of any aspect and they are very hard to be mitigated. As an example we can look at the \parserrule{content} rule of the original XML grammar:
 
@@ -6,7 +7,7 @@ As we could see in previous chapters, it is very easy to write the grammar in a 
 	\parserrule{content} :   \lexerrule{TEXT}? ((\parserrule{element}? | \lexerrule{CDATA} | \lexerrule{COMMENT}) \lexerrule{TEXT}?)* ;
 \end{antlr}
 
-As we have shown in the TextGen chapter \ref{chap:textgen} [TODO], the author of the grammar decided to handle whitespace not by skipping it using ANTLR actions but rather by wrapping other content with a rule that contains these characters. Then, using a clever block rule, we make sure that any following content might or might not be separated with whitespace/text too. 
+As we have shown in the TextGen chapter \ref{chap:textgen} [TODO], the author of the grammar decided to handle whitespace not by skipping it using ANTLR actions but rather by wrapping other content with a rule that contains these characters. Then, using a clever block rule, we make sure that any following content might or might not be separated with whitespace/text too.
 \\
 
 This, however, will cause mess when imported inside MPS. We have no other choice than break up the inner block and create three concepts, holding two placeholders respectively for:
@@ -20,29 +21,29 @@ This, however, will cause mess when imported inside MPS. We have no other choice
 After that, we create the \concept{Content} concept containing one \lexerrule{TEXT} and a reference to any of these three newly created concepts.
 \\
 
-When we will start using this language, it will be full of (most likely) empty \lexerrule{TEXT} placeholders, sometimes holding texts, sometimes spaces, but mostly distracting us and polluting the editor. There is however no way how we could detect or prevent this when reading the grammar, since we do not really understand the content. 
+When we will start using this language, it will be full of (most likely) empty \lexerrule{TEXT} placeholders, sometimes holding texts, sometimes spaces, but mostly distracting us and polluting the editor. There is however no way how we could detect or prevent this when reading the grammar, since we do not really understand the content.
 \\
 
-We cannot detect any smart shortcut since all blocks are different concepts for us entirely. We could of course try to parse the block differently in the first place and somehow for example create an interface for the most inner block and group the three block concepts into one, but because blocks can be nested inside of each other freely and there can be any setup within multiple levels additionally with various quantitative operators, we will always find a very simple case that will break our algorithm. 
+We cannot detect any smart shortcut since all blocks are different concepts for us entirely. We could of course try to parse the block differently in the first place and somehow for example create an interface for the most inner block and group the three block concepts into one, but because blocks can be nested inside of each other freely and there can be any setup within multiple levels additionally with various quantitative operators, we will always find a very simple case that will break our algorithm.
 \\
 
 Additionally, there might be other problems such as layering, which we tried to prevent, but it can still occur in some form. There are also some cases where we do not have a big problem per se, but altering the grammar might yield better MPS languages. We will show one more example where we don't want to improve the structure, but again, the usability of the resulting MPS language. Let's look at the original XML attribute and its value:
 
 \begin{antlr}
 	\parserrule{attribute}   :   \lexerrule{Name} \literal{=} \lexerrule{STRING} ;
-	
+
 	\lexerrule{STRING}      :   \literal{"} \regex{~["]*} \literal{"}
 	            |   \literal{\textbackslash'} \regex{~[']*} \literal{\textbackslash'}
-	            ;	
+	            ;
 \end{antlr}
 
 The original XML grammar has quotes as a part of the value. For the resulting MPS language, it would mean that there would be a placeholder for the attribute value, that would expect us to input the leading and trailing quote together with the value too each time. It would also be displayed in red unless we enter both quotes since the regex will not match. The user won't be able to tell why, though. We could, however, adjust the grammar easily in following manner:
 
 \begin{antlr}
-	\parserrule{attribute}   :   \lexerrule{Name} \literal{="} \lexerrule{TEXT1} \literal{"} 
-	            |   \lexerrule{Name} \literal{=\textbackslash'} \lexerrule{TEXT2} \literal{\textbackslash'} 
+	\parserrule{attribute}   :   \lexerrule{Name} \literal{="} \lexerrule{TEXT1} \literal{"}
+	            |   \lexerrule{Name} \literal{=\textbackslash'} \lexerrule{TEXT2} \literal{\textbackslash'}
 	            ;
-	
+
 	\lexerrule{TEXT1}       :   \regex{~["]*} ;
 	\lexerrule{TEXT2}       :   \regex{~[']*} ;
 \end{antlr}

@@ -1,33 +1,72 @@
-\section{Generating code inside MPS}
+\section{Programming inside MPS and the BaseLanguage}
 \label{chap:generating_code_inside_mps}
 
-In order to create some of the aspects of the imported language such as the editor or the textgen aspect, we will need to generate code inside MPS. For all coding inside MPS the BaseLang language is used, which is the official JetBrains port of Java for MPS. MPS is also self-hosting because it is written partially in Java but mostly in BaseLang itself.
-\\
+In order to create some of the aspects of the imported language, such as the TextGen aspect, we will need to add complex functionality inside the aspect definition.
+This can be done using programming in the BaseLanguage language (also an MPS language, just like the one we are creating).
+BaseLanguage is the official JetBrains port of Java for MPS and is used for all additional programming inside MPS.
+There are some additional extensions for this language, that enable us using the MPS API, such as the structure or editor language. 
+These extensions contain concepts allowing us to work with language definitions or the editor environment itself (menu items etc.). 
+When building our plugin, we needed to:
 
-Because we are inside MPS and BaseLang is an MPS language, this code is not a text source code, but again, an AST built out of concepts belonging to the BaseLang language (and more subsidiary MPS languages that bring the MPS API and bring some additional syntax). This means that generating code inside MPS consists of generating some AST out of BaseLang nodes. It is a very interesting problem since it is a little bit more challenging than just generating plain text code. For example to generate a simple statement, where we instantiate an object into an object's property:
+\begin{enumerate}
+	\item Use the BaseLanguage API to generate language elements (concepts, aspect definitions).
+
+	\item Generate BaseLanguage code inside aspect definition of the imported language, that will make the language more usable.
+\end{enumerate}
+
+\subsection{Generating BaseLanguage code}
+
+Because we are inside MPS and BaseLanguage is an MPS language, BaseLanguage code is not a text source code, but again, an AST built out of concept nodes belonging to the BaseLanguage language.
+This means that generating code inside MPS consists of generating some AST out of BaseLanguage nodes.
+It is a very interesting problem since it is a little bit more challenging than just generating plain text code.
+For example, take a look at this simple BaseLanguage statement, where we instantiate an object into an object's property:
 
 \begin{center}
-	\texttt{foo.bar = new node<Element{\_}1>();}
+	\texttt{foo.bar = \parserrule{new node}<Element{\_}1>();}
 \end{center}
 
 \noindent
-we need to do a whole lot of things. We need to find the declaration of the foo variable, look up its property bar and tell the MPS we would like to build an assignment statement with left side containing some sort of a property-access-expression and a new statement with some specific type on the right. The full AST tree, that needs to be built in order to create a statement like this, is shown in figure \ref{fig:new_ast}.
+As simple as it looks, in order to programatically generate this statement, we need to do many things:
+
+\begin{enumerate}
+	\item We need to find the declaration of the foo variable.
+	\item Look up foo's property bar.
+	\item Tell the MPS, we would like to build an assignment statement.
+	\item Set the left side to some sort of a property-access-expression, using the foo declaration.
+	\item Set the right side to contain a new statement with some specific type in the template.
+\end{enumerate}
+
+The full AST tree, that needs to be built, in order to create a statement like this is shown in figure \ref{fig:new_ast}.
+We need to be building this from bottom up, node by node.
 
 \begin{figure}[h]
 	\centering
 	\hspace*{-18mm}
-	\includegraphics[width=200mm]{../img/new_statement_ast.png}
-	\caption{BaseLang "New statement" abstract syntax tree}
+	\includegraphics[width=200mm]{./img/new_statement_ast.png}
+	\caption{BaseLanguage "New statement" abstract syntax tree}
 	\label{fig:new_ast}
 \end{figure}
 
 \subsection{Quotation}
-The example above showed, how many nodes are need in order to represent quite basic simple statement. Luckily for us, the developers of MPS have thought about this and implemented a special notation that helps building expressions. This notation is called quotation and it enables us to insert statements into a special quoted block, similarly like an eval function can parse string into a real code. Furthermore, inside this quotation block we can insert an anti-quotation from which we can reference variables from our scope outside of the original quotation. This is what the above statements looks like when quotation (light blue) and anti-quotation blocks (yellow) are used:
+The example above showed, how many nodes are needed in order to represent quite basic simple statement.
+Luckily for us, the developers of MPS have thought about this and implemented a special notation that helps building expressions.
+This notation is called \textit{quotation} and it enables us to insert statements into a special quoted block, similarly like an eval function can parse string into a real code.
+\\
+
+Furthermore, inside this quotation block we can insert an anti-quotation block, from which we can reference variables in our scope outside of the original quotation.
+This is what the above statements looks like when quotation (light blue) and anti-quotation blocks (yellow) are used:
 
 \begin{center}
 	\texttt{\colorbox{cyan!30}{<}\lexerrule{\%(} fooRef \lexerrule{)\%}.\lexerrule{\%(} barProp \lexerrule{)\%} = new node <\lexerrule{\textasciicircum(} type \lexerrule{)\textasciicircum}>();>\colorbox{cyan!30}{>}}
 \end{center}
 
+The quotation block will yield the AST tree from figure \ref{fig:new_ast} without the need for building it node by node.
+
 \subsection{Generating dynamic code}
 
-Quotation comes in handy when we are generating code statically. Meaning we know, in the time of implementation, what code we want to generate. But what if our code depends on input data? There are several parts where the generated BaseLang code depends solely on our grammar's structure. In those cases we cannot simply use quotation but we are left with generating statement's tree node by node as in the first example. Quotation can make some of these parts a little bit shorter, but doesn't solve the problem entirely.
+Quotation comes in handy when we are generating static code --- meaning, we know, in the time of implementation, what code we want to generate.
+But what if our code depends on input data?
+There are several parts of the import process, where the generated BaseLanguage code depends solely on our grammar's structure.
+In those cases we cannot simply use quotation.
+We are left with generating statement's tree node by node as in the first example.
+Quotation can make some of these parts a little bit shorter, but doesn't solve the problem entirely.

@@ -169,19 +169,38 @@ For the description text, we used concept's alias. We talk about creating aliase
 For matching text we used the shortest unique prefix of alias among all other options' aliases in given auto-complete menu.
 The algorithm for searching shortest unique prefixes in a set of strings is not important from our thesis' point of view, so we decided to not go into further detail.
 
-\paragraph{The layer problem again [TODO]}
 
-After we implemented the auto-complete menu, coding in the imported language started to be very reasonable and comfortable since we eradicated intermediate layers. Or did we? When producing code, the language really does what one would expect, however when user starts deleting things, the layer problem occurs once more.
+\paragraph{The layer problem again}
+
+After we implemented the auto-complete menu, coding in the imported language started to be very reasonable and comfortable, since we eradicated intermediate layers.
+Or did we?
+When producing code, the language really does what one would expect. However, when user starts deleting things, the layer problem occurs once more.
 \\
 
-What happens here is that when we select the auto-complete option, several layers of concept might get created and inserted into the cell. Imagine we just inserted the \concept{Element{\_}1} node. According to the creator method, this new node is wrapped inside of the \concept{Content{\_}2} node. Now let's say user changed his mind and wants to replace this XML element with a comment. He would press backspace, the XML element would disappear as expected. Then user would invoke the auto-complete menu again and expect again to have all five options at hand. What happened instead is that the \concept{Element{\_}1} node got deleted, but the wrapping \concept{Content{\_}2} one remained. The \concept{Content{\_}2} concept has only one child of type Element and that is why user only sees \concept{Element{\_}1} and \concept{Element{\_}2} as options in the auto-complete.
+What happens here is, that when we select the auto-complete option, several layers of concepts might get created and inserted into the cell.
+Imagine, we just inserted the \concept{Element{\_}1} node.
+According to the creator method, this new node is wrapped inside of the \concept{Content{\_}2} node.
+Now let's say, user changed his mind, and wants to replace this XML element with a comment. 
+He would press backspace, the XML element would disappear as expected.
+Then, the user continues by invoking the auto-complete menu again, expecting to have all five options at hand.
+What happened instead is that the \concept{Element{\_}1} node got deleted, but the wrapping \concept{Content{\_}2} one remained.
+The \concept{Content{\_}2} concept has only one child of type Element and that is why our user only sees \concept{Element{\_}1} and \concept{Element{\_}2} as options in the auto-complete.
+
 
 \paragraph {The deletion context}
 
-Solution to this resurrected layer problem lies in controlling the deletion event. Once again, MPS' authors have equipped us with tools for doing this. We are able to specify our own handler for the deletion event for any cell of the projectional editor. But what will it look like?
+Solution to this resurrected layer problem lies in controlling the deletion event.
+Once again, MPS' authors have equipped us with tools for doing this.
+We are able to specify our own handler for the deletion event for any cell of the projectional editor.
+But what will it look like?
 \\
 
-When deleting a node, we would like to remove the shortcut, the whole path, and effectively reversing the effect of the creator method. We decided that it will be the easiest to store the length of the path that is leading to certain node with the node. So when we are creating the node path in the creator method, we tell each node how deep or far on the path it is. In order to do this, we created a \concept{BaseConcept}, a parent abstract concept from which we will inherit all other concepts. This abstract concept will define a special integer property that will hold our information and effectively making all other concepts inherit it too. We called this property \textit{{\_}{\_}DeleteContext} and enhanced the creator method as shown in figure \ref{fig:autocomplete_action_delete_context}.
+When deleting a node, we would like to remove the shortcut, the whole path, and effectively reversing the effect of the creator method.
+We decided that it will be the easiest to store the length of the path, that is leading to certain node, together with the node.
+So when we are creating the node path in the creator method, we tell each node, how deep or far on the path the node is.
+In order to do this, we created a \concept{BaseConcept}, a parent abstract concept, from which we will inherit all other concepts.
+This abstract concept will define a special integer property, that will hold our information, effectively making all other concepts inherit it too.
+We called this property \textit{{\_}{\_}DeleteContext} and enhanced the creator method as shown in figure \ref{fig:autocomplete_action_delete_context}.
 
 \begin{figure}[h]
 	\centering
@@ -190,7 +209,8 @@ When deleting a node, we would like to remove the shortcut, the whole path, and 
 	\label{fig:autocomplete_action_delete_context}
 \end{figure}
 
-The last thing remaining is creating the backspace action. Apart from some problems with referencing the \textit{{\_}{\_}DeleteContext} property, which must be reached through the abstract \concept{BaseConcept} type, it is quite straightforward to generate a BaseLanguage code like shown below (figure \ref{fig:backspace_action}).
+The last thing remaining, is creating the backspace action. 
+Apart from some problems with referencing the \textit{{\_}{\_}DeleteContext} property, which must be reached through the abstract \concept{BaseConcept} type, it is quite straightforward to generate a BaseLanguage code like shown below (figure \ref{fig:backspace_action}).
 
 \begin{figure}[h]
 	\centering
@@ -199,17 +219,24 @@ The last thing remaining is creating the backspace action. Apart from some probl
 	\label{fig:backspace_action}
 \end{figure}
 
-We must not forget to pin this handler to every cell that we pin the auto-complete to. After we had done this, the layer problem has finally been eradicated. The language became a bit more usable once more.
+We must not forget to pin this handler to every cell, that we pin the auto-complete menu to.
+After we had done this, the layer problem has finally been eradicated.
+The language became a bit more usable once more.
 
-\subsubsection{Smart interfaces}
+\textbf{[TODO - obrazek s celym kodem pro tvorbu menu?]}
 
-After we have implemented the smart autocomplete, we realized that there might be another way to accomplish almost the same result. It would mean changing the first step concerning concept interfaces creation.
+\subsubsection{Smart interfaces [TODO - korekce podle poznamek]}
+
+After we have implemented the smart auto-complete, we realized, that there might be another way to accomplish almost the same result.
+It would mean changing the first step concerning interfaces and concept linking.
 \\
 
-The main idea behind this is the realization that if for each concept interface there exists a finite set of end concepts, we could just create a special interface and let all these and only these end concepts implement it. It is important that other non-end concepts that are in the shortcut will not implement it, because that would put us right back where we started with the straightforward approach \ref{chap:straightforward_approach} and the layer problem \ref{chap:layer_problem}. To give an example regarding our content rule, we would create an \interface{IContent} interface concept and only following concepts would implement it:
+The main idea behind this is the realization, that if for each concept interface there exists a finite set of end concepts, we could just create a special interface and let all these and only these end concepts implement it.
+It is important, that other non-end concepts, that are in the shortcut path, will not implement it. 
+That would put us right back where we started with the straightforward approach \ref{chap:straightforward_approach} and the layer problem \ref{chap:layer_problem}.
+To give an example regarding our content rule, we would create an \interface{IContent} interface concept and only following concepts would implement it:
 
 \begin{itemize}
-	\setlength\itemsep{0pt}
 	\item Content{\_}1
 	\item Element{\_}1
 	\item Element{\_}2
@@ -217,17 +244,24 @@ The main idea behind this is the realization that if for each concept interface 
 	\item Content{\_}4
 \end{itemize}
 
-Concepts would of course implement as many interfaces as many shortcuts lead to them. The difference is that the intermediary layers will not, preventing the layering.
+Concepts would, of course, implement as many interfaces as many shortcuts lead to them.
+The difference is, that the intermediary layers will not, which will prevent the layering.
 \\
 
-We still need to find end concepts for each rule, so we will keep the same algorithm for finding shortcuts as before. We, however, do not need to implement our own auto-completion (and subsequently with it no deletion handlers), because the built in default auto-completion will start to behave exactly the same way our smart auto-completion did.
+We still need to find end concepts for each rule, so we will keep the same algorithm for finding shortcuts as before. 
+We, however, do not need to implement our own auto-completion and, subsequently with it, no deletion handlers.
+The built-in default auto-completion will start to behave exactly the same way our smart auto-completion does.
 
-\paragraph{Cardinality restriction}
+\paragraph{Cardinality restriction [TODO - korekce podle poznamek]}
 
-So far it looks like the last approach is superior to the auto-completion one. It avoids complicated code generation and even resulting MPS languages are more simple, perhaps better performant as they are not bloated with auto-completion code. There is one small drawback though, that makes this solution suboptimal.
+So far it looks like the last approach is superior to the auto-completion one.
+It avoids complicated code generation and even resulting MPS languages are more simple, perhaps better performant as they are not bloated with auto-completion code.
+There is one small drawback though, that makes this solution suboptimal.
 \\
 
-To remind the reader --- the cardinality of an element is telling us, how many of each specific child rules can occur inside an alternative. Inside the grammar this was expressed using quantification operators (\textbf{*},\textbf{+} and \textbf{?}). The problem that appears here can be shown using these example rules:
+To remind the reader --- the cardinality of an element is telling us, how many of each specific child rules can occur inside an alternative.
+Inside the grammar, this was expressed using quantification operators (\textbf{*},\textbf{+} and \textbf{?}).
+The problem that appears here can be shown using these example rules:
 
 \begin{antlr}
 \parserrule{content}      :   \parserrule{element}+

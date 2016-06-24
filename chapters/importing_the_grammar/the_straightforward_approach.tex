@@ -56,10 +56,10 @@ In figure \ref{fig:element_concept_full}, you can see the full \concept{Element{
 
 Naming convention of child links also contains numbers, because names have to be unique.
 
-\subsubsection{The layer problem [TODO]}
+\subsubsection{The layer problem}
 \label{chap:layer_problem}
 
-This simple algorithm will leave us with an MPS language, that follows given structure correctly and could be used to represent code in that language inside MPS (editing the code will not be possible, as there is no editor aspect defined yet).
+The algorithm mentioned above will leave us with an MPS language, that follows given structure correctly and could be used to represent code in that language inside MPS correctly. Editing the code will not be possible yet, as there is no editor aspect defined so far.
 There is one problem, however, concerning usability of such language.
 We will demonstrate this problem on the SimpleXML language, using \parserrule{element} and \parserrule{content} rules:
 
@@ -76,15 +76,16 @@ We will demonstrate this problem on the SimpleXML language, using \parserrule{el
 \end{antlr}
 
 When we would be editing code in this language, the MPS auto-complete would give us aid when filling out all properties and children of inserted concepts.
-Imagine there is a freshly inserted \concept{Element{\_}1} concept (a concept representing the full XML element as is stated in the first alternative of the \parserrule{element} parser rule). 
+Imagine there is a freshly inserted \concept{Element{\_}1} concept (a concept representing the full XML element as is stated in the first alternative of the \parserrule{element} parser rule).
+This setup can be seen in the left part of figure \ref{fig:layer_problem}. 
 Now, we would like to insert some content inside.
 Let's say we would like to insert a nested XML element inside.
 We would place cursor in the content placeholder and press Ctrl+Space to view the auto-completion options.
 \\
 
 Following the algorithm mentioned above, we have created a child link of the \concept{Element{\_}1} concept of type \interface{IContent}.
-There exist 4 concepts, that implement the \interface{IContent} interface.
-MPS evaluats this and gives us four options inside the auto-complete.
+There exist 4 concepts, that implement the \interface{IContent} interface as per each alternative of the rule.
+MPS evaluates this and gives us 4 options inside the auto-complete.
 This auto-complete is captured in figure \ref{fig:layer_problem}.
 
 \begin{figure}[h]
@@ -99,7 +100,7 @@ Then, as a second step, we would call for the auto-complete again and insert eit
 This mean that we have to go through two steps and in the first one either guess correctly (or remember the grammar rule's alternative order), to know, which item of the auto-complete we should go with.
 \\
 
-And the problem goes both ways --- if we decide to replace the nested \concept{Element{\_}1} with let's say an XML comment (a \concept{Comment} concept), we need to delete both intermediary layers before we get back to the original \concept{Content{\_}X} crossroads.
+And the problem goes both ways --- if we decide to replace the nested \concept{Element{\_}1} with, let's say, an XML comment (a \concept{Comment} concept), we need to delete both intermediary layers before we get back to the original \concept{Content{\_}X} crossroads.
 Meanwhile the user cannot really see, what is happening, since the intermediary level has no appearance or indicator.
 This leads to confusion on user's part.
 \\

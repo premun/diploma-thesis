@@ -24,6 +24,7 @@ This leaves us again with a concept for each alternative and an interface for pa
 We can see that the content rule can ultimately expand into following concepts:
 
 \begin{itemize}
+	\itemsep0em
 	\item \textbf{Content{\_}1} (TEXT)
 	\item Content{\_}2 $\rightarrow$ \textbf{Element{\_}1}
 	\item Content{\_}2 $\rightarrow$ \textbf{Element{\_}2}
@@ -119,6 +120,7 @@ The cell, together with the auto-complete property can be seen in figure \ref{fi
 We would like to create an auto-complete for this cell, that would contain following options (end concepts):
 
 \begin{itemize}
+	\itemsep0em
 	\item Content{\_}1
 	\item Element{\_}1
 	\item Element{\_}2
@@ -174,7 +176,7 @@ The algorithm for searching shortest unique prefixes in a set of strings is not 
 
 After we implemented the auto-complete menu, coding in the imported language started to be very reasonable and comfortable, since we eradicated intermediate layers.
 Or did we?
-When producing code, the language really does what one would expect. However, when user starts deleting things, the layer problem occurs once more.
+When producing code, the language really does what one would expect. However, when user starts deleting code, the layer problem occurs once more.
 \\
 
 What happens here is, that when we select the auto-complete option, several layers of concepts might get created and inserted into the cell.
@@ -195,9 +197,9 @@ We are able to specify our own handler for the deletion event for any cell of th
 But what will it look like?
 \\
 
-When deleting a node, we would like to remove the shortcut, the whole path, and effectively reversing the effect of the creator method.
-We decided that it will be the easiest to store the length of the path, that is leading to certain node, together with the node.
-So when we are creating the node path in the creator method, we tell each node, how deep or far on the path the node is.
+When deleting a node, we would like to remove the whole shortcut path, effectively reversing the effect of the creator method.
+We decided that it will be the easiest to store the length of the path, that is leading to certain AST node, together with the node.
+So when we are creating nodes, while building the path in the creator method, we tell each node, how deep or far on the path the node is.
 In order to do this, we created a \concept{BaseConcept}, a parent abstract concept, from which we will inherit all other concepts.
 This abstract concept will define a special integer property, that will hold our information, effectively making all other concepts inherit it too.
 We called this property \textit{{\_}{\_}DeleteContext} and enhanced the creator method as shown in figure \ref{fig:autocomplete_action_delete_context}.
@@ -225,7 +227,7 @@ The language became a bit more usable once more.
 
 \textbf{[TODO - obrazek s celym kodem pro tvorbu menu?]}
 
-\subsubsection{Smart interfaces [TODO - korekce podle poznamek]}
+\subsubsection{Smart interfaces}
 
 After we have implemented the smart auto-complete, we realized, that there might be another way to accomplish almost the same result.
 It would mean changing the first step concerning interfaces and concept linking.
@@ -233,10 +235,11 @@ It would mean changing the first step concerning interfaces and concept linking.
 
 The main idea behind this is the realization, that if for each concept interface there exists a finite set of end concepts, we could just create a special interface and let all these and only these end concepts implement it.
 It is important, that other non-end concepts, that are in the shortcut path, will not implement it. 
-That would put us right back where we started with the straightforward approach \ref{chap:straightforward_approach} and the layer problem \ref{chap:layer_problem}.
+Otherwise, that would put us right back where we started with the straightforward approach \ref{chap:straightforward_approach} and the layer problem \ref{chap:layer_problem}.
 To give an example regarding our content rule, we would create an \interface{IContent} interface concept and only following concepts would implement it:
 
 \begin{itemize}
+	\itemsep0em
 	\item Content{\_}1
 	\item Element{\_}1
 	\item Element{\_}2
@@ -244,6 +247,7 @@ To give an example regarding our content rule, we would create an \interface{ICo
 	\item Content{\_}4
 \end{itemize}
 
+There would be no need for the \concept{Content{\_}2} concept at all.
 Concepts would, of course, implement as many interfaces as many shortcuts lead to them.
 The difference is, that the intermediary layers will not, which will prevent the layering.
 \\
@@ -252,16 +256,17 @@ We still need to find end concepts for each rule, so we will keep the same algor
 We, however, do not need to implement our own auto-completion and, subsequently with it, no deletion handlers.
 The built-in default auto-completion will start to behave exactly the same way our smart auto-completion does.
 
-\paragraph{Cardinality restriction [TODO - korekce podle poznamek]}
+\paragraph{Cardinality restriction}
+\label{chap:cardinality_restriction}
 
 So far it looks like the last approach is superior to the auto-completion one.
-It avoids complicated code generation and even resulting MPS languages are more simple, perhaps better performant as they are not bloated with auto-completion code.
-There is one small drawback though, that makes this solution suboptimal.
+It avoids complicated code generation and even resulting MPS languages are more simple and better performant, as they are not bloated with auto-completion code.
+There is one small drawback though, that makes this solution slightly suboptimal.
 \\
 
 To remind the reader --- the cardinality of an element is telling us, how many of each specific child rules can occur inside an alternative.
 Inside the grammar, this was expressed using quantification operators (\textbf{*},\textbf{+} and \textbf{?}).
-The problem that appears here can be shown using these example rules:
+The problem, that appears here, can be shown using this example rule:
 
 \begin{antlr}
 \parserrule{content}      :   \parserrule{element}+
@@ -270,10 +275,32 @@ The problem that appears here can be shown using these example rules:
              ;
 \end{antlr}
 
-Notice, how we changed the cardinality of elements inside the \parserrule{content} rule. This small change will prevent us from creating a shortcut leading through this rule. We are trying to say that shortcuts that can be used for the smart interfaces approach can only lead through rules, that have cardinality [1..1] (so through an alternative with a single child element, that is a reference to a parser rule AND has this cardinality). Speaking in terms of the shortcut algorithm \ref{chap:shortcut_algorithm}, we would alter line number 6 and add this restriction to the condition.
+Notice, how we changed the cardinality of elements inside the \parserrule{content} rule.
+This small change will prevent us from creating a shortcut leading through this rule.
+We are trying to say, that shortcuts, that can be used for the smart interfaces approach, can only lead through rules, that have cardinality [1..1].
+This means through an alternative with a single child element, that is a reference to a parser rule AND has the [1..1] cardinality.
+In the original \parserrule{content} rule, all alternatives look like this, so there was no problem.
+Speaking in terms of the shortcut algorithm \ref{chap:shortcut_algorithm}, we would alter line number 6 and add this restriction to the condition.
 \\
 
-This restriction is caused by the fact that we would be unable to control children cardinality. Imagine that some alternative of some other rule contains reference to this altered \parserrule{content} rule (regardless of its quantitative operator). That means that we need to create a child holding the \interface{IContent} and setting this cardinality. But each alternative of the altered content rule requires different number of children to be inserted. Since there are no intermediary levels of nodes that could influence this, the end concept node that would be inserted in that child would inherit the cardinality of the child regardless of what the shortcut path looks like.
+This restriction is caused by the fact that we would be unable to control changing children cardinality on the whole shortcut path.
+Imagine, that some alternative of some other rule contains reference to this altered \parserrule{content} rule (regardless of its quantitative operator).
+The list of shortcuts, that will be generated for this new setup is following:
+
+\begin{itemize}
+	\itemsep0em
+	\item Content{\_}1\textbf{+} $\rightarrow$ Element{\_}1
+	\item Content{\_}1\textbf{+} $\rightarrow$ Element{\_}2
+	\item Comment\textbf{*}
+	\item Content{\_}3\textbf{?}
+\end{itemize}
+
+When we would be creating a child link holding the \interface{IContent} type, we would be setting cardinality of the child link depending on the cardinality of the \parserrule{content} reference.
+But each alternative of the altered \parserrule{content} rule requires different number of children to be inserted.
+This means, that when we would follow the shortcut path and assign the \interface{IContent} interface to the \concept{Element{\_}1} and to the \concept{Element{\_}2} concept, we will lose the \textbf{+} cardinality information, since we would only enable the user to insert one child of the \interface{IContent} child.
 \\
 
-A small example might demonstrate this better. We have an \interface{IContent} [1..1] child. If we disregarded the cardinality restriction, we could ultimately put there \concept{Element{\_}1} end concept node. But the content rule says, there can be [1..n] elements. We are still bound to insert only one though.
+A small example might demonstrate this better. We have an \interface{IContent} [1..1] child. If we disregarded the cardinality restriction, we could ultimately put there the \concept{Element{\_}1} end concept node. But the content rule says, there can be [1..n] elements. We are still bound to insert only one though.
+\\
+
+The smart auto-completion approach mentioned above could solve this problem by generating lists of children with the corresponding cardinality.

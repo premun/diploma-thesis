@@ -1,0 +1,22 @@
+\section{The editor aspect}
+\label{chap:editor_aspect}
+After we have imported all concepts, their contents (properties) and linked them together (child links), it is time to define, what is the visual representation of these concepts.
+Without this, we are not able to start using the language inside MPS.
+\\
+
+As stated before, MPS uses a cellular system, that allows placing concept's properties and children into a table-like arrangement.
+MPS has a lot of a different types of cells that we can use.
+Some are used for storing properties, some for storing children and some just dictate the layout.
+Our import plugin has to create these cells and ideally project all of concept's elements in there.
+\\
+
+A part of this thesis' mission was to explore, whether we can also bring some value into this import step.
+The problem with grammars is, that it serves us no aid in this regard.
+The grammar only defines, what the rule breaks up into and which elements (rule references, literals..) are contained inside of each alternative.
+We will look into creating this missing information, either with users help or using some heuristics.
+It is a very hard problem though since our plugin doesn't really understand the content of grammars.
+
+\subsection{The interactive approach [TODO]}
+First idea on how to tackle this problem was to interactively prompt user during the import process. We would somehow select rules that we think important and for example give the user three visual options on how we think this rule might look like, they would pick one and we would use this information to create the editor aspect. There are some problems with this that lead the author to rejecting this approach.
+
+Firstly, we would have to be able to tell which rules might be worth

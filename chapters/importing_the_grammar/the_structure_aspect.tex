@@ -24,6 +24,7 @@ They can:
 \end{itemize}
 
 \subsection{Common ground}
+\label{chap:common_ground}
 
 Some of the import steps are common for both approaches (\ref{chap:straightforward_approach}, \ref{chap:shortcut_approach}).
 Firstly, we have noticed, that whenever there is a string literal inside a parser rule's alternative (think of the \textbf{for} keyword from a Java loop), it will appear only in that rule's projectional editor.
@@ -31,8 +32,8 @@ There is no need for it to have any function as it is set in stone as an unchang
 It might serve its purpose when describing or naming this alternative inside an auto-complete menu, but we will get to that part later.
 \\
 
-Secondly, we can take the flattened lexer rules, that contain the regular expression, we have built by gluing its parts together in the parsing stage. 
-For each one of these, we create a constraint data type concept, which is exactly what we need. 
+Secondly, we can take the flattened lexer rules, that contain the regular expression, we have built by gluing its parts together in the parsing stage.
+For each one of these, we create a constraint data type concept, which is exactly what we need.
 We will be able to later create properties of concepts and set their data type as this constraint data type concept, effectively restricting their value using given regular expression.
 \\
 
@@ -49,10 +50,10 @@ The concept, that will represent the first alternative of the \parserrule{elemen
 (we will mark concepts \concept{purple} and interfaces \interface{pink}).
 
 \begin{itemize}
-	\item Since there are two references to the \lexerrule{Name} lexer rule inside the first alternative of the \parserrule{element} rule, the \concept{Element{\_}1} concept will contain two properties, whose value will be restricted using the regular expression representing the \lexerrule{Name} rule. 
+	\item Since there are two references to the \lexerrule{Name} lexer rule inside the first alternative of the \parserrule{element} rule, the \concept{Element{\_}1} concept will contain two properties, whose value will be restricted using the regular expression representing the \lexerrule{Name} rule.
 	We can achieve this using the \textit{Constraint data type concept}, which we create for each lexer rule.
 
-	\item Literals are skipped (as explained above using the \textbf{for} keyword). 
+	\item Literals are skipped (as explained above using the \textbf{for} keyword).
 
 	\item Parser rules references (\parserrule{attribute} and \parserrule{content}) will be explained further down the road as they are the part where approaches differ.
 \end{itemize}
@@ -83,7 +84,7 @@ Final solution will be described in section \ref{chap:structure_solution}.
 \subsection{Our solution}
 \label{chap:structure_solution}
 
-In the end, we have decided to go with the shortcut approach using smart interfaces. 
+In the end, we have decided to go with the shortcut approach using smart interfaces.
 As we have stated above, it has several advantages, concerning the solution complexity, compared to the smart auto-completion.
 It only has one disadvantage regarding the cardinality restriction, described in \ref{chap:cardinality_restriction}.
 We have analyzed several ANTLR grammars (such as the JavaScript\footnote{https://github.com/antlr/grammars-v4/blob/master/ecmascript/ECMAScript.g4} one) and we haven't found a single intermediate rule, that would be suffering from this restriction.
@@ -95,26 +96,26 @@ Based on these observations and some grammar analysis, we concluded that advanta
 
 \subsection{The structure aspect and other ANTLRv4 features}
 
-The ANTLR grammar notation offers more features than just rule definition. 
-We haven't mentioned these earlier because we were focusing solely on the structure of the language. 
-We will mention some features and explain why we have ignored them and why they doesn't matter to us. 
+The ANTLR grammar notation offers more features than just rule definition.
+We haven't mentioned these earlier because we were focusing solely on the structure of the language.
+We will mention some features and explain why we have ignored them and why they doesn't matter to us.
 We will not spend a lot of time on describing details of these as they are well documented in the official ANTLR reference~\cite{ANTLR4reference}.
 
 \subsubsection{Modes}
 
-For example, just like any other parser/lexer, ANTLR gives us the possibility to switch the parsing context. 
-We are able to create various user specified modes and then enter these modes when certain rules/tokens are encountered. 
-For each mode we can define different set of rules/tokens that can only be applied when the parser is in that particular mode. 
+For example, just like any other parser/lexer, ANTLR gives us the possibility to switch the parsing context.
+We are able to create various user specified modes and then enter these modes when certain rules/tokens are encountered.
+For each mode we can define different set of rules/tokens that can only be applied when the parser is in that particular mode.
 The syntax is following:
 
 \begin{antlr}
 	\textcolor{gray}{// Enter mode when tag opened}
 	\lexerrule{OPEN}        :   \literal{<}       -> pushMode(INSIDE) ;
-	
+
 	mode INSIDE;
 	\textcolor{gray}{// Special rules bound to specific mode}
 	\lexerrule{S}           :   \regex{[ {\textbackslash}t{\textbackslash}r{\textbackslash}n]} -> skip ;
-	
+
 	\textcolor{gray}{// Leave the mode when tag closed}
 	\lexerrule{CLOSE}       :   \literal{>}       -> popMode ;
 	\lexerrule{SLASH{\_}CLOSE} :   \literal{/>}      -> popMode ;

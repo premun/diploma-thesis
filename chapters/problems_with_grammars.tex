@@ -3,7 +3,8 @@
 
 As we could see in previous chapters, it is very easy to write a grammar in a way, that will cause problems once it is imported into MPS.
 These problems might occur during creation of any aspect and they are very hard to mitigate.
-In this chapter, we will show a few examples of rules, that might cause these problems and try to explain some other effects.
+We have not known about these problems and they occurred during the implementation.
+In this chapter, we will try to summarize our observations and show a few examples of possible complications.
 \\
 
 \section{Structural problems}
@@ -88,13 +89,13 @@ We have restructured the content rule into a more simple version:
 
 It also required us to change the grammar in some other places, but these were just minor changes, mostly concerning cardinality.
 It made our MPS language just right, but it also had some bad side effects.
-We talk about these side effects further down this chapter in section \ref{chap:problems_with_alteration}.
+We talk about these side effects further down this chapter in section \ref{chap:breaking_the_parser}.
 
 \section{Other language tweaks}
 
-There are also some cases where we do not have a big structural problem per se, but altering the grammar might yield better MPS language.
-We will show one more example where we don't want to improve the structure, but again, the usability of the resulting MPS language.
-Let's look at the XML attribute:
+There are also some cases, where we do not have a big structural problem per se, but altering the grammar might yield far better MPS language.
+We will show one more example, where we don't want to improve the structure, but again, the usability of the resulting MPS language.
+Let's look at the definition of an XML attribute:
 
 \begin{antlr}
 	\parserrule{attribute}   :   \lexerrule{Name} \literal{=} \lexerrule{STRING} ;
@@ -121,34 +122,90 @@ In our SimpleXML language, we adjusted the grammar easily in following manner:
 	\lexerrule{TEXT2}       :   \regex{~[']*} ;
 \end{antlr}
 
-We turned quotes into literals and they will only appear in the projectional editor part.
-We won't have to write them down each time.
-This however has its drawbacks, because user will have to choose, which attribute version he wants to use (single or double quotes?), decreasing the speed with which he could code.
+We turned quotes into literals and they will only appear in the projectional editor as fixed constant cells.
+We won't have to encapsulate the value in them each time.
+User will only have to choose, which attribute version he wants to use (single or double quotes).
 We could also decide to drop one of the two options, but then we will no longer have a full port of the XML language.
-Or we could decide to improve the imported language to use one as default and add a special action (for which the intention aspect of the language is used) to switch easily between these two.
+Or we could adjust the language further and introduce a special action (for which the intention aspect of the language is used) to switch easily between these two, increasing the speed of coding.
+\\
+
 It is hard to decide which solution to this problem is the best.
-Users might have different intentions, requirements or goals with their MPS language and all approaches lead to some results.
+Users might have different intentions, requirements or goals for their MPS language and all approaches lead to some results.
 
 \section{Adjusting grammars}
 Above, we concluded, that adjusting the grammar itself might be the only proper solution to some complex situations.
-Some of the SimpleXML adjustments, that we put as examples, are simple enough and make the language a lot better.
-We also think that the end user of our plugin will be quite educated in this field as they will already be trying to create an MPS language.
-It is also expected, that this user will continue on improving the language after the initial import, because the language will just not be as usable without the human touch.
+Some of the SimpleXML adjustments, that we put as examples, are simple enough and make the language way usable too.
+We also think that the end user of our plugin will be quite educated in this field as they will already be trying to create a computer language.
+It is also expected, that this user will continue on improving the language after the initial import, adding more human touch to it.
 From these reasons, we concluded, that end users of the plugin might also be capable to perform similar grammar adjustments themselves.
 
-\section{Problems with altered grammars [TODO]}
-\label{chap:problems_with_alteration}
+\section{Breaking the parser}
+\label{chap:breaking_the_parser}
 
-As stated before, when creating the SimpleXML grammar, we have started off with the original XML grammar\footnote{https://github.com/antlr/grammars-v4/tree/master/xml} and did some adjustments just as described previously.
+There is one big problem with grammar adjustment, that we would like to point out. The problem is, that it is very easy to change the grammar in a way, that will break the ANTLR parser generated out of it.
+
+\subsection{Breaking it is easy}
+
+As stated before, when creating the SimpleXML grammar, we have started off with the original XML grammar\footnote{https://github.com/antlr/grammars-v4/tree/master/xml} and did some adjustments to it.
 After that, we ended up with a grammar just good enough for our plugin.
-Nonetheless, we noticed that even though the imported language behaves well enough and mimics the XML language quite nicely, the ANTLR parser created from this grammar no longer parses XML successfully.
-Some changes we made (e.g. the attribute rule or leaving out parser modes) broke the grammar.
+Nonetheless, we noticed, that even though the imported language behaves well enough and mimics the XML language quite nicely, the ANTLR parser generated out of this grammar no longer parses XML successfully.
+Some changes we have made, such as the attribute adjustment or parser mode omission, broke the grammar down.
+More precisely, it improved the MPS language, broke down the parser and we haven't even noticed it, because from the perspective of MPS, the imported language still corresponds to XML.
 \\
 
-For this, we can blame the ANTLR parser and some dangerous lexer rules.
-The greedy way, in which ANTLR matches input on defined tokens and prioritizes their selection, makes some rules (such as \lexerrule{TEXT}) very dangerous, because they swallow a lot more characters than they should.
-It is very easy to slip and perform an adjustment that will at first look seem valid inside MPS, but will break the parser.
+What we are trying to say is, that it is very easy to perform a harmless grammar adjustment, that will at first seem valid inside MPS, but will break the parser.
+The problem is, that the user performing this change, might and probably won't be aware of breaking it.
 \\
 
-The reason, why we care about not making the grammar dysfunctional like this, is that if we wanted to proceed with some more complex operations, we would need to automatically generate parsers and use them somehow to parse existing code in that language.
-This could be for example utilized within the projectional editor, when detecting layout, or when trying to load existing source code and opening it inside MPS. The user might not even notice that the grammar was damaged or it might have been corrupt from the very beginning. And sometimes we might even wish to break it just for the sake of a better outcome of the import itself (attribute example above). But, advancing further without a valid grammar might make things very complicated.
+The cause of this problem is the way the ANTLR parser is implemented and the quite different purpose we are using the grammar for in this thesis.
+There are many ways how various parsers deal with, for example, token matching.
+For instance, ANTLR introduces so called \textbf{greedy} and \textbf{non-greedy} operators.
+The greedy way, in which ANTLR matches input on defined tokens and prioritizes their selection, makes some rules very dangerous.
+When a rule, such as the \lexerrule{TEXT} rule, matches a wide range of input, it might happen, that when parsing, it is prioritized over other rules and swallows a lot more input than the author of it intended.
+Usually, these dangerous rules are bound to some parser context, which makes them behave well.
+
+\subsection{Breaking it is a problem}
+
+The underlying question is --- \textbf{do we really care about the parser, being broken?} 
+Our goal here is to create an MPS port of the language. 
+It is also very hard, if not impossible, to verify, whether we have broken it and whether two grammars describe the same language.
+\\
+
+The reason why we should care about not breaking it is, that if we wanted to proceed with some more complex operations, we might need to automatically generate parsers of that language.
+Imagine this very real (future) scenario:
+
+\begin{enumerate}
+	\item We have imported the language inside MPS.
+	
+	\item MPS now knows the structure of the language, we can code in MPS using this language.
+	
+	\item We would expect MPS to be able to load an existing text source code, written in this language, and import it inside MPS.
+	
+	\item We would like to use MPS to safely edit this code, together with all features of MPS.
+	
+	\item We would like to export the code in a text form again and save it back to the source file.
+\end{enumerate}
+
+\noindent
+In order to make this happen, several steps must be performed:
+
+\begin{enumerate}
+	\item We must generate the ANTLR parser out of the source grammar, that helped us import the language.
+	
+	\item We must parse the text source file correctly, using the parser from step 1.
+	
+	\item We must be able to match nodes of the AST coming out of the ANTLR parser to concept nodes of the MPS language. 
+
+	\item We must build the MPS AST out of the ANTLR AST.
+\end{enumerate}
+
+For some of these steps, we would, of course, have to significantly improve some of the parts of the plugin as it is functionality, that wasn't subject of this thesis.
+For example, we would need a support from our grammar parser, so that it would store mapping between grammar rules and corresponding concepts of the MPS language.
+We would also need to store this information more permanently and deal with some further problems, such as the user adjusting the MPS language beyond the grammar definition.
+\\
+
+But regardless of these problems, when we damage the grammar by adjusting it, we won't be able to create a valid ANTLR parser in the first place.
+That would leave us stuck at the first step.
+The user might not even know, why the source code import is broken.
+It would be hard to tell, whether we did break the grammar or not. 
+Anyway, even if this thesis accomplishes its goal to some extent, advancing further without a valid grammar might make future follow-up efforts very complicated.

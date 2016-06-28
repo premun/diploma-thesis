@@ -28,12 +28,15 @@ When analysing these notations, following aspects were taken into account:
 	What were their reasons to go with this decision? Was it a good decision or more of an obstacle?
 \end{itemize}
 
-Based on these preconditions an ANTLRv4 grammar notation~\cite{ANTLR4reference} was chosen. It is a widely used grammar notation that:
+Based on these preconditions an ANTLRv4 grammar notation~\cite{ANTLR4reference} was chosen.
+It is a widely used grammar notation that:
 
 \begin{itemize}
 	\item has a large amount of languages that have their syntax captured using this notation~\cite{ANTLR4grammars}.
 
-	\item has a whole framework~\cite{ANTLR4} built around it allowing generating parsers. It is supporting Java (it is written in Java). It has a tree walker design that allows listening to events when walking the code and reacting to them.
+	\item has a whole framework~\cite{ANTLR4} built around it allowing generating parsers.
+	It is supporting Java (it is written in Java).
+	It has a tree walker design that allows listening to events when walking the code and reacting to them.
 
 	\item has a thorough reference documentation of its syntax~\cite{ANTLR4reference} which we will appreciate when parsing grammars themselves.
 
@@ -41,7 +44,9 @@ Based on these preconditions an ANTLRv4 grammar notation~\cite{ANTLR4reference} 
 
 	\item there exist a variety of tools\footnote{http://www.antlr.org/tools.html} for, such as grammar editors, syntax highlighters, tree visualizers and more.
 
-	\item was also chosen by authors of similar projects such as ANTLR{\_}MPS~\cite{ANTLR2MPS} or PE4MPS~\cite{PE4MPS}, which are more closely discussed in chapter \ref{chap:related_projects}. They achieved their goals using this notation quite effectively thanks to parser generation and other tools (e.g. the ANTLR{\_}MPS projects creates diagram of the notation).
+	\item was also chosen by authors of similar projects such as ANTLR{\_}MPS~\cite{ANTLR2MPS} or PE4MPS~\cite{PE4MPS}, which are more closely discussed in chapter \ref{chap:related_projects}.
+	They achieved their goals using this notation quite effectively thanks to parser generation and other tools (e.g. the ANTLR{\_}MPS projects creates diagram of the notation).
 
-	\item has its own syntax captured in its own syntax\footnote{https://github.com/antlr/grammars-v4/tree/master/antlr4} (there is an ANTLRv4 grammar for the ANTLRv4 notation). This is a very important aspect as it allows us to create a parser for ANTLRv4 grammars so that we can parse other languages grammars.
+	\item has its own syntax captured in its own syntax\footnote{https://github.com/antlr/grammars-v4/tree/master/antlr4} (there is an ANTLRv4 grammar for the ANTLRv4 notation).
+	This is a very important aspect as it allows us to create a parser for ANTLRv4 grammars so that we can parse other languages grammars.
 \end{itemize}

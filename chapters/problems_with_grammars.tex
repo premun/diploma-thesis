@@ -32,14 +32,14 @@ The rule above is unrolled to following structure:
 
 \begin{antlr}
 	\parserrule{content}          :   \lexerrule{TEXT}? \parserrule{content{\_}block{\_}1{\_}1}* ;
-	
+
 	\parserrule{content{\_}block{\_}1{\_}1} :   \parserrule{content{\_}block{\_}1{\_}1} \lexerrule{TEXT}?
 	                 ;
-	                 
+
 	\parserrule{content{\_}block{\_}1{\_}2} :   \parserrule{element}
 	                 |   \lexerrule{CDATA}
 	                 |   \lexerrule{COMMENT}
-	                 ;		
+	                 ;
 \end{antlr}
 
 This transformation just translates the shortened subrule notation into a classic parser rule definition, leaving the semantics intact.
@@ -142,7 +142,8 @@ From these reasons, we concluded, that end users of the plugin might also be cap
 \section{Breaking the parser}
 \label{chap:breaking_the_parser}
 
-There is one big problem with grammar adjustment, that we would like to point out. The problem is, that it is very easy to change the grammar in a way, that will break the ANTLR parser generated out of it.
+There is one big problem with grammar adjustment, that we would like to point out.
+The problem is, that it is very easy to change the grammar in a way, that will break the ANTLR parser generated out of it.
 
 \subsection{Breaking it is easy}
 
@@ -166,8 +167,8 @@ Usually, these dangerous rules are bound to some parser context, which makes the
 
 \subsection{Breaking it is a problem}
 
-The underlying question is --- \textbf{do we really care about the parser, being broken?} 
-Our goal here is to create an MPS port of the language. 
+The underlying question is --- \textbf{do we really care about the parser, being broken?}
+Our goal here is to create an MPS port of the language.
 It is also very hard, if not impossible, to verify, whether we have broken it and whether two grammars describe the same language.
 \\
 
@@ -176,13 +177,13 @@ Imagine this very real (future) scenario:
 
 \begin{enumerate}
 	\item We have imported the language inside MPS.
-	
+
 	\item MPS now knows the structure of the language, we can code in MPS using this language.
-	
+
 	\item We would expect MPS to be able to load an existing text source code, written in this language, and import it inside MPS.
-	
+
 	\item We would like to use MPS to safely edit this code, together with all features of MPS.
-	
+
 	\item We would like to export the code in a text form again and save it back to the source file.
 \end{enumerate}
 
@@ -191,10 +192,10 @@ In order to make this happen, several steps must be performed:
 
 \begin{enumerate}
 	\item We must generate the ANTLR parser out of the source grammar, that helped us import the language.
-	
+
 	\item We must parse the text source file correctly, using the parser from step 1.
-	
-	\item We must be able to match nodes of the AST coming out of the ANTLR parser to concept nodes of the MPS language. 
+
+	\item We must be able to match nodes of the AST coming out of the ANTLR parser to concept nodes of the MPS language.
 
 	\item We must build the MPS AST out of the ANTLR AST.
 \end{enumerate}
@@ -207,5 +208,5 @@ We would also need to store this information more permanently and deal with some
 But regardless of these problems, when we damage the grammar by adjusting it, we won't be able to create a valid ANTLR parser in the first place.
 That would leave us stuck at the first step.
 The user might not even know, why the source code import is broken.
-It would be hard to tell, whether we did break the grammar or not. 
+It would be hard to tell, whether we did break the grammar or not.
 Anyway, even if this thesis accomplishes its goal to some extent, advancing further without a valid grammar might make future follow-up efforts very complicated.

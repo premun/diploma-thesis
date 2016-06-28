@@ -65,15 +65,31 @@ We have colored the grammar out so it is easier to find our way around it when r
 The grammar contains following basic elements:
 
 \begin{itemize}
-	\item \textbf{ANTLRv4 keywords} -- In black, they don't add any extra value in this particular scenario. Nonetheless, they are required by the specification.
+	\item \textbf{ANTLRv4 keywords} -- In black, they don't add any extra value in this particular scenario.
+	Nonetheless, they are required by the specification.
 
-	\item \parserrule{\textbf{Parser rules}} -- Stated in blue, they are the rules describing language's structure. The ANTLRv4 notation dictates that all parser rules must start with a lowercased letter and there is a semicolon behind the last alternative. Every rule consists of a set of alternatives that the element might break into. These alternatives are separated by the pipe ($|$) character. For example the basic XML element (rule called element), can appear in two different forms - either containing both the start and the end tag or its simplified self-closing form when the tag is empty. The element rule therefore contains two alternatives describing both forms.
+	\item \parserrule{\textbf{Parser rules}} -- Stated in blue, they are the rules describing language's structure.
+	The ANTLRv4 notation dictates that all parser rules must start with a lowercased letter and there is a semicolon behind the last alternative.
+	Every rule consists of a set of alternatives that the element might break into.
+	These alternatives are separated by the pipe ($|$) character.
+	For example the basic XML element (rule called element), can appear in two different forms --- either containing both the start and the end tag or its simplified self-closing form when the tag is empty.
+	The element rule therefore contains two alternatives describing both forms.
 
-	\item \lexerrule{\textbf{Lexer rules}} -- In yellow, always starting with an uppercased letter, they are rules describing terminal symbols. The parser is matching these against the input. Lexer rules can also break into more sub rules in the same manner parser rules break into alternatives. This breaking, however, eventually stops at string values and regular expressions at the bottom level, so in the end these rules are describing some string. Parser rules also eventually break into lexer rules too. The \textbf{fragment} keyword states, that the lexer sub rule is just a helper rule that brings more clarity into the notation but is not visible in the parser output.
+	\item \lexerrule{\textbf{Lexer rules}} -- In yellow, always starting with an uppercased letter, they are rules describing terminal symbols.
+	The parser is matching these against the input.
+	Lexer rules can also break into more sub rules in the same manner parser rules break into alternatives.
+	This breaking, however, eventually stops at string values and regular expressions at the bottom level, so in the end these rules are describing some string.
+	Parser rules also eventually break into lexer rules too.
+	The \textbf{fragment} keyword states, that the lexer sub rule is just a helper rule that brings more clarity into the notation but is not visible in the parser output.
 
-	\item \literalnoap{\textbf{String values (literals)}} -- In red, always inside of a pair of apostrophes, they are similar to lexer rules. They describe a terminal string, but not using regular expressions but exact string match.
+	\item \literalnoap{\textbf{String values (literals)}} -- In red, always inside of a pair of apostrophes, they are similar to lexer rules.
+	They describe a terminal string, but not using regular expressions but exact string match.
 
 	\item \regex{\textbf{Regular expressions}} -- Coloured green, they describe a string token to be matched using a regular expression with the special ANTLRv4 regex notation\footnote{https://github.com/antlr/antlr4/blob/master/doc/lexer-rules.md}.
 
-	\item \textbf{Rule operators (?+*)} - Left in black, following any element, they quantify the number of occurrences the prepending element can appear in. They are appended to one or more elements (enclosed in braces) of a rule's alternative. These operators can also be prepended by asterisk (*), meaning they are non-greedy. This allows us for example to simplify rules such as the \lexerrule{CDATA} one. The parser will use this rule as expected while there is no need to exclude the \literal{\texttt{]]>}} sequence inside the regular expression.
+	\item \textbf{Rule operators (?+*)} - Left in black, following any element, they quantify the number of occurrences the prepending element can appear in.
+	They are appended to one or more elements (enclosed in braces) of a rule's alternative.
+	These operators can also be prepended by asterisk (*), meaning they are non-greedy.
+	This allows us for example to simplify rules such as the \lexerrule{CDATA} one.
+	The parser will use this rule as expected while there is no need to exclude the \literal{\texttt{]]>}} sequence inside the regular expression.
 \end{itemize}

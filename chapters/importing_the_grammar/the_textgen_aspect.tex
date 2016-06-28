@@ -45,9 +45,9 @@ So how does the parser know how to split tokens, how many whitespace characters 
 
 \begin{itemize}
 	\item How does our TextGen generator know, that there should be a space in between \parserrule{attribute} and \lexerrule{Name} but is not required between \literal{\textless} and \lexerrule{Name}?
-	
+
 	\item How does it know there is no space between quotes and an attribute value inside the \parserrule{attribute} rule?
-	
+
 	\item And how about multiple attributes --- do they need to be separated by spaces?
 \end{itemize}
 
@@ -57,7 +57,7 @@ We have left the whitespace handling part out earlier in order to keep things mo
 There are two ways, how we can deal with whitespaces in ANTLR:
 
 \begin{itemize}
-	\item We can define special tokens, that don't need to be used inside any parser rule. 
+	\item We can define special tokens, that don't need to be used inside any parser rule.
 	We mark them with special flag, telling the parser to skip these characters, when this token is matched:
 
 	\begin{antlr}
@@ -73,7 +73,7 @@ There are two ways, how we can deal with whitespaces in ANTLR:
 
 \subsubsection{The whitespace problem}
 
-The problem, that arises here, is that the skip syntax hides the whitespace information from the grammar. 
+The problem, that arises here, is that the skip syntax hides the whitespace information from the grammar.
 We have no way of tracing this information back.
 If, on the other hand, we decided to go with the explicit definition, and put \lexerrule{WHITESPACE} tokens everywhere, we would encounter much bigger problem.
 From the point of view of the TextGen aspect, it would help us a bit, but not completely, as we still don't know what string represents the rule).
@@ -144,7 +144,8 @@ We do not, however, necessarily need to put different amounts of different white
 We only need to find places, where we are sure they must be at in order to make the code valid.
 Then, we can put a single space there.
 Generally, it doesn't have to be a space character, but since we are aiming for general purpose languages, we will go with the very frequently used space character.
-We could get some hints from the way the lexer is splitting source code into tokens, which is happening practically statically too. Consider the following setup:
+We could get some hints from the way the lexer is splitting source code into tokens, which is happening practically statically too.
+Consider the following setup:
 
 \begin{antlr}
 	\parserrule{element}    :   \literal{<} \lexerrule{Name} \parserrule{attribute}* \literal{>} \parserrule{content}* \literal{</} \lexerrule{Name} \literal{>} ;
@@ -241,7 +242,9 @@ Then we started restricting spaces on positions where we thought they are not ne
 
 	\item When two children concepts are next to each other, we always insert space.
 
-	\item Sequences of children are separated with a space. This is the place where we might later want to manually substitute it with a line break. Think repeating \parserrule{content} inside an XML tag or list of XML attributes.
+	\item Sequences of children are separated with a space.
+	This is the place where we might later want to manually substitute it with a line break.
+	Think repeating \parserrule{content} inside an XML tag or list of XML attributes.
 \end{enumerate}
 
 These few simple heuristics have left us with some very nice results (tested mostly on XML, JSON and JavaScript). Figure \ref{fig:textgen_final} shows an example of a TextGen aspect for the full SimpleXML element.

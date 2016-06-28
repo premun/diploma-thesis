@@ -33,10 +33,10 @@ So for our \parserrule{content} example, we will get following setup:
 Names of these concepts are derived from the name of the rule, numbers are added to alternatives correspondingly. For rules with a single alternative, no interface is needed. For rules, that contain in-line block rules (\ref{chap:subrules}), we have already created artificial parser rules in our tree representation during the parser phase (\ref{chap:parsing_the_grammar}), which means we do not have to worry about them now.
 \\
 
-Now we will describe, how we linked parser rules together. 
+Now we will describe, how we linked parser rules together.
 Consider the \parserrule{element} rule, that is referencing the \parserrule{content} rule:
 
-\begin{antlr}	
+\begin{antlr}
 	\parserrule{element}    :   \literal{<} \lexerrule{Name} \parserrule{attribute}* \literal{>} \parserrule{content}* \literal{</} \lexerrule{Name} \literal{>}
            |   \literal{<} \lexerrule{Name} \parserrule{attribute}* \literal{/>}
            ;
@@ -77,7 +77,7 @@ We will demonstrate this problem on the SimpleXML language, using \parserrule{el
 
 When we would be editing code in this language, the MPS auto-complete would give us aid when filling out all properties and children of inserted concepts.
 Imagine there is a freshly inserted \concept{Element{\_}1} concept (a concept representing the full XML element as is stated in the first alternative of the \parserrule{element} parser rule).
-This setup can be seen in the left part of figure \ref{fig:layer_problem}. 
+This setup can be seen in the left part of figure \ref{fig:layer_problem}.
 Now, we would like to insert some content inside.
 Let's say we would like to insert a nested XML element inside.
 We would place cursor in the content placeholder and press Ctrl+Space to view the auto-completion options.

@@ -77,11 +77,12 @@ The output of \texttt{Flatten(Name)} then would return a regular expression in t
 	\texttt{([:a-zA-Z])(([:a-zA-Z])|(-)|({\_})|(.)|([0-9]))*}
 \end{center}
 
-We have made some further adjustments, which, for example, escape special characters or remove unnecessary braces. 
+We have made some further adjustments, which, for example, escape special characters or remove unnecessary braces.
 Then we had to add some other minor transformations, because the regular expression notation of ANTLR is not the same as in MPS (Java).
 Special characters also had to be doubly escaped, because MPS holds regular expressions in the form of a string and not all escape sequences are allowed.
 
 \subsection{Subrules}
+\label{chap:subrules}
 
 A new feature, called \textit{subrules}\footnote{https://github.com/antlr/antlr4/blob/master/doc/parser-rules.md\#subrules}, was added to the fourth version of the ANTLR notation, that makes parsing the structure a little bit more complicated for us.
 This feature allows to inline some rule expansions directly inside an alternative.

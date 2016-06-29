@@ -127,8 +127,6 @@ We won't have to encapsulate the value in them each time.
 User will only have to choose, which attribute version he wants to use (single or double quotes).
 We could also decide to drop one of the two options, but then we will no longer have a full port of the XML language.
 Or we could adjust the language further and introduce a special action (for which the intention aspect of the language is used) to switch easily between these two, increasing the speed of coding.
-\\
-
 It is hard to decide which solution to this problem is the best.
 Users might have different intentions, requirements or goals for their MPS language and all approaches lead to some results.
 
@@ -144,6 +142,7 @@ From these reasons, we concluded, that end users of the plugin might also be cap
 
 There is one big problem with grammar adjustment, that we would like to point out.
 The problem is, that it is very easy to change the grammar in a way, that will break the ANTLR parser generated out of it.
+By breaking we mean, that it stops parsing the original language.
 
 \subsection{Breaking it is easy}
 

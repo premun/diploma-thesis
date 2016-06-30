@@ -94,7 +94,7 @@ We talk about these side effects further down this chapter in section \ref{chap:
 \section{Other language tweaks}
 
 There are also some cases, where we do not have a big structural problem per se, but altering the grammar might yield far better MPS language.
-We will show one more example, where we don't want to improve the structure, but again, the usability of the resulting MPS language.
+We will show two examples, where we don't want to improve the structure, but again, the usability of the resulting MPS language.
 Let's look at the definition of an XML attribute:
 
 \begin{antlr}
@@ -129,11 +129,46 @@ We could also decide to drop one of the two options, but then we will no longer 
 Or we could adjust the language further and introduce a special action (for which the intention aspect of the language is used) to switch easily between these two, increasing the speed of coding.
 It is hard to decide which solution to this problem is the best.
 Users might have different intentions, requirements or goals for their MPS language and all approaches lead to some results.
+\\
+
+As the second example, we will show the ECMAScript\footnote{https://raw.githubusercontent.com/antlr/grammars-v4/master/ecmascript/ECMAScript.g4} language otherwise known as JavaScript.
+Every statement in JavaScript needs to be either followed by a semicolon, new line, file end or end of block.
+
+\begin{antlr}
+	\parserrule{eos}            : \lexerrule{SemiColon}
+	               | \lexerrule{EOF}
+	               | {lineTerminatorAhead()}?
+	               | {{\_}input.LT(1).getType() == \lexerrule{CloseBrace}}?
+	               ;
+	    
+	\textcolor{gray}{// Example reference of the eos rule}
+	\parserrule{breakStatement} : \lexerrule{Break} \lexerrule{Identifier}? \parserrule{eos}
+	               ;
+\end{antlr}
+
+Because there are multiple options, our import plugin creates a placeholder in the end of every statement.
+Every concept representing a statement has one child of the \interface{IEos} interface type.
+This placeholder needs to be manually filled in for each statement.
+\\
+
+Since the projectional editor has much bigger power over the form of the code, we might want to have each statement on a separate line.
+Since we can differentiate between statements on the AST level, we don't need an explicit separator between them.
+This means, that we might want to simplify the language and leave the semicolon out, or leave it just as a constant fixed part of the projectional editor, but not as something the user must explicitly fill in.
+Then we can just put each statement on a separate line as it is usual for JavaScript code, but we don't need the semicolon anymore.
+This small adjustment is very quick, when done inside the grammar.
+We just change the \parserrule{eos} rule to following form:
+
+\begin{antlr}
+	\parserrule{eos} : \literal{;} ;
+\end{antlr}
+
+Again, we changed the grammar in a way, that it won't describe the same ECMAScript language as before, but will definitely make our MPS language more usable.
+Again, we can ask ourselves, whether it is an intended action --- whether we aim for a full port of the language or an MPS alternative.
 
 \section{Adjusting grammars}
-Above, we concluded, that adjusting the grammar itself might be the only proper solution to some complex situations.
-Some of the SimpleXML adjustments, that we put as examples, are simple enough and make the language way usable too.
-We also think that the end user of our plugin will be quite educated in this field as they will already be trying to create a computer language.
+Above, we concluded, that adjusting the grammar itself might be sometimes the only proper solution to some complex situations.
+Sometimes it might be a very fast mean of tweaking our MPS language's usability.
+We also think, that the end user of our plugin will be quite educated in this field, since they will already be trying to create a computer language.
 It is also expected, that this user will continue on improving the language after the initial import, adding more human touch to it.
 From these reasons, we concluded, that end users of the plugin might also be capable to perform similar grammar adjustments themselves.
 
@@ -153,7 +188,7 @@ Some changes we have made, such as the attribute adjustment or parser mode omiss
 More precisely, it improved the MPS language, broke down the parser and we haven't even noticed it, because from the perspective of MPS, the imported language still corresponds to XML.
 \\
 
-What we are trying to say is, that it is very easy to perform a harmless grammar adjustment, that will at first seem valid inside MPS, but will break the parser.
+What we are trying to say is, that it is very easy to perform a harmless grammar adjustment, that will, at first, seem valid inside MPS, but will break the parser.
 The problem is, that the user performing this change, might and probably won't be aware of breaking it.
 \\
 

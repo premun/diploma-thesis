@@ -1,8 +1,17 @@
-pdflatex: mkdirs
-		pdflatex -output-directory=out -synctex=1 -interaction=nonstopmode thesis.tex
+pdfcmd = pdflatex -output-directory=out -synctex=1 -interaction=nonstopmode thesis.tex
+viewer = gnome-open
+
+quickbuild: pdflatex view
+	$(viewer) out/thesis.pdf
+
+view:
+	$(viewer) out/thesis.pdf
 
 pdflatex_verbose: mkdirs
-		pdflatex -output-directory=out -synctex=1 -interaction=nonstopmode thesis.tex | egrep "Warning|Error"
+		$(pdfcmd)
+
+pdflatex: mkdirs bibtex
+		$(pdfcmd) | egrep "Warning|Error"
 
 mkdirs:
 		mkdir -p out
@@ -10,6 +19,9 @@ mkdirs:
 		mkdir -p out/chapters/importing_the_grammar
 		mkdir -p out/formalities
 		mkdir -p out/img
+
+bibtex: mkdirs
+		cd out; bibtex "thesis".aux; cd ..
 
 clean:
 		rm -rf out

@@ -21,20 +21,27 @@ They can:
 	\item have properties (similar to class fields) with a given data type --- either a primitive type such as string or integer, or a constraint data type --- a string whose value is restricted by a regular expression
 	\item have children concepts (defined as a concept or an interface concept)
 	\item hold references to other nodes (e.g. function call statement would know reference to the function definition)
+	\item have an \textit{alias} and a \textit{description} field for their identification in auto-completion menus
 \end{itemize}
 
 \subsection{Common ground}
 \label{chap:common_ground}
 
 Some of the import steps are common for both approaches (\ref{chap:straightforward_approach}, \ref{chap:shortcut_approach}).
+\\
+
 Firstly, we have noticed, that whenever there is a string literal inside a parser rule's alternative (think of the \textbf{for} keyword from a Java loop), it will appear only in that rule's projectional editor.
 There is no need for it to have any function as it is set in stone as an unchangeable part of that alternative's appearance.
-It might serve its purpose when describing or naming this alternative inside an auto-complete menu, but we will get to that part later.
+It might serve its purpose when describing or naming this alternative inside an auto-complete menu, but we will get to that part below.
 \\
 
 Secondly, we can take the flattened lexer rules, that contain the regular expression, we have built by gluing its parts together in the parsing stage.
 For each one of these, we create a constraint data type concept, which is exactly what we need.
 We will be able to later create properties of concepts and set their data type as this constraint data type concept, effectively restricting their value using given regular expression.
+\\
+
+Last, we take all literals found in the alternative and glue them together to one string, which we will use as the alias of the concept.
+We will use name of the parser rule, this alternative belongs to, as the description text for the concept.
 \\
 
 To illustrate what a concept for a sample alternative looks like, consider the element concept that represents the full XML tag with content:
@@ -47,7 +54,7 @@ To illustrate what a concept for a sample alternative looks like, consider the e
 
 Because we are creating a new concept for each alternative of the rule, we will be numbering them correspondingly.
 The concept, that will represent the first alternative of the \parserrule{element} rule, will therefore be named \concept{Element{\_}1}
-(we will mark concepts \concept{purple} and interfaces \interface{pink}).
+(we will mark concepts \concept{green} and interfaces \interface{purple}).
 
 \begin{itemize}
 	\item Since there are two references to the \lexerrule{Name} lexer rule inside the first alternative of the \parserrule{element} rule, the \concept{Element{\_}1} concept will contain two properties, whose value will be restricted using the regular expression representing the \lexerrule{Name} rule.

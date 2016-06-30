@@ -68,7 +68,6 @@ There are two ways, how we can deal with whitespaces in ANTLR:
 	Then, we explicitly reference this token in every parser rule, where whitespace can occur.
 	This sometimes means hundreds of different positions, so it is generally not a recommended approach.
 	There are however cases, where this is inevitable due to the nature of the ANTLR lexer.
-	We mention some of those cases in chapter \ref{chap:problems_with_grammars}. \textbf{[TODO: do we really?]}
 \end{itemize}
 
 \subsubsection{The whitespace problem}
@@ -82,7 +81,7 @@ The effect of that would be, that the imported MPS language will become unusable
 The code will be full of placeholders waiting for whitespace characters (even though they might be unnecessary, i.e. [0..n]).
 \\
 
-We could try harder and ask the user himself, whether there are any whitespace-detecting rules or try detecting them ourselves.
+We could try harder and ask the user himself, whether there are any whitespace detecting rules or try detecting them ourselves.
 But even this will not solve the problem, as the whitespace can be easily entangled inside non-whitespace tokens as shown below with the \parserrule{chardata} rule.
 \\
 
@@ -119,7 +118,6 @@ What is happening here, is that the author decided to skip whitespace characters
 On the outside, they are being cleverly swallowed by the \parserrule{chardata} rule (its second alternative), that wraps any content.
 The \parserrule{content} rule is written a bit differently from our SimpleXML version.
 It has a little bit more complicated, but shorter structure, showing all the different ways we can express the grammar in.
-The author of this grammar chose this path to avoid some problems with greedy lexer rules, which are described in more detail in chapter \ref{chap:problems_with_grammars} [TODO - opravdu to tam je?].
 \\
 
 The problem we find here is, that with all the features ANTLR has to offer, there are just too many ways, how we can handle whitespaces and they can get all mixed up together just like the previous example showed.
@@ -209,7 +207,7 @@ This means, that when someone would like to introduce an extension of a language
 Sometimes we might also want to define more projectional editors and switch between them, which would also make this dysfunctional.
 This is probably the reason that JetBrains haven't introduced their own universal TextGen so far (just like they introduced a default projectional editor).
 
-\subsection{Our solution [TODO]}
+\subsection{Our solution}
 \label{chap:textgen_solution}
 
 After the analysis, we have come to a conclusion, that the problem of TextGen layout is quite similar to the one we have seen with the projectional editor, described in chapter \ref{chap:editor_aspect}.

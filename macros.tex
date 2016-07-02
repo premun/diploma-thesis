@@ -73,3 +73,7 @@
 		\\
 		\vspace{2mm}%
 	}
+
+% Abbreviations environment
+\newcommand{\abbrlabel}[1]{\makebox[3cm][l]{\textbf{#1}\ \dotfill}}
+\newenvironment{abbreviations}{\begin{list}{}{\renewcommand{\makelabel}{\abbrlabel}}}{\end{list}}

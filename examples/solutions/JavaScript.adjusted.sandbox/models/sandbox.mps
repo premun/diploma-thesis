@@ -20,6 +20,11 @@
         <child id="7899234180024206339" name="Block_1" index="3Gq3ex" />
         <child id="7899234180024206340" name="CatchProduction_2" index="3Gq3eA" />
       </concept>
+      <concept id="7899234180024206142" name="JavaScript.adjusted.structure.BreakStatement" flags="ng" index="3Gq3is" />
+      <concept id="7899234180024206140" name="JavaScript.adjusted.structure.SwitchStatement" flags="ng" index="3Gq3iu">
+        <child id="7899234180024206346" name="SingleExpression_1" index="3Gq3eC" />
+        <child id="7899234180024206347" name="CaseBlock_2" index="3Gq3eD" />
+      </concept>
       <concept id="7899234180024206085" name="JavaScript.adjusted.structure.SingleExpression_20" flags="ng" index="3Gq3iB">
         <child id="7899234180024206274" name="SingleExpression_2" index="3Gq3hw" />
         <child id="7899234180024206273" name="SingleExpression_1" index="3Gq3hz" />
@@ -66,6 +71,9 @@
       <concept id="7899234180024205961" name="JavaScript.adjusted.structure.ReturnStatement" flags="ng" index="3Gq3kF">
         <child id="7899234180024206182" name="SingleExpression_1" index="3Gq3j4" />
       </concept>
+      <concept id="7899234180024205965" name="JavaScript.adjusted.structure.ThrowStatement" flags="ng" index="3Gq3kJ">
+        <child id="7899234180024206185" name="SingleExpression_1" index="3Gq3jb" />
+      </concept>
       <concept id="7899234180024205968" name="JavaScript.adjusted.structure.PropertyName_2" flags="ng" index="3Gq3kM">
         <property id="7899234180024206187" name="StringLiteral_1" index="3Gq3j9" />
       </concept>
@@ -80,6 +88,20 @@
       </concept>
       <concept id="7899234180024206053" name="JavaScript.adjusted.structure.ExpressionStatement" flags="ng" index="3Gq3l7">
         <child id="7899234180024206229" name="SingleExpression_1" index="3Gq3gR" />
+      </concept>
+      <concept id="7899234180024206058" name="JavaScript.adjusted.structure.CaseBlock" flags="ng" index="3Gq3l8">
+        <child id="7899234180024206232" name="CaseClauses_1" index="3Gq3gU" />
+        <child id="7899234180024206233" name="CaseBlock_block_1_1_2" index="3Gq3gV" />
+      </concept>
+      <concept id="7899234180024206059" name="JavaScript.adjusted.structure.CaseClauses" flags="ng" index="3Gq3l9">
+        <child id="7899234180024206234" name="CaseClause_1" index="3Gq3gS" />
+      </concept>
+      <concept id="7899234180024206057" name="JavaScript.adjusted.structure.DefaultClause" flags="ng" index="3Gq3lb">
+        <child id="7899234180024206231" name="StatementList_1" index="3Gq3gP" />
+      </concept>
+      <concept id="7899234180024206062" name="JavaScript.adjusted.structure.CaseClause" flags="ng" index="3Gq3lc">
+        <child id="7899234180024206238" name="SingleExpression_1" index="3Gq3gW" />
+        <child id="7899234180024206239" name="StatementList_2" index="3Gq3gX" />
       </concept>
       <concept id="7899234180024206063" name="JavaScript.adjusted.structure.VariableDeclarationList" flags="ng" index="3Gq3ld">
         <child id="7899234180024206240" name="VariableDeclaration_1" index="3Gq3g2" />
@@ -119,6 +141,9 @@
       </concept>
       <concept id="7899234180024206037" name="JavaScript.adjusted.structure.PropertyNameAndValueList" flags="ng" index="3Gq3lR">
         <child id="7899234180024206213" name="PropertyAssignment_1" index="3Gq3gB" />
+      </concept>
+      <concept id="7899234180024206042" name="JavaScript.adjusted.structure.CaseBlock_block_1_1" flags="ng" index="3Gq3lS">
+        <child id="7899234180024206218" name="DefaultClause_1" index="3Gq3gC" />
       </concept>
       <concept id="7899234180024206043" name="JavaScript.adjusted.structure.IfStatement" flags="ng" index="3Gq3lT">
         <child id="7899234180024206222" name="IfStatement_block_1_1_3" index="3Gq3gG" />
@@ -368,33 +393,85 @@
     <node concept="3Gq3ir" id="6vXZUoD6A1d" role="3Gq3gK">
       <node concept="3Gq3l6" id="6vXZUoD6A1f" role="3Gq3ex">
         <node concept="3Gq3k7" id="6vXZUoD6Aav" role="3Gq3gQ">
-          <node concept="3Gq3l7" id="6vXZUoD6Aaz" role="3Gq3jj">
-            <node concept="3Gq3ln" id="6vXZUoD4Qwb" role="3Gq3gR">
-              <node concept="3Gq3j_" id="6vXZUoD4Qwd" role="3Gq3gf">
-                <node concept="3Gq3nr" id="6vXZUoD5M_c" role="3Gq3eP">
-                  <node concept="3Gq3iB" id="6vXZUoD5M_g" role="3Gq3jE">
-                    <node concept="3Gq3iZ" id="6vXZUoD5M_q" role="3Gq3hw">
-                      <property role="3Gq3hj" value="x" />
+          <node concept="3Gq3iu" id="LXo0uoaVwB" role="3Gq3jj">
+            <node concept="3Gq3l8" id="LXo0uoaVwD" role="3Gq3eD">
+              <node concept="3Gq3l9" id="LXo0uobJ2Y" role="3Gq3gU">
+                <node concept="3Gq3lc" id="LXo0uobJ2Z" role="3Gq3gS">
+                  <node concept="3Gq3np" id="LXo0uoc8LU" role="3Gq3gW">
+                    <property role="3Gq3jC" value="1000" />
+                  </node>
+                  <node concept="3Gq3k7" id="LXo0uoc8Pv" role="3Gq3gX">
+                    <node concept="3Gq3kJ" id="LXo0uocWvZ" role="3Gq3jj">
+                      <node concept="3Gq3ik" id="LXo0uocWw3" role="3Gq3jb">
+                        <property role="3Gq3ez" value="&quot;Invalid result&quot;" />
+                      </node>
                     </node>
-                    <node concept="3Gq3ik" id="6vXZUoD5M_n" role="3Gq3hz">
-                      <property role="3Gq3ez" value="&quot;x is equal to &quot;" />
-                    </node>
+                    <node concept="3Gq3is" id="LXo0uoc8Tf" role="3Gq3jj" />
                   </node>
                 </node>
               </node>
-              <node concept="3Gq3lm" id="6vXZUoD4Qt4" role="3Gq3ge">
-                <property role="3Gq3g9" value="log" />
-                <node concept="3Gq3iZ" id="6vXZUoD4Qt9" role="3Gq3g8">
-                  <property role="3Gq3hj" value="console" />
+              <node concept="3Gq3lS" id="LXo0uoc8LX" role="3Gq3gV">
+                <node concept="3Gq3lb" id="LXo0uoc8LY" role="3Gq3gC">
+                  <node concept="3Gq3k7" id="LXo0uocyJK" role="3Gq3gP">
+                    <node concept="3Gq3l7" id="LXo0uoc8Rj" role="3Gq3jj">
+                      <node concept="3Gq3ln" id="6vXZUoD4Qwb" role="3Gq3gR">
+                        <node concept="3Gq3j_" id="6vXZUoD4Qwd" role="3Gq3gf">
+                          <node concept="3Gq3nr" id="6vXZUoD5M_c" role="3Gq3eP">
+                            <node concept="3Gq3iB" id="6vXZUoD5M_g" role="3Gq3jE">
+                              <node concept="3Gq3iZ" id="6vXZUoD5M_q" role="3Gq3hw">
+                                <property role="3Gq3hj" value="x" />
+                              </node>
+                              <node concept="3Gq3ik" id="6vXZUoD5M_n" role="3Gq3hz">
+                                <property role="3Gq3ez" value="&quot;x is equal to &quot;" />
+                              </node>
+                            </node>
+                          </node>
+                        </node>
+                        <node concept="3Gq3lm" id="6vXZUoD4Qt4" role="3Gq3ge">
+                          <property role="3Gq3g9" value="log" />
+                          <node concept="3Gq3iZ" id="6vXZUoD4Qt9" role="3Gq3g8">
+                            <property role="3Gq3hj" value="console" />
+                          </node>
+                        </node>
+                      </node>
+                    </node>
+                    <node concept="3Gq3is" id="LXo0uodmj4" role="3Gq3jj" />
+                  </node>
                 </node>
               </node>
+            </node>
+            <node concept="3Gq3iZ" id="LXo0uobJ2p" role="3Gq3eC">
+              <property role="3Gq3hj" value="x" />
             </node>
           </node>
         </node>
       </node>
       <node concept="3Gq3jB" id="6vXZUoD6A1h" role="3Gq3eA">
         <property role="3Gq3eQ" value="e" />
-        <node concept="3Gq3l6" id="6vXZUoD6A1j" role="3Gq3eR" />
+        <node concept="3Gq3l6" id="6vXZUoD6A1j" role="3Gq3eR">
+          <node concept="3Gq3k7" id="LXo0uocWwO" role="3Gq3gQ">
+            <node concept="3Gq3l7" id="LXo0uocWwS" role="3Gq3jj">
+              <node concept="3Gq3ln" id="LXo0uocWwX" role="3Gq3gR">
+                <node concept="3Gq3lm" id="LXo0uocWx5" role="3Gq3ge">
+                  <property role="3Gq3g9" value="alert" />
+                  <node concept="3Gq3iZ" id="LXo0uocWxa" role="3Gq3g8">
+                    <property role="3Gq3hj" value="window" />
+                  </node>
+                </node>
+                <node concept="3Gq3j_" id="LXo0uocWx0" role="3Gq3gf">
+                  <node concept="3Gq3nr" id="LXo0uocWxd" role="3Gq3eP">
+                    <node concept="3Gq3lm" id="LXo0uocWxh" role="3Gq3jE">
+                      <property role="3Gq3g9" value="message" />
+                      <node concept="3Gq3iZ" id="LXo0uocWxm" role="3Gq3g8">
+                        <property role="3Gq3hj" value="e" />
+                      </node>
+                    </node>
+                  </node>
+                </node>
+              </node>
+            </node>
+          </node>
+        </node>
       </node>
     </node>
   </node>

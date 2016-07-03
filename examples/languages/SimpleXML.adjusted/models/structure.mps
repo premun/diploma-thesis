@@ -72,11 +72,6 @@
     <property role="3GE5qa" value="Tokens" />
     <property role="FLfZY" value="[0-9]" />
   </node>
-  <node concept="Az7Fb" id="6vXZUoCOmiV">
-    <property role="TrG5h" value="CDATA" />
-    <property role="3GE5qa" value="Tokens" />
-    <property role="FLfZY" value="&lt;!\\[CDATA\\[.*\\]\\]&gt;" />
-  </node>
   <node concept="Az7Fb" id="6vXZUoCOmiW">
     <property role="TrG5h" value="Name" />
     <property role="3GE5qa" value="Tokens" />
@@ -218,7 +213,7 @@
     <ref role="1TJDcQ" node="6vXZUoCOmiQ" resolve="BaseConcept" />
     <node concept="1TJgyi" id="6vXZUoCOmjj" role="1TKVEl">
       <property role="TrG5h" value="CDATA_1" />
-      <ref role="AX2Wp" node="6vXZUoCOmiV" resolve="CDATA" />
+      <ref role="AX2Wp" node="6vXZUoCOmiT" resolve="TEXT" />
     </node>
     <node concept="PrWs8" id="6vXZUoCOmjw" role="PzmwI">
       <ref role="PrY4T" node="6vXZUoCOmj1" resolve="Content" />
@@ -238,24 +233,20 @@
     <property role="19KtqR" value="false" />
     <ref role="1TJDcQ" node="6vXZUoCOmiQ" resolve="BaseConcept" />
     <node concept="1TJgyi" id="6vXZUoCOmjk" role="1TKVEl">
-      <property role="TrG5h" value="Name_1" />
+      <property role="TrG5h" value="Name" />
       <ref role="AX2Wp" node="6vXZUoCOmiW" resolve="Name" />
     </node>
     <node concept="1TJgyj" id="6vXZUoCOmjl" role="1TKVEi">
-      <property role="20kJfa" value="Attribute_1" />
+      <property role="20kJfa" value="Attribute" />
       <property role="20lbJX" value="0..n" />
       <property role="20lmBu" value="aggregation" />
       <ref role="20lvS9" node="6vXZUoCOmiZ" resolve="Attribute" />
     </node>
     <node concept="1TJgyj" id="6vXZUoCOmjm" role="1TKVEi">
-      <property role="20kJfa" value="Content_2" />
+      <property role="20kJfa" value="Content" />
       <property role="20lbJX" value="0..n" />
       <property role="20lmBu" value="aggregation" />
       <ref role="20lvS9" node="6vXZUoCOmj1" resolve="Content" />
-    </node>
-    <node concept="1TJgyi" id="6vXZUoCOmjn" role="1TKVEl">
-      <property role="TrG5h" value="Name_2" />
-      <ref role="AX2Wp" node="6vXZUoCOmiW" resolve="Name" />
     </node>
     <node concept="PrWs8" id="6vXZUoCOmjr" role="PzmwI">
       <ref role="PrY4T" node="6vXZUoCOmj1" resolve="Content" />

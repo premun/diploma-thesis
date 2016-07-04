@@ -52,25 +52,10 @@
     <property role="1pbfSe" value="1865456548" />
     <property role="R5$K7" value="true" />
   </node>
-  <node concept="Az7Fb" id="6vXZUoCOmiR">
-    <property role="TrG5h" value="NameChar" />
-    <property role="3GE5qa" value="Tokens" />
-    <property role="FLfZY" value="([:a-zA-Z]|\\-|_|\\.|[0-9])" />
-  </node>
-  <node concept="Az7Fb" id="6vXZUoCOmiS">
-    <property role="TrG5h" value="NameStartChar" />
-    <property role="3GE5qa" value="Tokens" />
-    <property role="FLfZY" value="[:a-zA-Z]" />
-  </node>
   <node concept="Az7Fb" id="6vXZUoCOmiT">
     <property role="TrG5h" value="TEXT" />
     <property role="3GE5qa" value="Tokens" />
     <property role="FLfZY" value="([^&lt;&quot;])*" />
-  </node>
-  <node concept="Az7Fb" id="6vXZUoCOmiU">
-    <property role="TrG5h" value="DIGIT" />
-    <property role="3GE5qa" value="Tokens" />
-    <property role="FLfZY" value="[0-9]" />
   </node>
   <node concept="Az7Fb" id="6vXZUoCOmiW">
     <property role="TrG5h" value="Name" />

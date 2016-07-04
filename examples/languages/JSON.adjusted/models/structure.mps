@@ -57,40 +57,10 @@
     <property role="3GE5qa" value="Tokens" />
     <property role="FLfZY" value="(((\\-)?(0|[1-9]([0-9])*)\\.([0-9])+([Ee]([+-])?(0|[1-9]([0-9])*))?)|((\\-)?(0|[1-9]([0-9])*)[Ee]([+-])?(0|[1-9]([0-9])*))|((\\-)?(0|[1-9]([0-9])*)))" />
   </node>
-  <node concept="Az7Fb" id="6vXZUoCOm9C">
-    <property role="TrG5h" value="UNICODE" />
-    <property role="3GE5qa" value="Tokens" />
-    <property role="FLfZY" value="u[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]" />
-  </node>
-  <node concept="Az7Fb" id="6vXZUoCOm9D">
-    <property role="TrG5h" value="INT" />
-    <property role="3GE5qa" value="Tokens" />
-    <property role="FLfZY" value="(0|[1-9]([0-9])*)" />
-  </node>
-  <node concept="Az7Fb" id="6vXZUoCOm9E">
-    <property role="TrG5h" value="ESC" />
-    <property role="3GE5qa" value="Tokens" />
-    <property role="FLfZY" value="(\\\\\\\\[&quot;\\\\/bfnrt]u[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]|[&quot;\\\\/bfnrt]|u[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F])" />
-  </node>
   <node concept="Az7Fb" id="6vXZUoCOm9F">
     <property role="TrG5h" value="STRING" />
     <property role="3GE5qa" value="Tokens" />
     <property role="FLfZY" value="([^\&quot;]|\\\\\&quot;)*" />
-  </node>
-  <node concept="Az7Fb" id="6vXZUoCOm9G">
-    <property role="TrG5h" value="HEX" />
-    <property role="3GE5qa" value="Tokens" />
-    <property role="FLfZY" value="[0-9a-fA-F]" />
-  </node>
-  <node concept="Az7Fb" id="6vXZUoCOm9H">
-    <property role="TrG5h" value="EXP" />
-    <property role="3GE5qa" value="Tokens" />
-    <property role="FLfZY" value="[Ee]([+-])?(0|[1-9]([0-9])*)" />
-  </node>
-  <node concept="Az7Fb" id="6vXZUoCOm9I">
-    <property role="TrG5h" value="WS" />
-    <property role="3GE5qa" value="Tokens" />
-    <property role="FLfZY" value="([ \\t\\n\\r])+" />
   </node>
   <node concept="1TIwiD" id="6vXZUoCOm9K">
     <property role="TrG5h" value="Pair" />

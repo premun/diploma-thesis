@@ -2,7 +2,7 @@
 \label{chap:problems_with_grammars}
 
 As we could see in previous chapters, it is very easy to write a grammar in a way, that will cause problems once it is imported into MPS.
-These problems might occur during creation of any aspect and they are very hard to mitigate.
+These problems might occur during the creation of any aspect and they are very hard to mitigate.
 We have not known about these problems and they occurred during the implementation.
 In this chapter, we will try to summarize our observations and show a few examples of possible complications.
 \\
@@ -56,7 +56,7 @@ Sometimes they will contain text, sometimes spaces, but mostly they will distrac
 	\label{fig:text_placeholders}
 \end{figure}
 
-Furthermore, when user wants to insert some content inside an XML tag, he will be forced through two layers and to choose between weird set of some weirdly named block rules, about whose meaning he has no idea.
+Furthermore, when the user wants to insert some content inside an XML tag, he will be forced through two layers and to choose between a weird set of some weirdly named block rules, about whose meaning he has no idea.
 We can see the process in figure \ref{fig:subrule_problem}.
 The auto-completion options represent all end rule alternatives of the artificially created \parserrule{content{\_}block{\_}1{\_}2} subrule.
 \\
@@ -68,11 +68,11 @@ The auto-completion options represent all end rule alternatives of the artificia
 	\label{fig:subrule_problem}
 \end{figure}
 
-There is, however, no way, how we could detect or prevent this, when parsing the grammar, since the plugin has no higher understanding of the grammar.
+There is, however, no way, how we could detect or prevent this when parsing the grammar, since the plugin has no higher understanding of the grammar.
 We cannot detect any smart shortcut, like described in section \ref{chap:shortcut_approach}, skipping the first layer of the auto-complete (\parserrule{content{\_}block{\_}1{\_}1}).
 The reason is, that the first block rule contains more elements.
 Subrules can also be nested inside of each other freely and there can be any setup within multiple levels, additionally with various quantitative operators.
-We could of course try to parse the subrule block differently somehow, but for each possible solution, we can always find a very simple case, that will break it.
+We could, of course, try to parse the subrule block differently somehow, but for each possible solution, we can always find a very simple case, that will break it.
 \\
 
 The easiest solution to this problem is to alter the grammar directly and unroll it manually.
@@ -111,7 +111,7 @@ It would also be marked red unless we enter both quotes inside the value since t
 The user might be confused by this and won't be able to tell why his string value is incorrect.
 \\
 
-In our SimpleXML language, we adjusted the grammar easily in following manner:
+In our SimpleXML language, we adjusted the grammar easily in the following manner:
 
 \begin{antlr}
 	\parserrule{attribute}   :   \lexerrule{Name} \literal{="} \lexerrule{TEXT1} \literal{"}
@@ -124,7 +124,7 @@ In our SimpleXML language, we adjusted the grammar easily in following manner:
 
 We turned quotes into literals and they will only appear in the projectional editor as fixed constant cells.
 We won't have to encapsulate the value in them each time.
-User will only have to choose, which attribute version he wants to use (single or double quotes).
+The user will only have to choose, which attribute version he wants to use (single or double quotes).
 We could also decide to drop one of the two options, but then we will no longer have a full port of the XML language.
 Or we could adjust the language further and introduce a special action (for which the intention aspect of the language is used) to switch easily between these two, increasing the speed of coding.
 It is hard to decide which solution to this problem is the best.
@@ -132,7 +132,7 @@ Users might have different intentions, requirements or goals for their MPS langu
 \\
 
 As the second example, we will show the ECMAScript\footnote{https://raw.githubusercontent.com/antlr/grammars-v4/master/ecmascript/ECMAScript.g4} language otherwise known as JavaScript.
-Every statement in JavaScript needs to be either followed by a semicolon, new line, file end or end of block.
+Every statement in JavaScript needs to be either followed by a semicolon, newline, file end or end of the block.
 
 \begin{antlr}
 	\parserrule{eos}            : \lexerrule{SemiColon}
@@ -146,7 +146,7 @@ Every statement in JavaScript needs to be either followed by a semicolon, new li
 	               ;
 \end{antlr}
 
-Because there are multiple options, our import plugin creates a placeholder in the end of every statement.
+Because there are multiple options, our import plugin creates a placeholder at the end of every statement.
 Every concept representing a statement has one child of the \interface{IEos} interface type.
 This placeholder needs to be manually filled in for each statement.
 \\
@@ -155,7 +155,7 @@ Since the projectional editor has much bigger power over the form of the code, w
 Since we can differentiate between statements on the AST level, we don't need an explicit separator between them.
 This means, that we might want to simplify the language and leave the semicolon out, or leave it just as a constant fixed part of the projectional editor, but not as something the user must explicitly fill in.
 Then we can just put each statement on a separate line as it is usual for JavaScript code, but we don't need the semicolon anymore.
-This small adjustment is very quick, when done inside the grammar.
+This small adjustment is very quick when done inside the grammar.
 We just change the \parserrule{eos} rule to following form:
 
 \begin{antlr}
@@ -168,9 +168,9 @@ Again, we can ask ourselves, whether it is an intended action --- whether we aim
 \section{Adjusting grammars}
 Above, we concluded, that adjusting the grammar itself might be sometimes the only proper solution to some complex situations.
 Sometimes it might be a very fast mean of tweaking our MPS language's usability.
-We also think, that the end user of our plugin will be quite educated in this field, since they will already be trying to create a computer language.
+We also think, that the end user of our plugin will be quite educated in this field since they will already be trying to create a computer language.
 It is also expected, that this user will continue on improving the language after the initial import, adding more human touch to it.
-From these reasons, we concluded, that end users of the plugin might also be capable to perform similar grammar adjustments themselves.
+From these reasons, we concluded, that end users of the plugin might also be capable of performing similar grammar adjustments themselves.
 
 \section{Breaking the parser}
 \label{chap:breaking_the_parser}
@@ -185,7 +185,7 @@ As stated before, when creating the SimpleXML grammar, we have started off with 
 After that, we ended up with a grammar just good enough for our plugin.
 Nonetheless, we noticed, that even though the imported language behaves well enough and mimics the XML language quite nicely, the ANTLR parser generated out of this grammar no longer parses XML successfully.
 Some changes we have made, such as the attribute adjustment or parser mode omission, broke the grammar down.
-More precisely, it improved the MPS language, broke down the parser and we haven't even noticed it, because from the perspective of MPS, the imported language still corresponds to XML.
+More precisely, it improved the MPS language, broke down the parser and we haven't even noticed it, because, from the perspective of MPS, the imported language still corresponds to XML.
 \\
 
 What we are trying to say is, that it is very easy to perform a harmless grammar adjustment, that will, at first, seem valid inside MPS, but will break the parser.
@@ -235,7 +235,7 @@ In order to make this happen, several steps must be performed:
 \end{enumerate}
 
 For some of these steps, we would, of course, have to significantly improve some of the parts of the plugin as it is functionality, that wasn't subject of this thesis.
-For example, we would need a support from our grammar parser, so that it would store mapping between grammar rules and corresponding concepts of the MPS language.
+For example, we would need a support from our grammar parser, so that it would store a mapping between grammar rules and corresponding concepts of the MPS language.
 We would also need to store this information more permanently and deal with some further problems, such as the user adjusting the MPS language beyond the grammar definition.
 \\
 

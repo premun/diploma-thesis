@@ -4,7 +4,7 @@
 One of the early decisions to be made was the source of imported languages.
 It was clear that we needed to start with some grammar description of the language as the main part we cared about was the structure of the language.
 There exists a large amount of different notations that dictate, how the grammar is written down\footnote{https://en.wikipedia.org/wiki/Comparison{\_}of{\_}parser{\_}generators}.
-When analysing these notations, following aspects were taken into account:
+When analyzing these notations, following aspects were taken into account:
 
 \begin{itemize}
 	\item \textbf{For how many languages there exists a representation in this notation?}
@@ -45,7 +45,7 @@ It is a widely used grammar notation that:
 	\item there exist a variety of tools\footnote{http://www.antlr.org/tools.html} for, such as grammar editors, syntax highlighters, tree visualizers and more.
 
 	\item was also chosen by authors of similar projects such as ANTLR{\_}MPS~\cite{ANTLR2MPS} or PE4MPS~\cite{PE4MPS}, which are more closely discussed in chapter \ref{chap:related_projects}.
-	They achieved their goals using this notation quite effectively thanks to parser generation and other tools (e.g. the ANTLR{\_}MPS projects creates diagram of the notation).
+	They achieved their goals using this notation quite effectively thanks to parser generation and other tools (e.g. the ANTLR{\_}MPS projects creates a diagram of the notation).
 
 	\item has its own syntax captured in its own syntax\footnote{https://github.com/antlr/grammars-v4/tree/master/antlr4} (there is an ANTLRv4 grammar for the ANTLRv4 notation).
 	This is a very important aspect as it allows us to create a parser for ANTLRv4 grammars so that we can parse other languages grammars.

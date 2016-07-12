@@ -2,7 +2,7 @@
 \label{chap:textgen}
 
 TextGen aspect's purpose is telling each concept, what the real text code generated out of it will be, once we want to turn our MPS code into a real program.
-Basically it's a single method definition for each concept of the language.
+Basically, it's a single method definition for each concept of the language.
 This method has several parameters, such as the currently processed node and some contextual information.
 It is, however, not returning a string as perhaps expected, but rather manipulates an output buffer/stream using some built-in functions.
 When generating the code of a program, MPS calls this method for the root concept of the program.
@@ -30,7 +30,7 @@ A very basic example of a BaseLanguage code, that we would like to generate for 
 	\label{fig:textgen_example}
 \end{figure}
 
-We can see that we gradually append all literals, properties and children in the same order as they appear in the grammar definition.
+We can see that we gradually append all literals, properties, and children in the same order as they appear in the grammar definition.
 This part of the process holds no first-hand complications.
 We still need to generate BaseLanguage code dynamically, which in some cases might be a challenge.
 We figured how to overcome those challenges earlier in section \ref{chap:generating_code_inside_mps}.
@@ -58,13 +58,13 @@ There are two ways, how we can deal with whitespaces in ANTLR:
 
 \begin{itemize}
 	\item We can define special tokens, that don't need to be used inside any parser rule.
-	We mark them with special flag, telling the parser to skip these characters, when this token is matched:
+	We mark them with special flag, telling the parser to skip these characters when this token is matched:
 
 	\begin{antlr}
 		\lexerrule{WHITESPACE}   :  \regex{[ {\textbackslash}r{\textbackslash}n{\textbackslash}t]+}   -> skip;
 	\end{antlr}
 
-	\item Second possibility is to create a similar rule to the one above, but leaving out the skip flag.
+	\item The second possibility is to create a similar rule to the one above, but leaving out the skip flag.
 	Then, we explicitly reference this token in every parser rule, where whitespace can occur.
 	This sometimes means hundreds of different positions, so it is generally not a recommended approach.
 	There are however cases, where this is inevitable due to the nature of the ANTLR lexer.
@@ -87,8 +87,8 @@ But even this will not solve the problem, as the whitespace can be easily entang
 
 If we look into existing ANTLR grammars, we can see that things get even more complicated.
 ANTLR, just like as any other parser/lexer, gives us the possibility to switch the parsing context.
-We are able to enter any user specified mode and then apply different set of rules depending on current mode, which gives us more flexibility.
-This means, we can handle whitespace both implicitly and explicitly at the same time inside one grammar based on the mode.
+We are able to enter any user specified mode and then apply a different set of rules depending on current mode, which gives us more flexibility.
+This means we can handle whitespace both implicitly and explicitly at the same time inside one grammar based on the mode.
 Secondly, there is the possibility of capturing whitespace together with other characters.
 Consider the following excerpt from the official ANTLR XML grammar:
 
@@ -117,28 +117,28 @@ Consider the following excerpt from the official ANTLR XML grammar:
 What is happening here, is that the author decided to skip whitespace characters only when we are inside of XML tags (see that the \parserrule{element} contains no explicit whitespace tokens).
 On the outside, they are being cleverly swallowed by the \parserrule{chardata} rule (its second alternative), that wraps any content.
 The \parserrule{content} rule is written a bit differently from our SimpleXML version.
-It has a little bit more complicated, but shorter structure, showing all the different ways we can express the grammar in.
+It has a little bit more complicated, but the shorter structure, showing all the different ways we can express the grammar in.
 \\
 
 The problem we find here is, that with all the features ANTLR has to offer, there are just too many ways, how we can handle whitespaces and they can get all mixed up together just like the previous example showed.
 Worst case scenario, from the TextGen point of view, the language is skipping all whitespace characters silently and thus removing the information from the grammar completely.
 \\
 
-This leaves us with the original question and the root problem --- \textbf{how does our TextGen aspect know between which children there must be a whitespace and where it is forbidden, so that the produced code is a valid one?}
+This leaves us with the original question and the root problem --- \textbf{how does our TextGen aspect know between which children there must be a whitespace and where it is forbidden so that the produced code is a valid one?}
 
 \subsubsection{Possible improvements}
 
 Following up on the question posed in the previous paragraph, we can ask ourselves a different question.
 If not our TextGen, how does the ANTLR parser know where whitespaces are due?
-Surely the parser must know, otherwise it wouldn't be able to tell wrong code from right.
+Surely the parser must know, otherwise, it wouldn't be able to tell wrong code from the right.
 Well, the answer is, that it knows once it starts parsing some code depending on the inner state of the parser.
 Context modes make this quite simple.
-They are quite easy to work with on runtime, when we are actually parsing some source code, but it is impossible to determine mode for rules statically.
+They are quite easy to work with on runtime when we are actually parsing some source code, but it is impossible to determine the mode for rules statically.
 In other words, it is impossible to detect, whether we are swallowing whitespaces silently for given rule or not.
 This is caused by the possibility to jump between modes in almost any manner and therefore use one parser rule in different contexts.
 \\
 
-We do not, however, necessarily need to put different amounts of different whitespace characters on random places.
+We do not, however, necessarily need to put different amounts of different whitespace characters in random places.
 We only need to find places, where we are sure they must be at in order to make the code valid.
 Then, we can put a single space there.
 Generally, it doesn't have to be a space character, but since we are aiming for general purpose languages, we will go with the very frequently used space character.
@@ -228,24 +228,24 @@ Then we started restricting spaces on positions where we thought they are not ne
 \begin{enumerate}
 	\item We have concluded, that whenever there is a literal, it is a plain string token defined in the grammar, that might, in most cases, get recognized by the parser safely without the need for a whitespace separator around (think \textbf{'\textless'} in XML).
 	So whenever there is a non-alphabetical literal, we omit spaces around it.
-
+	
 	\item Next, we were looking at properties (non-literal, but regex lexer rules).
 	These are strings inserted by the user of the language, whose form is constrained by a regular expression (think XML tag's name).
 	If these are neighboring a literal rule, we look at that literal rule's content.
 	We expect that the user will be inputting some alphabetical content (variable/method/class names, identificators, etc.).
-	If the neighboring literal rule ends with an alphabetical character, we insert space, otherwise we omit it.
+	If the neighboring literal rule ends with an alphabetical character, we insert space, otherwise, we omit it.
 	This will help in cases such as insides of quotes, next to semicolons or around brackets, but on the other hand, it will separate usual language keywords (function, var, in, etc.) from other content.
 
-	\item We check for element emptiness (child not present) and do not insert spaces when elements are empty, so that spaces do not accumulate.
+	\item We check for element emptiness (child not present) and do not insert spaces when elements are empty so that spaces do not accumulate.
 
 	\item When two children concepts are next to each other, we always insert space.
 
-	\item Sequences of children are separated with a space.
+	\item Sequences of children are separated with space.
 	This is the place where we might later want to manually substitute it with a line break.
 	Think repeating \parserrule{content} inside an XML tag or list of XML attributes.
 \end{enumerate}
 
-These few simple heuristics have left us with some very nice results (tested mostly on XML, JSON and JavaScript). Figure \ref{fig:textgen_final} shows an example of a TextGen aspect for the full SimpleXML element.
+These few simple heuristics have left us with some very nice results (tested mostly on XML, JSON, and JavaScript). Figure \ref{fig:textgen_final} shows an example of a TextGen aspect for the full SimpleXML element.
 \\
 
 \begin{figure}[h]

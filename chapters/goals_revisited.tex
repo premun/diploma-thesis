@@ -12,24 +12,24 @@ This is the part where we will be able to spare the user from a lot of hours of 
 Transferring grammar rules into the language's structure might present some interesting challenges.
 The grammar serves a little bit different purpose and the way we write down grammar rules causes some problems, that must be overcome when we are recreating the language inside MPS.
 These obstacles were not known, when the work on this thesis had started, but were later discovered in the midst of the research.
-It is also one of the efforts of this thesis --- to describe these problems more closely as they are common for everyone tackling similar problem.
+It is also one of the efforts of this thesis --- to describe these problems more closely as they are common for everyone tackling a similar problem.
 
 \section{The editor aspect}
 For a language to be comfortably usable inside MPS, some other aspects of the language must be defined too.
 Sole import of language's structure will not be sufficient as we won't be able to use the language.
-The default projectional editor that is automatically generated for each concept, when no editor aspect is defined, is a very chatty, not user friendly and practically unusable.
+The default projectional editor that is automatically generated for each concept, when no editor aspect is defined, is a very chatty, not user-friendly and practically unusable.
 It almost equals assembling the AST manually.
 The editor aspect is the second one that we will have to generate, in order to make the import practically useful.
 \\
 
 One of the biggest problems that arise here is that the grammar description of a language's structure does not hold any information about the code layout whatsoever.
 Structural rules only tell us, what the syntax tree looks like and how the code is broken into nodes and child nodes.
-It, however, says nothing about indentation, line breaks and other formatting.
+It, however, says nothing about indentation, line breaks, and another formatting.
 This thesis will discuss possible solutions to this problem as there must be some intermediary step whose purpose will be to generate this information.
 It will happen either automatically using some heuristics or with user's help in an interactive manner.
 It is expected that this step might be a topic for future efforts, following up on this thesis, that might improve it.
 
 \section{The TextGen aspect}
 Finally, we must make sure that the user is able to generate a real text source code out of the AST they had built inside MPS.
-For this, we will have to create a~TextGen aspect for each concept.
+For this, we will have to create the a~TextGen aspect for each concept.
 Again, we will face some interesting challenges connected to the code layout, whitespaces and more.

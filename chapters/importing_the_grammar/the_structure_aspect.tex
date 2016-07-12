@@ -6,7 +6,7 @@ That means creating concepts inside the structure aspect and linking them togeth
 \\
 
 We will describe several different attempts (sections \ref{chap:straightforward_approach} and \ref{chap:shortcut_approach}) the author has tried out and show some problems these attempts introduced.
-We consider it a better approach than just simple description of the final solution, because it might prevent others from falling into similar pitfalls such as we discovered ourselves.
+We consider it a better approach than just simple description of the final solution because it might prevent others from falling into similar pitfalls such as we discovered ourselves.
 
 
 \subsection{Concept types}
@@ -41,7 +41,7 @@ We will be able to later create properties of concepts and set their data type a
 \\
 
 Last, we take all literals found in the alternative and glue them together to one string, which we will use as the alias of the concept.
-We will use name of the parser rule, this alternative belongs to, as the description text for the concept.
+We will use the name of the parser rule, this alternative belongs to, as the description text for the concept.
 \\
 
 To illustrate what a concept for a sample alternative looks like, consider the element concept that represents the full XML tag with content:
@@ -95,8 +95,8 @@ In the end, we have decided to go with the shortcut approach using smart interfa
 As we have stated above, it has several advantages, concerning the solution complexity, compared to the smart auto-completion.
 It only has one disadvantage regarding the cardinality restriction, described in \ref{chap:cardinality_restriction}.
 We have analyzed several ANTLR grammars (such as the JavaScript~\cite{javascript}) and we haven't found a single intermediate rule, that would be suffering from this restriction.
-It is quite understandable, if you think about how grammars are written.
-Usually, you create the basic structure (i.e. different kinds of statements) in the simplest way possible, and put the quantitative operator rather to an alternative that is referencing the structure.
+It is quite understandable if you think about how grammars are written.
+Usually, you create the basic structure (i.e. different kinds of statements) in the simplest way possible and put the quantitative operator rather to an alternative that is referencing the structure.
 \\
 
 Based on these observations and some grammar analysis, we concluded that advantages prevail and used the last mentioned approach.
@@ -105,14 +105,14 @@ Based on these observations and some grammar analysis, we concluded that advanta
 
 The ANTLR grammar notation offers more features than just rule definition.
 We haven't mentioned these earlier because we were focusing solely on the structure of the language.
-We will mention some features and explain why we have ignored them and why they doesn't matter to us.
+We will mention some features and explain why we have ignored them and why they don't matter to us.
 We will not spend a lot of time on describing details of these as they are well documented in the official ANTLR reference~\cite{ANTLR4reference}.
 
 \subsubsection{Modes}
 
 For example, just like any other parser/lexer, ANTLR gives us the possibility to switch the parsing context.
-We are able to create various user specified modes and then enter these modes when certain rules/tokens are encountered.
-For each mode we can define different set of rules/tokens that can only be applied when the parser is in that particular mode.
+We are able to create various user-specified modes and then enter these modes when certain rules/tokens are encountered.
+For each mode, we can define a different set of rules/tokens that can only be applied when the parser is in that particular mode.
 The syntax is following:
 
 \begin{antlr}
@@ -128,12 +128,12 @@ The syntax is following:
 	\lexerrule{SLASH{\_}CLOSE} :   \literal{/>}      -> popMode ;
 \end{antlr}
 
-We didn't pay any extra attention to modes while dealing with the structural aspect, because they don't really influence contents of individual concepts.
+We didn't pay any extra attention to modes while dealing with the structural aspect because they don't really influence contents of individual concepts.
 It is even possible to define concepts that control mode switching and then not including them inside any parser rule.
 They still get recognized by the lexer and mode is changed.
 \\
 
-The reason that this goes beyond our interest here is partially caused by the fact, that modes are used on runtime, when we are parsing actual code, whereas language structure is more of a static matter.
+The reason that this goes beyond our interest here is partially caused by the fact, that modes are used on runtime when we are parsing actual code, whereas language structure is more of a static matter.
 The only time we care about modes is when generating the TextGen aspect, and we will get back to it later in chapter \ref{chap:textgen}.
 
 \subsubsection{Actions, attributes and semantic predicates}

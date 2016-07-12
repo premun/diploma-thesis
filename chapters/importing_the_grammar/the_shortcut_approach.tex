@@ -81,17 +81,17 @@ The result of this algorithm, for example for the \parserrule{content} rule, equ
 \\
 
 We can do this for all parser rules and for each rule we will get a list of paths that lead from that particular rule to an end node.
-We will call these paths \textbf{shortcuts}, as they can provide a shortcut from the rule to the end of chain.
+We will call these paths \textbf{shortcuts}, as they can provide a shortcut from the rule to the end of the chain.
 Now that we have these, we will talk about several ways, how to use them to make our language better.
 
 \subsubsection{Smart auto-completion}
-The first attempt on how to use shortcuts (result of the algorithm in \ref{chap:shortcut_algorithm}) was built on top of the previous approach.
+The first attempt on how to use shortcuts (the result of the algorithm in \ref{chap:shortcut_algorithm}) was built on top of the previous approach.
 There were no structural changes when it came to interfaces or linking concepts together.
 We imported everything just the same and then added some more functionality.
 \\
 
 We were trying to solve the most obvious problem in front of us --- the auto-completion.
-We would like to improve it, so that it offers us only end concepts.
+We would like to improve it so that it offers us only end concepts.
 Luckily for us, MPS gives us the ability to create custom auto-complete menus and use those instead of the built-in one.
 This means, that we are going to be able to construct our own menu containing only end nodes.
 Unfortunately, it requires us to implement some non-trivial mechanisms.
@@ -135,14 +135,14 @@ In order to create an auto-complete menu, we need to create some BaseLanguage no
 More precisely, we will create an instance a concept called \texttt{CellMenuPart{\_}ReplaceChild{\_}CustomActionConcept}, contained in one of many MPS's core languages.
 \\
 
-For this concept we will define a number of auto-complete options, one for each end concept, that we want to offer in the menu.
+For this concept, we will define a number of auto-complete options, one for each end concept, that we want to offer in the menu.
 Every option has a \textbf{textual description}, \textbf{matching text} (so that we can filter through them) and most importantly a \textbf{creator method}.
-If user selects that particular option, this method will be called with some contextual information in parameters and it is expected to return an instance of some concept that implements the \interface{IContent} interface.
+If the user selects that particular option, this method will be called with some contextual information in parameters and it is expected to return an instance of some concept that implements the \interface{IContent} interface.
 \\
 
 The complicated part of the process comes now, as we would like to dynamically generate the creator method.
 We need to create BaseLanguage statements, that will instantiate the end concept and return it.
-There is one small problem though.
+There is one small problem, though.
 Let's say the user selected the second option and decided to insert another \concept{Element{\_}1} inside.
 The problem is, that \concept{Element{\_}1} doesn't implement the \interface{IContent} interface.
 It only implements the \interface{IElement} interface as per the algorithm of the straightforward approach (\ref{chap:straight_algorithm}).
@@ -160,8 +160,8 @@ For this particular case it would mean to:
 	\item Return \concept{Content{\_}2} node.
 \end{itemize}
 
-As we said earlier in section \ref{chap:generating_code_inside_mps}, generating BaseLanguage code is a bit more complicated because we need to either use quotation or create a large number of AST nodes.
-Using quotation in this case was sometimes impossible as everything is very dynamic.
+As we said earlier in section \ref{chap:generating_code_inside_mps}, generating BaseLanguage code is a bit more complicated because we need to either use a quotation or create a large number of AST nodes.
+Using a quotation, in this case, was sometimes impossible as everything is very dynamic.
 The finished option concept is shown in figure \ref{fig:autocomplete_action}.
 
 \begin{figure}[h]
@@ -171,7 +171,7 @@ The finished option concept is shown in figure \ref{fig:autocomplete_action}.
 	\label{fig:autocomplete_action}
 \end{figure}
 
-For the description text, we used concept's alias.
+For the description text we used concept's alias.
 We talk about creating aliases in section \ref{chap:common_ground}.
 For matching text we used the shortest unique prefix of alias among all other options' aliases in given auto-complete menu.
 The algorithm for searching shortest unique prefixes in a set of strings is not important from our thesis' point of view, so we decided to not go into further detail.
@@ -182,13 +182,13 @@ The algorithm for searching shortest unique prefixes in a set of strings is not 
 After we implemented the auto-complete menu, coding in the imported language started to be very reasonable and comfortable, since we eradicated intermediate layers.
 Or did we?
 When producing code, the language really does what one would expect.
-However, when user starts deleting code, the layer problem occurs once more.
+However, when the user starts deleting code, the layer problem occurs once more.
 \\
 
 What happens here is, that when we select the auto-complete option, several layers of concepts might get created and inserted into the cell.
 Imagine, we just inserted the \concept{Element{\_}1} node.
 According to the creator method, this new node is wrapped inside of the \concept{Content{\_}2} node.
-Now let's say, user changed his mind, and wants to replace this XML element with a comment.
+Now let's say, the user changed his mind, and wants to replace this XML element with a comment.
 He would press backspace, the XML element would disappear as expected.
 Then, the user continues by invoking the auto-complete menu again, expecting to have all five options at hand.
 What happened instead is that the \concept{Element{\_}1} node got deleted, but the wrapping \concept{Content{\_}2} one remained.
@@ -265,7 +265,7 @@ The built-in default auto-completion will start to behave exactly the same way o
 
 So far it looks like the last approach is superior to the auto-completion one.
 It avoids complicated code generation and even resulting MPS languages are more simple and better performant, as they are not bloated with auto-completion code.
-There is one small drawback though, that makes this solution slightly suboptimal.
+There is one small drawback, though, that makes this solution slightly suboptimal.
 \\
 
 To remind the reader --- the cardinality of an element is telling us, how many of each specific child rules can occur inside an alternative.
@@ -288,7 +288,7 @@ Speaking in terms of the shortcut algorithm \ref{chap:shortcut_algorithm}, we wo
 \\
 
 This restriction is caused by the fact that we would be unable to control changing children cardinality on the whole shortcut path.
-Imagine, that some alternative of some other rule contains reference to this altered \parserrule{content} rule (regardless of its quantitative operator).
+Imagine, that some alternative of some other rule contains a reference to this altered \parserrule{content} rule (regardless of its quantitative operator).
 The list of shortcuts, that will be generated for this new setup is following:
 
 \begin{itemize}
@@ -300,15 +300,15 @@ The list of shortcuts, that will be generated for this new setup is following:
 \end{itemize}
 
 When we would be creating a child link holding the \interface{IContent} type, we would be setting cardinality of the child link depending on the cardinality of the \parserrule{content} reference.
-But each alternative of the altered \parserrule{content} rule requires different number of children to be inserted.
-This means, that when we would follow the shortcut path and assign the \interface{IContent} interface to the \concept{Element{\_}1} and to the \concept{Element{\_}2} concept, we will lose the \textbf{+} cardinality information, since we would only enable the user to insert one child of the \interface{IContent} child.
+But each alternative of the altered \parserrule{content} rule requires a different number of children to be inserted.
+This means, that when we would follow the shortcut path and assign the \interface{IContent} interface to the \concept{Element{\_}1} and to the \concept{Element{\_}2} concept, we will lose the \textbf{+} cardinality information since we would only enable the user to insert one child of the \interface{IContent} child.
 \\
 
 A small example might demonstrate this better.
 We have an \interface{IContent} [1..1] child.
 If we disregarded the cardinality restriction, we could ultimately put there the \concept{Element{\_}1} end concept node.
 But the content rule says, there can be [1..n] elements.
-We are still bound to insert only one though.
+We are still bound to insert only one, though.
 \\
 
 The smart auto-completion approach mentioned above could solve this problem by generating lists of children with the corresponding cardinality.

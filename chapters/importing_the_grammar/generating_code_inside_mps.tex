@@ -26,17 +26,17 @@ For example, take a look at this simple BaseLanguage statement, where we instant
 \end{center}
 
 \noindent
-As simple as it looks, in order to programatically generate this statement, we need to do many things:
+As simple as it looks, in order to programmatically generate this statement, we need to do many things:
 
 \begin{enumerate}
 	\item We need to find the declaration of the foo variable.
 	\item Look up foo's property bar.
 	\item Tell the MPS, we would like to build an assignment statement.
 	\item Set the left side to some sort of a property-access-expression, using the foo declaration.
-	\item Set the right side to contain a new statement with some specific type in the template.
+	\item Set the right side to contain a new statement with some specific type of the template.
 \end{enumerate}
 
-The full AST tree, that needs to be built, in order to create a statement like this is shown in figure \ref{fig:new_ast}.
+The full AST tree, that needs to be built, in order to create a statement like this, is shown in figure \ref{fig:new_ast}.
 We need to be building this from bottom up, node by node.
 
 \begin{figure}[h]
@@ -49,11 +49,11 @@ We need to be building this from bottom up, node by node.
 
 \subsection{Quotation}
 The example above showed, how many nodes are needed in order to represent quite basic simple statement.
-Luckily for us, the developers of MPS have thought about this and implemented a special notation that helps building expressions.
-This notation is called \textit{quotation} and it enables us to insert statements into a special quoted block, similarly like an eval function can parse string into a real code.
+Luckily for us, the developers of MPS have thought about this and implemented a special notation that helps to build expressions.
+This notation is called \textit{quotation} and it enables us to insert statements into a special quoted block, similarly like an eval function can parse a string into a real code.
 \\
 
-Furthermore, inside this quotation block we can insert an anti-quotation block, from which we can reference variables in our scope outside of the original quotation.
+Furthermore, inside this quotation block, we can insert an anti-quotation block, from which we can reference variables in our scope outside of the original quotation.
 This is what the above statements looks like when quotation (light blue) and anti-quotation blocks (yellow) are used:
 
 \begin{center}
@@ -64,9 +64,9 @@ The quotation block will yield the AST tree from figure \ref{fig:new_ast} withou
 
 \subsection{Generating dynamic code}
 
-Quotation comes in handy when we are generating static code --- meaning, we know, in the time of implementation, what code we want to generate.
+The quotation comes in handy when we are generating static code --- meaning, we know, in the time of implementation, what code we want to generate.
 But what if our code depends on input data?
 There are several parts of the import process, where the generated BaseLanguage code depends solely on our grammar's structure.
-In those cases we cannot simply use quotation.
+In those cases, we cannot simply use quotation.
 We are left with generating statement's tree node by node as in the first example.
-Quotation can make some of these parts a little bit shorter, but doesn't solve the problem entirely.
+The quotation can make some of these parts a little bit shorter, but doesn't solve the problem entirely.

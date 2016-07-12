@@ -1,7 +1,7 @@
 \section{Parsing the grammar}
 \label{chap:parsing_the_grammar}
 
-First stage of the import process is parsing the grammar file, so that we can get an AST tree representing the grammar.
+The first stage of the import process is parsing the grammar file so that we can get an AST tree representing the grammar.
 The parser must be able to read any grammar file and extract the structure information.
 As stated in the chapter defending the grammar notation selection (chapter~\ref{chap:source_grammar_notation}), there exists an ANTLRv4 grammar for the ANTLRv4 notation~\cite{ANTLR4reference}.
 This means that we can use the ANTLR library~\cite{ANTLR4} to generate a Java ANTLR parser of the ANTLRv4 notation.
@@ -24,12 +24,12 @@ We can understand this simplified tree way better and it brings more clarity int
 One of the questions we had to deal with was lexer rule representation.
 Not minding all the syntactic sugar ANTLR is offering for their definition, in the end, lexer rules are basically just regular expressions used for parsing input source code into tokens.
 However, after the initial parsing, we end up with some kind of a tree structure, that is representing the lexer rule (lexer rules can also be built from alternatives just like parser rules).
-We would like to take this tree that represents the lexer rule and flatten it into the regular expression.
+We would like to take this tree that represents the lexer rule and flattens it into the regular expression.
 Later in the import process, we would like to assign this expression to some constraint entity representing the rule.
 
 \pagebreak
 
-Let's look at the lexer rule \lexerrule{Name}, that we have in our SimpleXML language, together with its sub rules:
+Let's look at the lexer rule \lexerrule{Name}, that we have in our SimpleXML language, together with its sub-rules:
 
 \begin{antlr}
 	\lexerrule{Name}         :   \lexerrule{NameStartChar} \lexerrule{NameChar}* ;
@@ -86,7 +86,7 @@ Special characters also had to be doubly escaped, because MPS holds regular expr
 \label{chap:subrules}
 
 A new feature, called \textit{subrules}\footnote{https://github.com/antlr/antlr4/blob/master/doc/parser-rules.md\#subrules}, was added to the fourth version of the ANTLR notation, that makes parsing the structure a little bit more complicated for us.
-This feature allows to inline some rule expansions directly inside an alternative.
+This feature allows inlining some rule expansions directly inside an alternative.
 Following excerpt from the official XML's ANTLRv4 grammar definition shows this extended syntax:
 
 \begin{antlr}
@@ -98,7 +98,7 @@ Even though the content rule contains only one top-level alternative, it is poss
 There can be any number of levels of these nested blocks and each block can be annotated with its own quantification operator.
 \\
 
-This holds a complication for us, because we need to parse these subrules too.
+This holds a complication for us because we need to parse these subrules too.
 We decided to solve this by a recursive traversal of the AST and expanding subrules just like they were classic simple parser rules.
 For each subrule block, we generate a new parser rule and then reference this rule from its original place.
 The full expanded content rule then looks like this:

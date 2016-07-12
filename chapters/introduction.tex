@@ -14,24 +14,24 @@ One of them being the need for a special definition of languages created inside 
 The MPS editor offers a lot of flexibility and possibilities when it comes to designing custom languages.
 It also becomes a very powerful tool once the language has already been created and you start using it inside MPS.
 There is a huge variety of new languages constructed for MPS that usually solve domain specific problems.
-However, building these languages is a complicated and time consuming process and a lot of effort must be put into them before they are ready for use.
+However, building these languages is a complicated and time-consuming process and a lot of effort must be put into them before they are ready for use.
 This thesis will look into the possibility of automatic import of already existing general purpose languages into MPS using a grammar description of their syntax.
 
 \section{Motivation}
 
 Usually, languages created in MPS are tied to a very narrow domain and solve very specific problems.
 They are mostly small extensions of existing languages or some stub languages used for educational purposes.
-It would, however, be very nice if we could leverage all the features that MPS has to offer together with a general purpose languages we know from the outside world.
+It would, however, be very nice if we could leverage all the features that MPS has to offer together with general purpose languages we know from the outside world.
 We are talking about languages such as C++, JavaScript or Python.
-If there would a possibility to code in these languages using the projectional editor, programming could for example open its doors to many people, who want to take it up, but are rather put off by its complexity.
+If there would a possibility to code in these languages using the projectional editor, programming could, for example, open its doors to many people, who want to take it up, but are rather put off by its complexity.
 \\
 
 General purpose languages are usually more complex when it comes to their structure and the overall syntax variety than the usual DSL extensions, that are created using MPS.
-Currently there exists an almost full port of the Java language called BaseLanguage~\cite{BaseLanguage} extended with some MPS specific features.
+Currently, there exists an almost full port of the Java language called BaseLanguage~\cite{BaseLanguage} extended with some MPS specific features.
 It was imported manually by JetBrains and it is still undergoing changes as Java itself is evolving.
 There are other attempts where for example the C language is also manually tailored for MPS within the mbeddr project~\cite{mbeddr}.
 These examples show that recreating a full language inside MPS is not an easy task and a lot of time must be spent on implementing all aspects of the language.
-Big part of this effort is, however, quite straightforward and could be possibly automated, which would speed up the process of adoption of new languages.
+A big part of this effort is, however, quite straightforward and could be possibly automated, which would speed up the process of adoption of new languages.
 
 \section{Main goals}
 \label{chap:main_goals}
@@ -41,9 +41,9 @@ One of the results of this effort will be an MPS plugin allowing users to carry 
 \\
 
 It is certainly not expected that these imported languages will be ready-to-use full-fledged MPS languages as that is a much bigger, if not impossible, challenge.
-Thesis would rather explore the problem, suggest a possible solution and make first steps in this unexplored area, possibly preparing ground for further follow-up work.
+The thesis would rather explore the problem, suggest a possible solution and make first steps in this unexplored area, possibly preparing ground for further follow-up work.
 Nonetheless, the plugin should do the heavy lifting so that the imported language contains full structure found in the grammar and some more aspect definitions, that will help users of this language in creating code.
-It is expected that the imported language will be adjusted by the end user and some of its complication will be resolved manually by human.
+It is expected that the imported language will be adjusted by the end user and some of its complication will be resolved manually by a human.
 \\
 
 There will be complications along the way, that will arise once we will dive deeper into the problem and we will pay more attention to them.
@@ -54,8 +54,8 @@ Once we will introduce the MPS editor more closely, we will revisit the goals of
 
 \section{Thesis overview}
 
-In the beginning of the thesis we will describe the MPS editor.
-We will briefly introduce fundamental basics of the target environment, as it is needed for understanding of what we are trying to achieve.
+In the beginning of the thesis, we will describe the MPS editor.
+We will briefly introduce fundamental basics of the target environment, as it is needed for an understanding of what we are trying to achieve.
 \\
 
 We will continue with research of different existing grammar notations and choose the most suitable one for our cause.
@@ -63,7 +63,7 @@ We will analyze existing related projects, that are trying to accomplish similar
 The author will then consider, if this thesis will follow up on these efforts or whether an entirely different path will be taken.
 \\
 
-After the initial analysis, the author will describe an MPS plugin that will allow user to import a language into MPS.
+After the initial analysis, the author will describe an MPS plugin that will allow the user to import a language into MPS.
 The author will talk about all phases of the import process and walk the reader through them, describing encountered obstacles using an example language.
 \\
 

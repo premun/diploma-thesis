@@ -10,11 +10,11 @@ MPS has a lot of different types of cells, that we can use:
 
 \begin{itemize}
 	\item Cells for storing values of properties -- the user can enter text inside, which is validated using the type of the property (think XML tag name).
-	
+
 	\item Cells for storing child concepts -- here we can store other parser rule references and build the AST further.
-	
+
 	\item Cells that have static fixed content, such as constant keyword -- we will use these to display literal elements.
-	
+
 	\item Cells that influence the layout, such as indenting.
 \end{itemize}
 
@@ -176,8 +176,8 @@ When the author of this thesis worked on the plugin, he noticed, that the most t
 This means a manual creation of all cells, that should appear in the visual representation.
 We identified this phase as a time consuming but also quite straightforward, as it does not require any major thought on user's part.
 The author has further noticed, that when the plugin would do this heavy lifting, even without layout detection, further adjustments of the editor are very fast since MPS enables doing this very efficiently.
-We noticed, that even the most obvious way of editor generation, such as plain inlining of all of the cells in a single row (shown in figure \ref{fig:editor_adjustment} on top), might be a sufficient solution.
-In figure \ref{fig:editor_adjustment}, we can see an editor adjustment of the \concept{Element{\_}1} concept, that can be done in just a few clicks, but finalizes the editor to its perfect form.
+We noticed, that even the most obvious way of editor generation, such as plain inlining of all of the cells in a single row (shown in Figure \ref{fig:editor_adjustment} on top), might be a sufficient solution.
+In Figure \ref{fig:editor_adjustment}, we can see an editor adjustment of the \concept{Element{\_}1} concept, that can be done in just a few clicks, but finalizes the editor to its perfect form.
 \\
 
 \begin{figure}[h]

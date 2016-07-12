@@ -36,7 +36,7 @@ As simple as it looks, in order to programmatically generate this statement, we 
 	\item Set the right side to contain a new statement with some specific type of the template.
 \end{enumerate}
 
-The full AST tree, that needs to be built, in order to create a statement like this, is shown in figure \ref{fig:new_ast}.
+The full AST tree, that needs to be built, in order to create a statement like this, is shown in Figure \ref{fig:new_ast}.
 We need to be building this from bottom up, node by node.
 
 \begin{figure}[h]
@@ -60,7 +60,7 @@ This is what the above statements looks like when quotation (light blue) and ant
 	\texttt{\colorbox{cyan!30}{<}\lexerrule{\%(} fooRef \lexerrule{)\%}.\lexerrule{\%(} barProp \lexerrule{)\%} = new node <\lexerrule{\textasciicircum(} type \lexerrule{)\textasciicircum}>();>\colorbox{cyan!30}{>}}
 \end{center}
 
-The quotation block will yield the AST tree from figure \ref{fig:new_ast} without the need for building it node by node.
+The quotation block will yield the AST tree from Figure \ref{fig:new_ast} without the need for building it node by node.
 
 \subsection{Generating dynamic code}
 

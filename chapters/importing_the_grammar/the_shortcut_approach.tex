@@ -109,7 +109,7 @@ As described above earlier in the process (\ref{fig:element_concept_full}), we c
 \end{itemize}
 
 Somewhere in the editor aspect of the \concept{Element{\_}1} concept, there will be a cell referencing the concept interface \interface{IContent}.
-The cell, together with the auto-complete property can be seen in figure \ref{fig:autocomplete_cell}.
+The cell, together with the auto-complete property can be seen in Figure \ref{fig:autocomplete_cell}.
 \\
 
 \begin{figure}[h]
@@ -162,7 +162,7 @@ For this particular case it would mean to:
 
 As we said earlier in section \ref{chap:generating_code_inside_mps}, generating BaseLanguage code is a bit more complicated because we need to either use a quotation or create a large number of AST nodes.
 Using a quotation, in this case, was sometimes impossible as everything is very dynamic.
-The finished option concept is shown in figure \ref{fig:autocomplete_action}.
+The finished option concept is shown in Figure \ref{fig:autocomplete_action}.
 
 \begin{figure}[h]
 	\centering
@@ -208,7 +208,7 @@ We decided that it will be the easiest to store the length of the path, that is 
 So when we are creating nodes, while building the path in the creator method, we tell each node, how deep or far on the path the node is.
 In order to do this, we created a \concept{BaseConcept}, a parent abstract concept, from which we will inherit all other concepts.
 This abstract concept will define a special integer property, that will hold our information, effectively making all other concepts inherit it too.
-We called this property \textit{{\_}{\_}DeleteContext} and enhanced the creator method as shown in figure \ref{fig:autocomplete_action_delete_context}.
+We called this property \textit{{\_}{\_}DeleteContext} and enhanced the creator method as shown in Figure \ref{fig:autocomplete_action_delete_context}.
 
 \begin{figure}[h]
 	\centering
@@ -218,7 +218,7 @@ We called this property \textit{{\_}{\_}DeleteContext} and enhanced the creator 
 \end{figure}
 
 The last thing remaining, is creating the backspace action.
-Apart from some problems with referencing the \textit{{\_}{\_}DeleteContext} property, which must be reached through the abstract \concept{BaseConcept} type, it is quite straightforward to generate a BaseLanguage code like shown below (figure \ref{fig:backspace_action}).
+Apart from some problems with referencing the \textit{{\_}{\_}DeleteContext} property, which must be reached through the abstract \concept{BaseConcept} type, it is quite straightforward to generate a BaseLanguage code like shown below (Figure \ref{fig:backspace_action}).
 
 \begin{figure}[h]
 	\centering

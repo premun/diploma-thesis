@@ -47,7 +47,7 @@ Consider the \parserrule{element} rule, that is referencing the \parserrule{cont
 Following the algorithm mentioned above, there is one \interface{IElement} interface and two \concept{Element{\_}1}, \concept{Element{\_}2} concepts created.
 For each referenced parser rule inside a concept, we create a child link and point it to the right interface.
 In our example, for concept \concept{Element{\_}1}, there would be two child links pointing to \interface{IAttribute} and \interface{IContent}.
-In figure \ref{fig:element_concept_full}, you can see the full \concept{Element{\_}1} concept.
+In Figure \ref{fig:element_concept_full}, you can see the full \concept{Element{\_}1} concept.
 
 \begin{figure}[h]
 	\centering
@@ -79,7 +79,7 @@ We will demonstrate this problem on the SimpleXML language, using \parserrule{el
 
 When we would be editing code in this language, the MPS auto-complete would give us aid when filling out all properties and children of inserted concepts.
 Imagine there is a freshly inserted \concept{Element{\_}1} concept (a concept representing the full XML element as is stated in the first alternative of the \parserrule{element} parser rule).
-This setup can be seen in the left part of figure \ref{fig:layer_problem}.
+This setup can be seen in the left part of Figure \ref{fig:layer_problem}.
 Now, we would like to insert some content inside.
 Let's say we would like to insert a nested XML element inside.
 We would place the cursor in the content placeholder and press Ctrl+Space to view the auto-completion options.
@@ -88,7 +88,7 @@ We would place the cursor in the content placeholder and press Ctrl+Space to vie
 Following the algorithm mentioned above, we have created a child link of the \concept{Element{\_}1} concept of type \interface{IContent}.
 There exist 4 concepts, that implement the \interface{IContent} interface as per each alternative of the rule.
 MPS evaluates this and gives us 4 options inside the auto-complete.
-This auto-complete is captured in figure \ref{fig:layer_problem}.
+This auto-complete is captured in Figure \ref{fig:layer_problem}.
 
 \begin{figure}[h]
 	\centering

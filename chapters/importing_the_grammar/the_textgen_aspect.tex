@@ -21,7 +21,7 @@ Let's illustrate this using our SimpleXML example, namely the \concept{Element{\
           \textcolor{gray}{;}
 \end{antlr}
 
-A very basic example of a BaseLanguage code, that we would like to generate for this concept, is shown in figure \ref{fig:textgen_example}.
+A very basic example of a BaseLanguage code, that we would like to generate for this concept, is shown in Figure \ref{fig:textgen_example}.
 
 \begin{figure}[h]
 	\centering
@@ -33,7 +33,7 @@ A very basic example of a BaseLanguage code, that we would like to generate for 
 We can see that we gradually append all literals, properties, and children in the same order as they appear in the grammar definition.
 This part of the process holds no first-hand complications.
 We still need to generate BaseLanguage code dynamically, which in some cases might be a challenge.
-We figured how to overcome those challenges earlier in section \ref{chap:generating_code_inside_mps}.
+We Figured how to overcome those challenges earlier in section \ref{chap:generating_code_inside_mps}.
 There are, however, some hidden problems along the path.
 
 \subsection{Whitespaces}
@@ -228,7 +228,7 @@ Then we started restricting spaces on positions where we thought they are not ne
 \begin{enumerate}
 	\item We have concluded, that whenever there is a literal, it is a plain string token defined in the grammar, that might, in most cases, get recognized by the parser safely without the need for a whitespace separator around (think \textbf{'\textless'} in XML).
 	So whenever there is a non-alphabetical literal, we omit spaces around it.
-	
+
 	\item Next, we were looking at properties (non-literal, but regex lexer rules).
 	These are strings inserted by the user of the language, whose form is constrained by a regular expression (think XML tag's name).
 	If these are neighboring a literal rule, we look at that literal rule's content.
@@ -257,7 +257,7 @@ These few simple heuristics have left us with some very nice results (tested mos
 
 If we wanted to manually adjust this generated code, so it generates nice indented XML code, we only need to wrap the \concept{Content{\_}2} child with indentation and change the sequence separator to a new line character.
 This is a very fast and small adjustment, so we concluded that it is OK to expect the user to do this kind of adjustments on his own.
-Resulting adjusted aspect is shown below in figure \ref{fig:textgen_adjusted}.
+Resulting adjusted aspect is shown below in Figure \ref{fig:textgen_adjusted}.
 
 \begin{figure}[ht]
 	\centering

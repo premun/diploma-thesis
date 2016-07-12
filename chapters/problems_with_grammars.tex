@@ -46,7 +46,7 @@ This transformation just translates the shortened subrule notation into a classi
 \\
 
 When we import this structure inside MPS, the language will not be pleasant to use.
-The projectional editor will be full of (most likely) empty \lexerrule{TEXT} placeholders as shown in figure \ref{fig:text_placeholders}.
+The projectional editor will be full of (most likely) empty \lexerrule{TEXT} placeholders as shown in Figure \ref{fig:text_placeholders}.
 Sometimes they will contain text, sometimes spaces, but mostly they will distract us and pollute the projectional editor.
 
 \begin{figure}[h]
@@ -57,7 +57,7 @@ Sometimes they will contain text, sometimes spaces, but mostly they will distrac
 \end{figure}
 
 Furthermore, when the user wants to insert some content inside an XML tag, he will be forced through two layers and to choose between a weird set of some weirdly named block rules, about whose meaning he has no idea.
-We can see the process in figure \ref{fig:subrule_problem}.
+We can see the process in Figure \ref{fig:subrule_problem}.
 The auto-completion options represent all end rule alternatives of the artificially created \parserrule{content{\_}block{\_}1{\_}2} subrule.
 \\
 
@@ -140,7 +140,7 @@ Every statement in JavaScript needs to be either followed by a semicolon, newlin
 	               | {lineTerminatorAhead()}?
 	               | {{\_}input.LT(1).getType() == \lexerrule{CloseBrace}}?
 	               ;
-	    
+
 	\textcolor{gray}{// Example reference of the eos rule}
 	\parserrule{breakStatement} : \lexerrule{Break} \lexerrule{Identifier}? \parserrule{eos}
 	               ;

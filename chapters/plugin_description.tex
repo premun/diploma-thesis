@@ -29,7 +29,7 @@ The Java code, produced from a the BaseLanguage code, that is using the API, is 
 As stated above, the BaseLanguage contains many extensions, that hide this complexity, and enable very effective usage of this API.
 This is the reason, why not all code of our plugin can be written in plain Java and why we needed to create a more complicated code structure.
 
-\subsection{Module architecture}
+\subsection{Plugin architecture}
 
 We have decided to create one MPS project and one IntelliJ IDEA project.
 Both projects maintain the same structure, so it is very easy to find your way around the code base.
@@ -141,6 +141,45 @@ It was not possible to write tests for the Importer module because a very extens
 This presents a space for improvement since it is possible to write tests inside MPS, but the author of this thesis hadn't known that and early structure of the plugin code wasn't even enabling testing.
 This early plugin structure was much different from the final one.
 The plugin was heavily refactored in the final stage so that setting up the development environment is easier and building of the IDEA plugin is possible.
+
+\subsection{Setting up the development environment}
+
+In case you would like to contribute to the project, change the code, or just build the plugin yourself, you need to set up the MPS and IDEA projects correctly.
+There are also some technical requirements:
+
+\begin{itemize}
+	\item MPS 3.4 EAP 3 and higher
+	\item Running the MPS using Java 8 (JDK 1.8)
+	\item JDK 1.8 for IntelliJ IDEA
+\end{itemize}
+
+As stated above, IntelliJ IDEA is only necessary when you need to change the Java code.
+Otherwise, MPS will be sufficient on its own.
+Setting up dependencies correctly presents the only problematic part.
+When you open both MPS and IDEA projects, you will be prompted to fill in two path variables:
+
+\begin{itemize}
+	\item \textbf{INGRID{\_}HOME} (MPS only) -- path to the root of the ingrid repository (contains the \texttt{plugin} directory). This is not the root directory of the MPS project, which can be found in \texttt{plugin/mps}.
+	
+	\item \textbf{MPS{\_}HOME} (IDEA only) -- path, where MPS is installed. This is required, so that the library module of the IDEA project can use the MPS API.
+\end{itemize}
+
+After setting these two variables up, it is recommended to restart the IDE.
+\\
+
+To build the plugin, you only need to rebuild the whole project.
+However, we have experienced problems with the EAP (Early Access Program) version of MPS and if errors occur, we recommend to build solutions \textbf{one by one} in following order:
+
+\begin{enumerate}
+	\item org.antlr
+	\item premun.mps.ingrid.model
+	\item premun.mps.ingrid.parser
+	\item premun.mps.ingrid.library
+	\item premun.mps.ingrid.importer
+	\item premun.mps.ingrid.plugin
+\end{enumerate}
+
+The IDEA project has similar structure, but should not present any trouble at all.
 
 \section{User manual}
 

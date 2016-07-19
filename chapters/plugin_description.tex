@@ -121,12 +121,13 @@ They are:
 \end{itemize}
 
 \subsubsection{The Build solution}
+\label{chap:the_build_solution}
 
 The MPS project also contains a \textit{Build solution}, which enables us to transform the plugin into an installable package.
-The output of this build process is a package in the form of a zip archive, containing all dependencies.
-This archive can then be uploaded to the JetBrains plugin store and installed inside any MPS instance.
+The output of this build process is a package in the form of a zip archive, that can be permanently installed inside any MPS instance.
 \\
 
+The build solution contains some descriptive XML files and a \texttt{.jar} archive for each solution of the MPS project.
 We will not go into more details here since the build process is only a configuration matter.
 More information about building plugins can be found in the second volume of the MPS manual~\cite{MPS2}.
 
@@ -143,6 +144,7 @@ This early plugin structure was much different from the final one.
 The plugin was heavily refactored in the final stage so that setting up the development environment is easier and building of the IDEA plugin is possible.
 
 \subsection{Setting up the development environment}
+\label{chap:dev_env}
 
 In case you would like to contribute to the project, change the code, or just build the plugin yourself, you need to set up the MPS and IDEA projects correctly.
 There are also some technical requirements:
@@ -167,7 +169,13 @@ When you open both MPS and IDEA projects, you will be prompted to fill in two pa
 After setting these two variables up, it is recommended to restart the IDE.
 \\
 
-To build the plugin, you only need to rebuild the whole project.
+Next, open the Ingrid build inside of the \textbf{Ingrid.build} solution. In \textbf{macros} section, set the \textbf{mps{\_}home} macro to point to the root directory of your MPS installation (same as the \textbf{MPS{\_}HOME} path variable).
+Unfortunately, a relative path starting in the home directory of the Ingrid MPS project must be used.
+\\
+
+To build the plugin, you only need to rebuild the whole project and run the build solution.
+The build solution can also be run using the Apache Ant library\footnote{http://ant.apache.org/} and the \textbf{build.xml} file, that can be found in the main directory of the Ingrid MPS project.
+The plugin solution should create a menu item inside of the \textit{Tools} menu.
 However, we have experienced problems with the EAP (Early Access Program) version of MPS and if errors occur, we recommend to build solutions \textbf{one by one} in following order:
 
 \begin{enumerate}
@@ -177,10 +185,43 @@ However, we have experienced problems with the EAP (Early Access Program) versio
 	\item premun.mps.ingrid.library
 	\item premun.mps.ingrid.importer
 	\item premun.mps.ingrid.plugin
+	\item Ingrid.build
 \end{enumerate}
 
 The IDEA project has similar structure, but should not present any trouble at all.
 
 \section{User manual}
 
-[TODO - bude se menit podle toho, jak se vytvori instalacni balicek pluginu]
+This section describes installation and usage of the plugin from the point of view of the end user.
+In case you wish to change the plugin and build your own version, follow steps in section \ref{chap:dev_env}.
+
+\subsection{Installation}
+
+The plugin can be installed using a \texttt{.zip} package.
+This package is produced by the build solution \ref{chap:the_build_solution} of the Ingrid MPS project and it is also attached on the CD included with this thesis.
+To install the plugin in MPS, you must meet following requirements:
+
+\begin{itemize}
+	\item MPS 3.4 EAP 3 and higher
+	\item Running the MPS using Java 8 (JDK 1.8)
+	\item JDK 1.8 for IntelliJ IDEA
+\end{itemize}
+
+\noindent
+Plugin can then be installed by executing these steps:
+
+\begin{enumerate}
+	\item Open \textbf{\textit{File}} \textgreater \textbf{\textit{Settings}}.
+	\item Go to the \textbf{\textit{Plugins}} section (in the left part of the \textbf{\textit{Settings}} dialog).
+	\item Click \textbf{\textit{Install plugin from disk...}}
+	\item Locate the plugin file \textbf{premun.mps.ingrid.zip} (you can find it on the attached CD \ref{chap:attachments}).
+	\item Restart MPS.
+\end{enumerate}
+
+\subsection{Usage}
+
+Plugin can be used by clicking on the \textbf{\textit{Tools}} \textgreater \textbf{\textit{Import ANTLRv4 grammar}} menu item.
+In the dialog, that is shown afterwards, use the \textbf{+} button to add all grammar files of the language, that you wish to import.
+Continue by clicking on the \textbf{\textit{Import}} button.
+A successful import should end with a dialog containing information about the imported language.
+

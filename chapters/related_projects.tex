@@ -2,7 +2,7 @@
 \label{chap:related_projects}
 
 From the beginning, it was clear that there are more ways how to approach the problem of a grammar import.
-The first step in the exploration of this topic was research of projects, that try to tackle the same or similar problem, as we do.
+The first step in the exploration of this topic was research of projects that try to tackle the same or similar problem, as we do.
 Part of the goal of this thesis was to evaluate pros and cons of other approaches because we had to decide whether we will build on top of these projects, use their parts or just be inspired by them.
 Some of those decisions were made together with employees of the JetBrains company as they also have some vested interest in this thesis' outcome and wish for some specific functionality.
 \\
@@ -26,25 +26,25 @@ This PE parser then reads any PE file and stores the language structure found in
 On top of the PE parser project, the PE4MPS project is built.
 The PE4MPS project contains an MPS plugin, similar to what we are trying to build in this thesis.
 This plugin uses the parser to build the PE file representation (the aforementioned tree-like structure of Java objects) and then creates concepts and their aspects inside MPS.
-The extended syntax, that PE brings, describes the layout of each element, e.g. it tells the plugin that this set of child nodes should be displayed horizontally, another set should be vertical --- each child on a separate line with some indentation and so on.
+The extended syntax that PE brings, describes the layout of each element, e.g. it tells the plugin that this set of child nodes should be displayed horizontally, another set should be vertical --- each child on a separate line with some indentation and so on.
 
 \subsection{Approach Evaluation}
 Even though this project has some interesting ideas, we decided not to follow its approach with our own implementation.
 The author of this theses by no means wishes for defaming the PE project or declare it as a bad one.
 We only came to a conclusion that it deals with a similar problem slightly differently in a way that does not suite our cause.
-We will try to explain to the reader what were major factors, that lead to this decision.
+We will try to explain to the reader what were major factors that lead to this decision.
 \\
 
 The main goal of this thesis is to automatize as much as possible.
 We would like to import full language structure and then do a lot of mundane and time-consuming work connected to creating projectional editors.
-The problem we identify within PE is, that it does not really spare us this work, but only shifts this work from projectional editor to writing PE grammars.
+The problem we identify within PE is that it does not really spare us this work, but only shifts this work from projectional editor to writing PE grammars.
 So what the user could have been doing inside MPS UI using the projectional editor, which specially made for this, now has to be done using a text editor when editing grammars.
 The text editor is not as user-friendly and, more importantly, a very error prone environment.
 Even more so as so far there are only a few extensions implemented such as horizontal and vertical lists and some indentation rules and even these few features make the already not-so-simple syntax much more complex.
 We conclude that adding more features would continue on making the grammar language even more complicated.
 \\
 
-Another reason for deciding to abandon this approach is, that MPS always strives for simplicity when it comes to the end user of MPS languages.
+Another reason for deciding to abandon this approach is that MPS always strives for simplicity when it comes to the end user of MPS languages.
 The idea is helping the user as much as possible to code inside MPS, using aids such as auto-completion.
 This enables the user to leverage the advantage of having a better understanding of the code thanks to the AST representation than regular IDEs usually have when only parsing text.
 On the contrary, users of PE would have to study ANTLR and PE's new syntax.
@@ -59,7 +59,7 @@ There is another issue connected with this that we have discovered later in the 
 Grammars are written by humans and therefore have some structures inside of them that help a human brain understand it better.
 However, these structures add unnecessary levels in its syntax hierarchy which later lead to problems when using this language inside MPS.
 The user of PE would have no idea how to know this and which parts of the grammar are troublesome like this.
-They might adjust parts of grammar, that will be left out later in the process when making the grammar simpler.
+They might adjust parts of grammar that will be left out later in the process when making the grammar simpler.
 We will discuss this problem later in this thesis when describing obstacles we have met on our own (Chapter~\ref{chap:importing_the_grammar}).
 \\
 
@@ -87,7 +87,7 @@ Another project that is dealing with a similar problem is ANTLR{\_}MPS~\cite{ANT
 The author of this project, Fabien Campagne, is the author of official MPS user handbooks~(\cite{MPS1}\cite{MPS2}), which also helped us when working on this thesis.
 The ANTLR{\_}MPS project also uses ANTLRv4 grammar notation~\cite{ANTLR4} and tries to import grammars inside MPS.
 It does not, however, deal with the problem of generating projectional editor at all, probably because it is in its early stage of development.
-The import process itself is quite different from what we've seen in the PE4MPS project, showing us the variety of approaches, that are possible to go with.
+The import process itself is quite different from what we've seen in the PE4MPS project, showing us the variety of approaches that are possible to go with.
 
 \subsection{Project Description}
 Using this project to import a grammar is a very complicated process.
@@ -106,7 +106,7 @@ The user must manually compile this visitor into a .jar package and reference th
 After that, concepts are created for each grammar rule.
 They need to be mapped manually together with the grammar's concepts which needs to be done by the user of the plugin.
 For some languages, there are hundreds of rules defined and this becomes a very tiresome and prolonged effort.
-There are no children or properties created for these concepts, that is also up to the user of the plugin.
+There are no children or properties created for these concepts that is also up to the user of the plugin.
 There are no editor nor TextGen concepts created neither.
 
 \subsection{Approach Evaluation}

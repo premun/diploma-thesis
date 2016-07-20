@@ -30,12 +30,12 @@ They can:
 Some of the import steps are common for both approaches (Sections~\ref{chap:straightforward_approach} and~\ref{chap:shortcut_approach}).
 \\
 
-Firstly, we have noticed, that whenever there is a string literal inside a parser rule's alternative (think of the \textbf{for} keyword from a Java loop), it will appear only in that rule's projectional editor.
+Firstly, we have noticed that whenever there is a string literal inside a parser rule's alternative (think of the \textbf{for} keyword from a Java loop), it will appear only in that rule's projectional editor.
 There is no need for it to have any function as it is set in stone as an unchangeable part of that alternative's appearance.
 It might serve its purpose when describing or naming this alternative inside an auto-complete menu, but we will get to that part below.
 \\
 
-Secondly, we can take the flattened lexer rules, that contain the regular expression, we have built by gluing its parts together in the parsing stage.
+Secondly, we can take the flattened lexer rules that contain the regular expression, we have built by gluing its parts together in the parsing stage.
 For each one of these, we create a constraint data type concept, which is exactly what we need.
 We will be able to later create properties of concepts and set their data type as this constraint data type concept, effectively restricting their value using given regular expression.
 \\
@@ -53,7 +53,7 @@ To illustrate what a concept for a sample alternative looks like, consider the e
 \end{antlr}
 
 Because we are creating a new concept for each alternative of the rule, we will be numbering them correspondingly.
-The concept, that will represent the first alternative of the \parserrule{element} rule, will therefore be named \concept{Element{\_}1}
+The concept that will represent the first alternative of the \parserrule{element} rule, will therefore be named \concept{Element{\_}1}
 (we will mark concepts \concept{green} and interfaces \interface{purple}).
 
 \begin{itemize}
@@ -90,7 +90,7 @@ Final solution will be described in Section~\ref{chap:structure_solution}.
 In the end, we have decided to go with the shortcut approach using smart interfaces.
 As we have stated above, it has several advantages, concerning the solution complexity, compared to the smart auto-completion.
 It only has one disadvantage regarding the cardinality restriction, described in Section~\ref{chap:cardinality_restriction}.
-We have analyzed several ANTLR grammars (such as the JavaScript~\cite{javascript}) and we haven't found a single intermediate rule, that would be suffering from this restriction.
+We have analyzed several ANTLR grammars (such as the JavaScript~\cite{javascript}) and we haven't found a single intermediate rule that would be suffering from this restriction.
 It is quite understandable if you think about how grammars are written.
 Usually, you create the basic structure (i.e. different kinds of statements) in the simplest way possible and put the quantitative operator rather to an alternative that is referencing the structure.
 \\
@@ -130,7 +130,7 @@ It is even possible to define concepts that control mode switching and then not 
 They still get recognized by the lexer and mode is changed.
 \\
 
-The reason that this goes beyond our interest here is partially caused by the fact, that modes are used on runtime when we are parsing actual code, whereas language structure is more of a static matter.
+The reason that this goes beyond our interest here is partially caused by the fact that modes are used on runtime when we are parsing actual code, whereas language structure is more of a static matter.
 The only time we care about modes is when generating the TextGen aspect, and we will get back to it later in Section~\ref{chap:textgen}.
 
 \subsubsection{Actions, Attributes and Semantic Predicates}

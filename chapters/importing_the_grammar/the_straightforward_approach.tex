@@ -1,12 +1,12 @@
 \subsection{The Straightforward Approach}
 \label{chap:straightforward_approach}
 
-The first attempt was quite straightforward and a little bit explorative, in the way, that the author had to discover the MPS API, that allows programmatical language generation.
+The first attempt was quite straightforward and a little bit explorative, in the way that the author had to discover the MPS API that allows programmatical language generation.
 Because MPS is still in development, the API isn't that well documented and some features had to be discovered through trial and error or through examination of the PE4MPS project (Section~\ref{chap:pe4mps}), which served great aid here.
 
 \subsubsection{The Algorithm}
 \label{chap:straight_algorithm}
-The main idea behind the first attempt comes from the realization, that when a parser rules breaks into more alternatives, we need to create a concept for each alternative.
+The main idea behind the first attempt comes from the realization that when a parser rules breaks into more alternatives, we need to create a concept for each alternative.
 Then we have to somehow mark them as belonging to that parser rule.
 Consider the \parserrule{content} rule from our SimpleXML language:
 
@@ -18,9 +18,9 @@ Consider the \parserrule{content} rule from our SimpleXML language:
            ;
 \end{antlr}
 
-We will need to have 4 concepts, that could appear anywhere the \parserrule{content} rule is referenced.
-That is why we decided, that for each rule with more than one alternative, we will create an interface concept.
-Then for each alternative of this rule, we will create a concept, that will implement this interface.
+We will need to have 4 concepts that could appear anywhere the \parserrule{content} rule is referenced.
+That is why we decided that for each rule with more than one alternative, we will create an interface concept.
+Then for each alternative of this rule, we will create a concept that will implement this interface.
 So for our \parserrule{content} example, we will get following setup:
 
 \begin{antlr}
@@ -32,11 +32,11 @@ So for our \parserrule{content} example, we will get following setup:
 
 Names of these concepts are derived from the name of the rule, numbers are added to alternatives correspondingly.
 For rules with a single alternative, no interface is needed.
-For rules, that contain in-line block rules (Section~\ref{chap:subrules}), we have already created artificial parser rules in our tree representation during the parser phase (Section~\ref{chap:parsing_the_grammar}), which means we do not have to worry about them now.
+For rules that contain in-line block rules (Section~\ref{chap:subrules}), we have already created artificial parser rules in our tree representation during the parser phase (Section~\ref{chap:parsing_the_grammar}), which means we do not have to worry about them now.
 \\
 
 Now we will describe, how we linked parser rules together.
-Consider the \parserrule{element} rule, that is referencing the \parserrule{content} rule:
+Consider the \parserrule{element} rule that is referencing the \parserrule{content} rule:
 
 \begin{antlr}
 	\parserrule{element}    :   \literal{<} \lexerrule{Name} \parserrule{attribute}* \literal{>} \parserrule{content}* \literal{</} \lexerrule{Name} \literal{>}
@@ -61,7 +61,7 @@ Naming convention of child links also contains numbers, because names have to be
 \subsubsection{The Layer Problem}
 \label{chap:layer_problem}
 
-The algorithm mentioned above will leave us with an MPS language, that follows given structure correctly and could be used to represent code in that language inside MPS correctly. Editing the code will not be possible yet, as there is no editor aspect defined so far.
+The algorithm mentioned above will leave us with an MPS language that follows given structure correctly and could be used to represent code in that language inside MPS correctly. Editing the code will not be possible yet, as there is no editor aspect defined so far.
 There is one problem, however, concerning usability of such language.
 We will demonstrate this problem on the SimpleXML language, using \parserrule{element} and \parserrule{content} rules:
 
@@ -86,7 +86,7 @@ We would place the cursor in the content placeholder and press Ctrl+Space to vie
 \\
 
 Following the algorithm mentioned above, we have created a child link of the \concept{Element{\_}1} concept of type \interface{IContent}.
-There exist 4 concepts, that implement the \interface{IContent} interface as per each alternative of the rule.
+There exist 4 concepts that implement the \interface{IContent} interface as per each alternative of the rule.
 MPS evaluates this and gives us 4 options inside the auto-complete.
 This auto-complete is captured in Figure~\ref{fig:layer_problem}.
 
@@ -97,7 +97,7 @@ This auto-complete is captured in Figure~\ref{fig:layer_problem}.
 	\label{fig:layer_problem}
 \end{figure}
 
-In order to correctly insert another nested element inside, we would have to first insert a \concept{Content{\_}2} concept inside \concept{Element{\_}1}, that has an \interface{IElement} child inside (and nothing else).
+In order to correctly insert another nested element inside, we would have to first insert a \concept{Content{\_}2} concept inside \concept{Element{\_}1} that has an \interface{IElement} child inside (and nothing else).
 Then, as a second step, we would call for the auto-complete again and insert either \concept{Element{\_}1} or \concept{Element{\_}2} inside \concept{Content{\_}2}.
 This mean that we have to go through two steps and in the first one either guess correctly (or remember the grammar rule's alternative order), to know, which item of the auto-complete we should go with.
 \\
@@ -108,7 +108,7 @@ This leads to confusion on user's part.
 \\
 
 We tried to ease this situation up by creating aliases for concepts derived from their content (names such as “Element content” or “CDATA content” instead of Content{\_}N), but the problem goes beyond this.
-Take into consideration, that the SimpleXML grammar is a very simple one.
+Take into consideration that the SimpleXML grammar is a very simple one.
 More sophisticated languages may have more than two intermediary layers and writing code would consist of clicking through a large number of auto-completes like shown in the example above.
 There is also nothing preventing authors of grammars from naming these helper layers in a completely unrelated manner, which would make user's orientation even harder.
 After all, these layers come into existence when the grammar is being written, so that it is more readable for humans and maybe better maintainable by the author.

@@ -8,7 +8,7 @@ This means that we can use the ANTLR library~\cite{ANTLR4} to generate a Java AN
 
 \subsection{Grammar Representation}
 
-The abstract syntax tree, that comes out of the automatically generated parser, is a little bit complicated and full of information not relevant to us.
+The abstract syntax tree that comes out of the automatically generated parser, is a little bit complicated and full of information not relevant to us.
 It also contains all structures including ANTLR's special characters (pipes, semicolons, comments...), because ANTLR doesn't understand the grammar and just parses it.
 That is why we decided to translate the complex ANTLR AST into our own simplified tree made out of our own objects.
 We discarded as much irrelevant information as possible and only kept vital data.
@@ -23,13 +23,13 @@ We end up with a neat representation that is easy to parse in next steps of the 
 \subsection{Flattening Lexer Rules}
 One of the questions we had to deal with was lexer rule representation.
 Not minding all the syntactic sugar ANTLR is offering for their definition, in the end, lexer rules are basically just regular expressions used for parsing input source code into tokens.
-However, after the initial parsing, we end up with some kind of a tree structure, that is representing the lexer rule (lexer rules can also be built from alternatives just like parser rules).
+However, after the initial parsing, we end up with some kind of a tree structure that is representing the lexer rule (lexer rules can also be built from alternatives just like parser rules).
 We would like to take this tree that represents the lexer rule and flattens it into the regular expression.
 Later in the import process, we would like to assign this expression to some constraint entity representing the rule.
 
 \newpage
 
-Let's look at the lexer rule \lexerrule{Name}, that we have in our SimpleXML language, together with its sub-rules:
+Let's look at the lexer rule \lexerrule{Name} that we have in our SimpleXML language, together with its sub-rules:
 
 \begin{antlr}
 	\lexerrule{Name}         :   \lexerrule{NameStartChar} \lexerrule{NameChar}* ;
@@ -53,7 +53,7 @@ The regular expression describing the \lexerrule{Name} rule is following:
 	\texttt{[:a-zA-Z](([:a-zA-Z])|\textbackslash-|{\_}|\textbackslash.|[0-9])*}
 \end{center}
 
-We can notice, that we can achieve this by gluing elements of each alternative together and then joining these alternatives with a classic regex OR ($|$), which is exactly its function in the ANTLR grammar notation.
+We can notice that we can achieve this by gluing elements of each alternative together and then joining these alternatives with a classic regex OR ($|$), which is exactly its function in the ANTLR grammar notation.
 We have put these thoughts into a form of the following recursive algorithm:
 
 \begin{antlr}
@@ -85,7 +85,7 @@ Special characters also had to be doubly escaped, because MPS holds regular expr
 \subsection{Subrules}
 \label{chap:subrules}
 
-A new feature, called \textit{subrules}\footnote{https://github.com/antlr/antlr4/blob/master/doc/parser-rules.md\#subrules}, was added to the fourth version of the ANTLR notation, that makes parsing the structure a little bit more complicated for us.
+A new feature, called \textit{subrules}\footnote{https://github.com/antlr/antlr4/blob/master/doc/parser-rules.md\#subrules}, was added to the fourth version of the ANTLR notation that makes parsing the structure a little bit more complicated for us.
 This feature allows inlining some rule expansions directly inside an alternative.
 Following excerpt from the official XML's ANTLRv4 grammar definition shows this extended syntax:
 
@@ -93,7 +93,7 @@ Following excerpt from the official XML's ANTLRv4 grammar definition shows this 
 	\parserrule{content} :   \lexerrule{TEXT}? ((\parserrule{element}? | \lexerrule{CDATA} | \lexerrule{COMMENT}) \lexerrule{TEXT}?)* ;
 \end{antlr}
 
-There is a nested block contained in the second part of the rule, that has another block nested inside (in-line alternatives).
+There is a nested block contained in the second part of the rule that has another block nested inside (in-line alternatives).
 Even though the content rule contains only one top-level alternative, it is possible to build its contents from more variations.
 There can be any number of levels of these nested blocks and each block can be annotated with its own quantification operator.
 \\

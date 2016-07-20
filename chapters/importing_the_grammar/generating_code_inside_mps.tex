@@ -4,14 +4,14 @@
 In order to create some of the aspects of the imported language, such as the TextGen aspect, we will need to add complex functionality inside the aspect definition.
 This can be done using programming in the BaseLanguage language (also an MPS language, just like the one we are creating).
 BaseLanguage is the official JetBrains port of Java for MPS and is used for all additional programming inside MPS.
-There are some additional extensions for this language, that enable us using the MPS API, such as the structure or editor language.
+There are some additional extensions for this language that enable us using the MPS API, such as the structure or editor language.
 These extensions contain concepts allowing us to work with language definitions or the editor environment itself (menu items etc.).
 When building our plugin, we needed to:
 
 \begin{enumerate}
 	\item Use the BaseLanguage API to generate language elements (concepts, aspect definitions).
 
-	\item Generate BaseLanguage code inside aspect definition of the imported language, that will make the language more usable.
+	\item Generate BaseLanguage code inside aspect definition of the imported language that will make the language more usable.
 \end{enumerate}
 
 \subsection{Generating BaseLanguage Code}
@@ -36,7 +36,7 @@ As simple as it looks, in order to programmatically generate this statement, we 
 	\item Set the right side to contain a new statement with some specific type of the template.
 \end{enumerate}
 
-The full AST tree, that needs to be built, in order to create a statement like this, is shown in Figure~\ref{fig:new_ast}.
+The full AST tree that needs to be built, in order to create a statement like this, is shown in Figure~\ref{fig:new_ast}.
 We need to be building this from bottom up, node by node.
 
 \begin{figure}[h]

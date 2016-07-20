@@ -1,7 +1,7 @@
 \chapter{Problems with Grammars}
 \label{chap:problems_with_grammars}
 
-As we could see in previous chapters, it is very easy to write a grammar in a way, that will cause problems once it is imported into MPS.
+As we could see in previous chapters, it is very easy to write a grammar in a way that will cause problems once it is imported into MPS.
 These problems might occur during the creation of any aspect and they are very hard to mitigate.
 We have not known about these problems and they occurred during the implementation.
 In this chapter, we will try to summarize our observations and show a few examples of possible complications.
@@ -10,9 +10,9 @@ In this chapter, we will try to summarize our observations and show a few exampl
 \section{Structural Problems}
 
 As a first example, we will describe some problematic structures.
-When writing the grammar, it might happen, that we create some patterns, that work just fine with ANTLR parser, but pose problems for the usability of the resulting MPS language.
+When writing the grammar, it might happen that we create some patterns that work just fine with ANTLR parser, but pose problems for the usability of the resulting MPS language.
 For example, we might want to use some syntactic sugar such as subrule blocks, which we talked about in Section~\ref{chap:subrules}.
-The problem, that arises here, is similar to the layer problem, we mentioned in Section~\ref{chap:layer_problem}.
+The problem that arises here, is similar to the layer problem, we mentioned in Section~\ref{chap:layer_problem}.
 It, however, cannot be resolved automatically.
 Let's look at the \parserrule{content} rule of the original XML grammar:
 
@@ -21,7 +21,7 @@ Let's look at the \parserrule{content} rule of the original XML grammar:
 \end{antlr}
 
 As we have shown in Chapter~\ref{chap:whitespaces}, the author of the grammar decided to handle whitespace not by skipping it using ANTLR actions, but rather by wrapping other content with a rule that contains these whitespace characters (the \lexerrule{TEXT} rule).
-Then, using the subrule notation, as we can see above, the author made sure, that any content might be eventually wrapped in whitespace or text.
+Then, using the subrule notation, as we can see above, the author made sure that any content might be eventually wrapped in whitespace or text.
 This will enable the parser to handle mixed content (text, comments, tags or CDATA sections) inside an XML tag.
 \\
 
@@ -70,9 +70,9 @@ The auto-completion options represent all end rule alternatives of the artificia
 
 There is, however, no way, how we could detect or prevent this when parsing the grammar, since the plugin has no higher understanding of the grammar.
 We cannot detect any smart shortcut, like described in Section~\ref{chap:shortcut_approach}, skipping the first layer of the auto-complete (\parserrule{content{\_}block{\_}1{\_}1}).
-The reason is, that the first block rule contains more elements.
+The reason is that the first block rule contains more elements.
 Subrules can also be nested inside of each other freely and there can be any setup within multiple levels, additionally with various quantitative operators.
-We could, of course, try to parse the subrule block differently somehow, but for each possible solution, we can always find a very simple case, that will break it.
+We could, of course, try to parse the subrule block differently somehow, but for each possible solution, we can always find a very simple case that will break it.
 \\
 
 The easiest solution to this problem is to alter the grammar directly and unroll it manually.
@@ -106,7 +106,7 @@ Let's look at the definition of an XML attribute:
 \end{antlr}
 
 The original XML grammar has quotes as a part of the value.
-For the resulting MPS language, it would mean that there would be a placeholder for the attribute value, that would expect us to input the leading and trailing quote together with the value too each time.
+For the resulting MPS language, it would mean that there would be a placeholder for the attribute value that would expect us to input the leading and trailing quote together with the value too each time.
 It would also be marked red unless we enter both quotes inside the value since the regular expression checking for quotes will not match.
 The user might be confused by this and won't be able to tell why his string value is incorrect.
 \\
@@ -153,7 +153,7 @@ This placeholder needs to be manually filled in for each statement.
 
 Since the projectional editor has much bigger power over the form of the code, we might want to have each statement on a separate line.
 Since we can differentiate between statements on the AST level, we don't need an explicit separator between them.
-This means, that we might want to simplify the language and leave the semicolon out, or leave it just as a constant fixed part of the projectional editor, but not as something the user must explicitly fill in.
+This means that we might want to simplify the language and leave the semicolon out, or leave it just as a constant fixed part of the projectional editor, but not as something the user must explicitly fill in.
 Then we can just put each statement on a separate line as it is usual for JavaScript code, but we don't need the semicolon anymore.
 This small adjustment is very quick when done inside the grammar.
 We just change the \parserrule{eos} rule to following form:
@@ -162,41 +162,41 @@ We just change the \parserrule{eos} rule to following form:
 	\parserrule{eos} : \literal{;} ;
 \end{antlr}
 
-Again, we changed the grammar in a way, that it won't describe the same ECMAScript language as before, but will definitely make our MPS language more usable.
+Again, we changed the grammar in a way that it won't describe the same ECMAScript language as before, but will definitely make our MPS language more usable.
 Again, we can ask ourselves, whether it is an intended action --- whether we aim for a full port of the language or an MPS alternative.
 
 \section{Adjusting Grammars}
-Above, we concluded, that adjusting the grammar itself might be sometimes the only proper solution to some complex situations.
+Above, we concluded that adjusting the grammar itself might be sometimes the only proper solution to some complex situations.
 Sometimes it might be a very fast mean of tweaking our MPS language's usability.
-We also think, that the end user of our plugin will be quite educated in this field since they will already be trying to create a computer language.
-It is also expected, that this user will continue on improving the language after the initial import, adding more human touch to it.
-From these reasons, we concluded, that end users of the plugin might also be capable of performing similar grammar adjustments themselves.
+We also think that the end user of our plugin will be quite educated in this field since they will already be trying to create a computer language.
+It is also expected that this user will continue on improving the language after the initial import, adding more human touch to it.
+From these reasons, we concluded that end users of the plugin might also be capable of performing similar grammar adjustments themselves.
 
 \section{Breaking the Parser}
 \label{chap:breaking_the_parser}
 
-There is one big problem with grammar adjustment, that we would like to point out.
-The problem is, that it is very easy to change the grammar in a way, that will break the ANTLR parser generated out of it.
-By breaking we mean, that it stops parsing the original language.
+There is one big problem with grammar adjustment that we would like to point out.
+The problem is that it is very easy to change the grammar in a way that will break the ANTLR parser generated out of it.
+By breaking we mean that it stops parsing the original language.
 
 \subsection{Breaking It Is Easy}
 
 As stated before, when creating the SimpleXML grammar, we have started off with the original XML grammar\footnote{https://github.com/antlr/grammars-v4/tree/master/xml} and did some adjustments to it.
 After that, we ended up with a grammar just good enough for our plugin.
-Nonetheless, we noticed, that even though the imported language behaves well enough and mimics the XML language quite nicely, the ANTLR parser generated out of this grammar no longer parses XML successfully.
+Nonetheless, we noticed that even though the imported language behaves well enough and mimics the XML language quite nicely, the ANTLR parser generated out of this grammar no longer parses XML successfully.
 Some changes we have made, such as the attribute adjustment or parser mode omission, broke the grammar down.
 More precisely, it improved the MPS language, broke down the parser and we haven't even noticed it, because, from the perspective of MPS, the imported language still corresponds to XML.
 \\
 
-What we are trying to say is, that it is very easy to perform a harmless grammar adjustment, that will, at first, seem valid inside MPS, but will break the parser.
-The problem is, that the user performing this change, might and probably won't be aware of breaking it.
+What we are trying to say is that it is very easy to perform a harmless grammar adjustment that will, at first, seem valid inside MPS, but will break the parser.
+The problem is that the user performing this change, might and probably won't be aware of breaking it.
 \\
 
 The cause of this problem is the way the ANTLR parser is implemented and the quite different purpose we are using the grammar for in this thesis.
 There are many ways how various parsers deal with, for example, token matching.
 For instance, ANTLR introduces so called \textbf{greedy} and \textbf{non-greedy} operators.
 The greedy way, in which ANTLR matches input on defined tokens and prioritizes their selection, makes some rules very dangerous.
-When a rule, such as the \lexerrule{TEXT} rule, matches a wide range of input, it might happen, that when parsing, it is prioritized over other rules and swallows a lot more input than the author of it intended.
+When a rule, such as the \lexerrule{TEXT} rule, matches a wide range of input, it might happen that when parsing, it is prioritized over other rules and swallows a lot more input than the author of it intended.
 Usually, these dangerous rules are bound to some parser context, which makes them behave well.
 
 \subsection{Breaking It Is a Problem}
@@ -206,7 +206,7 @@ Our goal here is to create an MPS port of the language.
 It is also very hard, if not impossible, to verify, whether we have broken it and whether two grammars describe the same language.
 \\
 
-The reason why we should care about not breaking it is, that if we wanted to proceed with some more complex operations, we might need to automatically generate parsers of that language.
+The reason why we should care about not breaking it is that if we wanted to proceed with some more complex operations, we might need to automatically generate parsers of that language.
 Imagine this very real (future) scenario:
 
 \begin{enumerate}
@@ -225,7 +225,7 @@ Imagine this very real (future) scenario:
 In order to make this happen, several steps must be performed:
 
 \begin{enumerate}
-	\item We must generate the ANTLR parser out of the source grammar, that helped us import the language.
+	\item We must generate the ANTLR parser out of the source grammar that helped us import the language.
 
 	\item We must parse the text source file correctly, using the parser from step 1.
 
@@ -234,7 +234,7 @@ In order to make this happen, several steps must be performed:
 	\item We must build the MPS AST out of the ANTLR AST.
 \end{enumerate}
 
-For some of these steps, we would, of course, have to significantly improve some of the parts of the plugin as it is functionality, that wasn't subject of this thesis.
+For some of these steps, we would, of course, have to significantly improve some of the parts of the plugin as it is functionality that wasn't subject of this thesis.
 For example, we would need a support from our grammar parser, so that it would store a mapping between grammar rules and corresponding concepts of the MPS language.
 We would also need to store this information more permanently and deal with some further problems, such as the user adjusting the MPS language beyond the grammar definition.
 \\

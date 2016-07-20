@@ -7,7 +7,7 @@ We will be showing what this language needs for its good usability and what prob
 The language is a simplified version of XML\footnote{https://en.wikipedia.org/wiki/XML} and we will be calling it \textbf{SimpleXML}.
 We created the grammar of the language by taking the official XML ANTLRv4 grammar\footnote{https://github.com/antlr/grammars-v4/tree/master/xml} and stripped it down from some not so interesting features such as XML entities.
 The author has decided to remove these features as they don't add any extra value to our cause and it will be easier to reason about the language as the grammar notation becomes shorter.
-We have also made some further adjustments, that make the grammar better suitable for our cause.
+We have also made some further adjustments that make the grammar better suitable for our cause.
 We will talk about these later in Chapter~\ref{chap:problems_with_grammars} and explain why they were necessary.
 
 \newpage
@@ -80,7 +80,7 @@ The grammar contains following basic elements:
 	Lexer rules can also break into more sub rules in the same manner parser rules break into alternatives.
 	This breaking, however, eventually stops at string values and regular expressions at the bottom level, so, in the end, these rules are describing some string.
 	Parser rules also eventually break into lexer rules too.
-	The \textbf{fragment} keyword states, that the lexer sub-rule is just a helper rule that brings more clarity into the notation but is not visible in the parser output.
+	The \textbf{fragment} keyword states that the lexer sub-rule is just a helper rule that brings more clarity into the notation but is not visible in the parser output.
 
 	\item \literalnoap{\textbf{String values (literals)}} -- In red, always inside of a pair of apostrophes, they are similar to lexer rules.
 	They describe a terminal string, but not using regular expressions but exact string match.

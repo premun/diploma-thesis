@@ -38,14 +38,14 @@ These are concepts we would like to see in the auto-completion menu.
 They cannot transparently break into more rules and for the sake of text we will call them \textbf{end concepts}, or when talking about the grammar rule tree \textbf{end rules}.
 \\
 
-We will describe an algorithm, that will find all end rules for a given parser rule, and later utilize it.
+We will describe an algorithm that will find all end rules for a given parser rule, and later utilize it.
 
 \subsubsection{The Algorithm}
-To find end rules for each parser rule, we can recursively scan through the parser tree, that we have built before.
+To find end rules for each parser rule, we can recursively scan through the parser tree that we have built before.
 For each parser rule, we will try to find paths leading to some end rule through its alternatives:
 
 \begin{itemize}
-	\item Whenever we find an alternative, that contains only one element, and this element is a reference to another parser rule, we have found an intermediary level that can be transparently hidden from the user of the language.
+	\item Whenever we find an alternative that contains only one element, and this element is a reference to another parser rule, we have found an intermediary level that can be transparently hidden from the user of the language.
 	We will continue recursively processing alternatives of this “level” rule (we are not at the end of the chain yet).
 
 	\item Otherwise, we have found an end rule (recursion stops here).
@@ -94,7 +94,7 @@ We imported everything just the same and then added some more functionality.
 We were trying to solve the most obvious problem in front of us --- the auto-completion.
 We would like to improve it so that it offers us only end concepts.
 Luckily for us, MPS gives us the ability to create custom auto-complete menus and use those instead of the built-in one.
-This means, that we are going to be able to construct our own menu containing only end nodes.
+This means that we are going to be able to construct our own menu containing only end nodes.
 Unfortunately, it requires us to implement some non-trivial mechanisms.
 
 \paragraph{Defining the Auto-complete}
@@ -106,7 +106,7 @@ As described above earlier in the process (Section~\ref{fig:element_concept_full
 \begin{itemize}
 	\item An interface \interface{IContent} representing four different alternatives that the content rule can break into
 
-	\item A child of the \concept{Element{\_}1} concept, that references the \interface{IContent} rule
+	\item A child of the \concept{Element{\_}1} concept that references the \interface{IContent} rule
 \end{itemize}
 
 Somewhere in the editor aspect of the \concept{Element{\_}1} concept, there will be a cell referencing the concept interface \interface{IContent}.
@@ -120,7 +120,7 @@ The cell, together with the auto-complete property can be seen in Figure~\ref{fi
 	\label{fig:autocomplete_cell}
 \end{figure}
 
-We would like to create an auto-complete for this cell, that would contain following options (end concepts):
+We would like to create an auto-complete for this cell that would contain following options (end concepts):
 
 \begin{itemize}
 	\itemsep0em
@@ -136,19 +136,19 @@ In order to create an auto-complete menu, we need to create some BaseLanguage no
 More precisely, we will create an instance of a concept called \texttt{CellMenuPart{\_}ReplaceChild{\_}CustomActionConcept}, contained in one of many MPS's core languages.
 \\
 
-For this concept, we will define a number of auto-complete options, one for each end concept, that we want to offer in the menu.
+For this concept, we will define a number of auto-complete options, one for each end concept that we want to offer in the menu.
 Every option has a \textbf{textual description}, \textbf{matching text} (so that we can filter through them) and most importantly a \textbf{creator method}.
 If the user selects that particular option, this method will be called with some contextual information in parameters and it is expected to return an instance of some concept that implements the \interface{IContent} interface.
 \\
 
 The complicated part of the process comes now, as we would like to dynamically generate the creator method.
-We need to create BaseLanguage statements, that will instantiate the end concept and return it.
+We need to create BaseLanguage statements that will instantiate the end concept and return it.
 There is one small problem, though.
 Let's say the user selected the second option and decided to insert another \concept{Element{\_}1} inside.
-The problem is, that \concept{Element{\_}1} doesn't implement the \interface{IContent} interface.
+The problem is that \concept{Element{\_}1} doesn't implement the \interface{IContent} interface.
 It only implements the \interface{IElement} interface as per the algorithm of the straightforward approach (Section~\ref{chap:straight_algorithm}).
-The shortcut, that leads to this end concept leads through the \concept{Content{\_}2} concept, that has an Element child.
-This means, that we have to follow the whole path and chain individual nodes, beginning with the \concept{Content{\_}2} concept.
+The shortcut that leads to this end concept leads through the \concept{Content{\_}2} concept that has an Element child.
+This means that we have to follow the whole path and chain individual nodes, beginning with the \concept{Content{\_}2} concept.
 For this particular case it would mean to:
 
 \begin{itemize}
@@ -186,7 +186,7 @@ When producing code, the language really does what one would expect.
 However, when the user starts deleting code, the layer problem occurs once more.
 \\
 
-What happens here is, that when we select the auto-complete option, several layers of concepts might get created and inserted into the cell.
+What happens here is that when we select the auto-complete option, several layers of concepts might get created and inserted into the cell.
 Imagine, we just inserted the \concept{Element{\_}1} node.
 According to the creator method, this new node is wrapped inside of the \concept{Content{\_}2} node.
 Now let's say, the user changed his mind, and wants to replace this XML element with a comment.
@@ -205,10 +205,10 @@ But what will it look like?
 \\
 
 When deleting a node, we would like to remove the whole shortcut path, effectively reversing the effect of the creator method.
-We decided that it will be the easiest to store the length of the path, that is leading to certain AST node, together with the node.
+We decided that it will be the easiest to store the length of the path that is leading to certain AST node, together with the node.
 So when we are creating nodes, while building the path in the creator method, we tell each node, how deep or far on the path the node is.
 In order to do this, we created a \concept{BaseConcept}, a parent abstract concept, from which we will inherit all other concepts.
-This abstract concept will define a special integer property, that will hold our information, effectively making all other concepts inherit it too.
+This abstract concept will define a special integer property that will hold our information, effectively making all other concepts inherit it too.
 We called this property \textit{{\_}{\_}DeleteContext} and enhanced the creator method as shown in Figure~\ref{fig:autocomplete_action_delete_context}.
 
 \begin{figure}[h]
@@ -228,19 +228,19 @@ Apart from some problems with referencing the \textit{{\_}{\_}DeleteContext} pro
 	\label{fig:backspace_action}
 \end{figure}
 
-We must not forget to pin this handler to every cell, that we pin the auto-complete menu to.
+We must not forget to pin this handler to every cell that we pin the auto-complete menu to.
 After we had done this, the layer problem has finally been eradicated.
 The language became a bit more usable once more.
 
 \subsubsection{Smart Interfaces}
 
-After we have implemented the smart auto-complete, we realized, that there might be another way to accomplish almost the same result.
+After we have implemented the smart auto-complete, we realized that there might be another way to accomplish almost the same result.
 It would mean changing the first step concerning interfaces and concept linking.
 \\
 
-The main idea behind this is the realization, that if for each concept interface there exists a finite set of end concepts, we could just create a special interface and let all these and only these end concepts implement it.
-It is important, that other non-end concepts, that are in the shortcut path, will not implement it.
-Otherwise, that would put us right back where we started with the straightforward approach (Section~\ref{chap:straightforward_approach}) and the layer problem (Section~\ref{chap:layer_problem}).
+The main idea behind this is the realization that if for each concept interface there exists a finite set of end concepts, we could just create a special interface and let all these and only these end concepts implement it.
+It is important that other non-end concepts that are in the shortcut path, will not implement it.
+Otherwise that would put us right back where we started with the straightforward approach (Section~\ref{chap:straightforward_approach}) and the layer problem (Section~\ref{chap:layer_problem}).
 To give an example regarding our content rule, we would create an \interface{IContent} interface concept and only following concepts would implement it:
 
 \begin{itemize}
@@ -254,7 +254,7 @@ To give an example regarding our content rule, we would create an \interface{ICo
 
 There would be no need for the \concept{Content{\_}2} concept at all.
 Concepts would, of course, implement as many interfaces as many shortcuts lead to them.
-The difference is, that the intermediary layers will not, which will prevent the layering.
+The difference is that the intermediary layers will not, which will prevent the layering.
 \\
 
 We still need to find end concepts for each rule, so we will keep the same algorithm for finding shortcuts as before.
@@ -267,12 +267,12 @@ The built-in default auto-completion will start to behave exactly the same way o
 
 So far it looks like the last approach is superior to the auto-completion one.
 It avoids complicated code generation and even resulting MPS languages are more simple and better performant, as they are not bloated with auto-completion code.
-There is one small drawback, though, that makes this solution slightly suboptimal.
+There is one small drawback, though that makes this solution slightly suboptimal.
 \\
 
 To remind the reader --- the cardinality of an element is telling us, how many of each specific child rules can occur inside an alternative.
 Inside the grammar, this was expressed using quantification operators (\textbf{*},\textbf{+} and \textbf{?}).
-The problem, that appears here, can be shown using this example rule:
+The problem that appears here, can be shown using this example rule:
 
 \begin{antlr}
 \parserrule{content}      :   \parserrule{element}+
@@ -283,15 +283,15 @@ The problem, that appears here, can be shown using this example rule:
 
 Notice, how we changed the cardinality of elements inside the \parserrule{content} rule.
 This small change will prevent us from creating a shortcut leading through this rule.
-We are trying to say, that shortcuts, that can be used for the smart interfaces approach, can only lead through rules, that have cardinality [1..1].
-This means through an alternative with a single child element, that is a reference to a parser rule AND has the [1..1] cardinality.
+We are trying to say that shortcuts that can be used for the smart interfaces approach, can only lead through rules that have cardinality [1..1].
+This means through an alternative with a single child element that is a reference to a parser rule AND has the [1..1] cardinality.
 In the original \parserrule{content} rule, all alternatives look like this, so there was no problem.
 Speaking in terms of the shortcut algorithm (Section~\ref{chap:shortcut_algorithm}), we would alter line number 6 and add this restriction to the condition.
 \\
 
 This restriction is caused by the fact that we would be unable to control changing children cardinality on the whole shortcut path.
-Imagine, that some alternative of some other rule contains a reference to this altered \parserrule{content} rule (regardless of its quantitative operator).
-The list of shortcuts, that will be generated for this new setup is following:
+Imagine that some alternative of some other rule contains a reference to this altered \parserrule{content} rule (regardless of its quantitative operator).
+The list of shortcuts that will be generated for this new setup is following:
 
 \begin{itemize}
 	\itemsep0em
@@ -303,7 +303,7 @@ The list of shortcuts, that will be generated for this new setup is following:
 
 When we would be creating a child link holding the \interface{IContent} type, we would be setting cardinality of the child link depending on the cardinality of the \parserrule{content} reference.
 But each alternative of the altered \parserrule{content} rule requires a different number of children to be inserted.
-This means, that when we would follow the shortcut path and assign the \interface{IContent} interface to the \concept{Element{\_}1} and to the \concept{Element{\_}2} concept, we will lose the \textbf{+} cardinality information since we would only enable the user to insert one child of the \interface{IContent} child.
+This means that when we would follow the shortcut path and assign the \interface{IContent} interface to the \concept{Element{\_}1} and to the \concept{Element{\_}2} concept, we will lose the \textbf{+} cardinality information since we would only enable the user to insert one child of the \interface{IContent} child.
 \\
 
 A small example might demonstrate this better.

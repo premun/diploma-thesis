@@ -13,7 +13,7 @@ It is up to this concept's TextGen method to append its children into the stream
 What we would like to do here, is to create a TextGen aspect for each concept and generate some BaseLanguage code for its TextGen method.
 The TextGen method is, again, an AST built out of concept nodes as described in Section~\ref{chap:generating_code_inside_mps}.
 We need to create a root node of the method and to its body child add a list of BaseLanguage statement nodes that represent the code of the method.
-Let's illustrate this using our SimpleXML example, namely the \concept{Element{\_}1} concept, that represents the full XML tag with content and is given by the first alternative of the \parserrule{element} rule:
+Let's illustrate this using our SimpleXML example, namely the \concept{Element{\_}1} concept that represents the full XML tag with content and is given by the first alternative of the \parserrule{element} rule:
 
 \begin{antlr}
 	\parserrule{element}   :   \literal{<} \lexerrule{Name} \parserrule{attribute}* \literal{>} \parserrule{content}* \literal{</} \lexerrule{Name} \literal{>}
@@ -21,7 +21,7 @@ Let's illustrate this using our SimpleXML example, namely the \concept{Element{\
           \textcolor{gray}{;}
 \end{antlr}
 
-A very basic example of a BaseLanguage code, that we would like to generate for this concept, is shown in Figure~\ref{fig:textgen_example}.
+A very basic example of a BaseLanguage code that we would like to generate for this concept, is shown in Figure~\ref{fig:textgen_example}.
 
 \begin{figure}[h]
 	\centering
@@ -44,7 +44,7 @@ For example in the \parserrule{element} rule, there is \lexerrule{Name} the elem
 So how does the parser know how to split tokens, how many whitespace characters are expected, and which characters are whitespace in the first place?
 
 \begin{itemize}
-	\item How does our TextGen generator know, that there should be a space in between \parserrule{attribute} and \lexerrule{Name} but is not required between \literal{\textless} and \lexerrule{Name}?
+	\item How does our TextGen generator know that there should be a space in between \parserrule{attribute} and \lexerrule{Name} but is not required between \literal{\textless} and \lexerrule{Name}?
 
 	\item How does it know there is no space between quotes and an attribute value inside the \parserrule{attribute} rule?
 
@@ -57,7 +57,7 @@ We have left the whitespace handling part out earlier in order to keep things mo
 There are two ways, how we can deal with whitespaces in ANTLR:
 
 \begin{itemize}
-	\item We can define special tokens, that don't need to be used inside any parser rule.
+	\item We can define special tokens that don't need to be used inside any parser rule.
 	We mark them with special flag, telling the parser to skip these characters when this token is matched:
 
 	\begin{antlr}
@@ -72,12 +72,12 @@ There are two ways, how we can deal with whitespaces in ANTLR:
 
 \subsubsection{The Whitespace Problem}
 
-The problem, that arises here, is that the skip syntax hides the whitespace information from the grammar.
+The problem that arises here, is that the skip syntax hides the whitespace information from the grammar.
 We have no way of tracing this information back.
 If, on the other hand, we decided to go with the explicit definition, and put \lexerrule{WHITESPACE} tokens everywhere, we would encounter much bigger problem.
 From the point of view of the TextGen aspect, it would help us a bit, but not completely, as we still don't know what string represents the rule.
 Secondly, when creating the structural aspect, we would create a property for each of these token references as per Section~\ref{chap:common_ground}.
-The effect of that would be, that the imported MPS language will become unusable.
+The effect of that would be that the imported MPS language will become unusable.
 The code will be full of placeholders waiting for whitespace characters (even though they might be unnecessary, i.e. [0..n]).
 \\
 
@@ -115,12 +115,12 @@ Consider the following excerpt from the official ANTLR XML grammar:
 \end{antlr}
 
 What is happening here, is that the author decided to skip whitespace characters only when we are inside of XML tags (see that the \parserrule{element} contains no explicit whitespace tokens).
-On the outside, they are being cleverly swallowed by the \parserrule{chardata} rule (its second alternative), that wraps any content.
+On the outside, they are being cleverly swallowed by the \parserrule{chardata} rule (its second alternative) that wraps any content.
 The \parserrule{content} rule is written a bit differently from our SimpleXML version.
 It is a little bit more complicated, but the shorter structure, showing all the different ways we can express the grammar in.
 \\
 
-The problem we find here is, that with all the features ANTLR has to offer, there are just too many ways, how we can handle whitespaces and they can get all mixed up together just like the previous example showed.
+The problem we find here is that with all the features ANTLR has to offer, there are just too many ways, how we can handle whitespaces and they can get all mixed up together just like the previous example showed.
 In the worst scenario, from the TextGen point of view, the language is skipping all whitespace characters silently and thus removing the information from the grammar completely.
 \\
 
@@ -131,7 +131,7 @@ This leaves us with the original question and the root problem --- \textbf{how d
 Following up on the question posed in the previous paragraph, we can ask ourselves a different question.
 If not our TextGen, how does the ANTLR parser know where whitespaces are due?
 Surely the parser must know, otherwise, it wouldn't be able to tell wrong code from the right.
-Well, the answer is, that it knows once it starts parsing some code depending on the inner state of the parser.
+Well, the answer is that it knows once it starts parsing some code depending on the inner state of the parser.
 Context modes make this quite simple.
 They are quite easy to work with on runtime when we are actually parsing some source code, but it is impossible to determine the mode for rules statically.
 In other words, it is impossible to detect, whether we are swallowing whitespaces silently for given rule or not.
@@ -163,7 +163,7 @@ If it encounters a whitespace, it will stop parsing previous token (unless there
 \\
 
 The reason the parser cannot differentiate tag name from attribute name without a separator is caused by their regular expressions.
-Consider a string \textbf{A}, representing the tag name (a string, that can be matched by the regular expression of the \lexerrule{Name} rule).
+Consider a string \textbf{A}, representing the tag name (a string that can be matched by the regular expression of the \lexerrule{Name} rule).
 Let string \textbf{B} be a string representing the attribute name.
 Whenever \textbf{A} and \textbf{B} share some same characters, we cannot clearly state, where one ends and the other starts (when placed together).
 More precisely, \textbf{A} can end with same characters as \textbf{B} can start with.
@@ -176,7 +176,7 @@ We could try to generate strings that satisfy both regular expressions, but prob
 Then we would need to examine them somehow, in order to detect similarity.
 \\
 
-Now what happens, if one of our children, that can have zero cardinality, is empty (no element attributes)?
+Now what happens, if one of our children that can have zero cardinality, is empty (no element attributes)?
 What are we going to do about whitespaces wrapping this child?
 In this case we should probably do the same suffix/prefix comparison with the next-next child on the way, skipping the empty one.
 Additionally let's not forget that all this logic needs to be contained in generated BaseLanguage code.
@@ -186,7 +186,7 @@ We have decided to settle for a more simple heuristics, which is described in Se
 
 \subsection{Layout}
 
-We have already established, that whitespaces are hard to get right.
+We have already established that whitespaces are hard to get right.
 But how about the code layout itself?
 What if we want to produce more readable code by adding i.e. indentation or line breaks?
 Can we for example use the same information, we were mining when building the projectional editor?
@@ -196,37 +196,37 @@ It would seem like the editor and code layout are very close to each other and s
 One idea, on how to approach layout inside the TextGen aspect, would be creating a really smart universal TextGen method.
 It would be static (always the same, independently of the grammar) and it would be the same for each concept of the language.
 It could read the projectional editor definition and then somehow try to mimic this layout on output.
-This might be quite straightforward, because each cell has its specific function, that could be translated into a text layout.
-The added value of this approach would be, that whenever user decides to adjust and improve the projectional editor, it would get automatically reflected inside this universal TextGen.
-It would also have a drawback, that when user would want to change the TextGen definition for some concept, he would have to build it from scratch.
+This might be quite straightforward, because each cell has its specific function that could be translated into a text layout.
+The added value of this approach would be that whenever user decides to adjust and improve the projectional editor, it would get automatically reflected inside this universal TextGen.
+It would also have a drawback that when user would want to change the TextGen definition for some concept, he would have to build it from scratch.
 \\
 
 After this proposal was discussed with JetBrains, it was immediately rejected.
-The main reason for this being, that aspects should be independent of each other.
-This means, that when someone would like to introduce an extension of a language and change the editor, it might influence the TextGen in a way that, it would start generating invalid code (e.g. we could for example easily remove the “if” keyword from the projectional part).
+The main reason for this being that aspects should be independent of each other.
+This means that when someone would like to introduce an extension of a language and change the editor, it might influence the TextGen in a way that, it would start generating invalid code (e.g. we could for example easily remove the “if” keyword from the projectional part).
 Sometimes we might also want to define more projectional editors and switch between them, which would also make this dysfunctional.
 This is probably the reason that JetBrains haven't introduced their own universal TextGen so far (just like they introduced a default projectional editor).
 
 \subsection{Our Solution}
 \label{chap:textgen_solution}
 
-After the analysis, we have come to a conclusion, that the problem of TextGen layout is quite similar to the one we have seen with the projectional editor, described in Chapter~\ref{chap:editor_aspect}.
+After the analysis, we have come to a conclusion that the problem of TextGen layout is quite similar to the one we have seen with the projectional editor, described in Chapter~\ref{chap:editor_aspect}.
 Since we are mostly dealing with text-based languages, their editor representation must be almost the same as their expected text output.
 Once we would have some information about the layout for generating better projectional editor, we could leverage the same information and use it for TextGen improvement too.
-We have, however, decided, that adjusting the editor manually, after the import is done, is for now the fastest and the most efficient way how to deal with this problem, so we have no information to leverage here.
+We have, however, decided that adjusting the editor manually, after the import is done, is for now the fastest and the most efficient way how to deal with this problem, so we have no information to leverage here.
 \\
 
 Adjusting the layout, speaking in the terms of TextGen, means adding line breaks and indentation --- practically the same as what we are doing with the editor aspect.
-Nonetheless, aside from layout, there is still the problem concerning whitespaces, that we described above in Section~\ref{chap:whitespaces}.
+Nonetheless, aside from layout, there is still the problem concerning whitespaces that we described above in Section~\ref{chap:whitespaces}.
 We decided not to go into full depth and solve the problem using regular expression automata.
 We have, however, tried to improve the situation using some really simple heuristics which gave surprisingly good results.
 \\
 
-We have started with a very basic TextGen, that would insert spaces in between every two elements of the concept.
+We have started with a very basic TextGen that would insert spaces in between every two elements of the concept.
 Then we started restricting spaces on positions where we thought they are not needed.
 
 \begin{enumerate}
-	\item We have concluded, that whenever there is a literal, it is a plain string token defined in the grammar, that might, in most cases, get recognized by the parser safely without the need for a whitespace separator around (think \textbf{'\textless'} in XML).
+	\item We have concluded that whenever there is a literal, it is a plain string token defined in the grammar that might, in most cases, get recognized by the parser safely without the need for a whitespace separator around (think \textbf{'\textless'} in XML).
 	So whenever there is a non-alphabetical literal, we omit spaces around it.
 
 	\item Next, we were looking at properties (non-literal, but regex lexer rules).

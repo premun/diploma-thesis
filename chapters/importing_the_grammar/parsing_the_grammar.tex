@@ -58,7 +58,7 @@ We have put these thoughts into a~form of the following recursive algorithm:
 
 \begin{antlr}
 	Flatten(\textit{R}):
-	1) Define \textit{T} as a~list of empty string
+	1) Define \textit{T} as a list of empty string
 	2) For each alternative \textit{A} of the rule \textit{R}:
 	3)     Define \textit{R} = \ap\ap
 	4)     For each element \textit{E} of \textit{A}:
@@ -67,7 +67,7 @@ We have put these thoughts into a~form of the following recursive algorithm:
 	7)         \textit{R}.append(\textit{E})
 	8)         \textit{R}.append(\textit{E}.operator)
 	9)     \textit{T}.add(\textit{R})
-	10) Build a~string S out of elements t\textsubscript{1}, t\textsubscript{2}, ... t\textsubscript{n} of \textit{T}:
+	10) Build a string S out of elements t\textsubscript{1}, t\textsubscript{2}, ... t\textsubscript{n} of \textit{T}:
 	11)     (t\textsubscript{1})|(t\textsubscript{2})|...|(t\textsubscript{n})
 	12) Return \textit{S}
 \end{antlr}

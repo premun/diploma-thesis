@@ -27,7 +27,7 @@ They can:
 \subsection{Common Ground}
 \label{chap:common_ground}
 
-Some of the import steps are common for both approaches (Sections~\ref{chap:straightforward_approach} and~\ref{chap:shortcut_approach}).
+Some of the import steps are common for both approaches that we have implemented and described in Sections~\ref{chap:straightforward_approach} and~\ref{chap:shortcut_approach}.
 \\
 
 Firstly, we have noticed that whenever there is a~string literal inside a~parser rule's alternative (think of the \textbf{for} keyword from a~Java loop), it will appear only in that rule's projectional editor.
@@ -78,8 +78,6 @@ Next, we are going to describe two different approaches --- the straightforward 
 The difference between these two lies in the way we create children fields for parser rules and in the way we are going to link them together using interface concepts.
 Final solution will be described in Section~\ref{chap:structure_solution}.
 
-\newpage
-
 \input{chapters/importing_the_grammar/the_straightforward_approach}
 
 \input{chapters/importing_the_grammar/the_shortcut_approach}
@@ -96,6 +94,8 @@ Usually, you create the basic structure (i.e. different kinds of statements) in 
 \\
 
 Based on these observations and some grammar analysis, we concluded that advantages prevail and used the last mentioned approach.
+
+\newpage
 
 \subsection{The Structure Aspect and Other ANTLRv4 Features}
 \label{chap:antlr_features}

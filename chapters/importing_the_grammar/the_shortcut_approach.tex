@@ -32,6 +32,8 @@ We can see that the content rule can ultimately expand into following concepts:
 	\item \textbf{Content{\_}4} (CDATA)
 \end{itemize}
 
+\vspace{0.4cm}
+
 The layer problem (Section~\ref{chap:layer_problem}) dwells in the need of inserting the \concept{Content{\_}2} concept before being able to insert one of the \concept{Element{\_}1} or \concept{Element{\_}2} concepts.
 We would like to avoid that and offer directly the concepts that are at the end of the chain (in bold).
 These are concepts we would like to see in the auto-completion menu.
@@ -63,7 +65,7 @@ We have expressed this algorithm using a~pseudo-code:
 	3)  Define \parserrule{Q} as list of list of nodes
 	4)  For each alternative \parserrule{A} of rule \parserrule{R}:
 	5)      \parserrule{L1} = Clone(\parserrule{L})
-	6)      If \parserrule{A} is a~parser rule with only one element \parserrule{E}:
+	6)      If \parserrule{A} is a parser rule with only one element \parserrule{E}:
 	7)          Let \parserrule{I} be interface/concept representing rule \parserrule{E}
 	8)          \parserrule{L1}.Add(\parserrule{I})
 	9)          \parserrule{P} = FindPathsToEndNodes(\parserrule{E}, \parserrule{L1})
@@ -263,7 +265,6 @@ The built-in default auto-completion will start to behave exactly the same way o
 
 \paragraph{Cardinality Restriction}
 \label{chap:cardinality_restriction}
-% TODO: vysvetlit lip
 
 So far it looks like the last approach is superior to the auto-completion one.
 It avoids complicated code generation and even resulting MPS languages are more simple and better performant, as they are not bloated with auto-completion code.
@@ -271,8 +272,8 @@ There is one small drawback, though that makes this solution slightly suboptimal
 \\
 
 To remind the reader --- the cardinality of an element is telling us, how many of each specific child rules can occur inside an alternative.
-Inside the grammar, this was expressed using quantification operators (\textbf{*},\textbf{+} and \textbf{?}).
-The problem that appears here, can be shown using this example rule:
+In ANTLR, this was expressed using quantification operators (\textbf{*},\textbf{+} and \textbf{?}).
+The problem that appears here, can be shown using this modified rule:
 
 \begin{antlr}
 \parserrule{content}      :   \parserrule{element}+
@@ -283,15 +284,15 @@ The problem that appears here, can be shown using this example rule:
 
 Notice, how we changed the cardinality of elements inside the \parserrule{content} rule.
 This small change will prevent us from creating a~shortcut leading through this rule.
-We are trying to say that shortcuts that can be used for the smart interfaces approach, can only lead through rules that have cardinality [1..1].
+We are trying to say that shortcuts, that can be used for the smart interfaces approach, can only lead through rules that have cardinality [1..1].
 This means through an alternative with a~single child element that is a~reference to a~parser rule AND has the [1..1] cardinality.
 In the original \parserrule{content} rule, all alternatives look like this, so there was no problem.
 Speaking in terms of the shortcut algorithm (Section~\ref{chap:shortcut_algorithm}), we would alter line number 6 and add this restriction to the condition.
 \\
 
-This restriction is caused by the fact that we would be unable to control changing children cardinality on the whole shortcut path.
-Imagine that some alternative of some other rule contains a~reference to this altered \parserrule{content} rule (regardless of its quantitative operator).
-The list of shortcuts that will be generated for this new setup is following:
+Now we will try to explain, why is this restriction necessary.
+It is caused by the fact that we would be unable to control changing children cardinality on the whole shortcut path.
+The list of shortcuts that will be generated for this setup is following:
 
 \begin{itemize}
 	\itemsep0em
@@ -301,16 +302,14 @@ The list of shortcuts that will be generated for this new setup is following:
 	\item Content{\_}3\textbf{?}
 \end{itemize}
 
-When we would be creating a~child link holding the \interface{IContent} type, we would be setting cardinality of the child link depending on the cardinality of the \parserrule{content} reference.
-But each alternative of the altered \parserrule{content} rule requires a~different number of children to be inserted.
-This means that when we would follow the shortcut path and assign the \interface{IContent} interface to the \concept{Element{\_}1} and to the \concept{Element{\_}2} concept, we will lose the \textbf{+} cardinality information since we would only enable the user to insert one child of the \interface{IContent} child.
-\\
-
-A small example might demonstrate this better.
-We have an \interface{IContent} [1..1] child.
-If we disregarded the cardinality restriction, we could ultimately put there the \concept{Element{\_}1} end concept node.
-But the content rule says, there can be [1..n] elements.
-We are still bound to insert only one, though.
+For the \parserrule{content} rule, we would create an \interface{IContent} interface concept.
+Imagine that some alternative of some other rule contains a~reference to this altered \parserrule{content} rule, let's say with the [1..1] cardinality.
+This other rule's projectional editor would need to have a child link holding the \interface{IContent} type with cardinality [1..1] (one child).
+The problem is that the cardinality changes inside the shortcut path --- each alternative of the altered \parserrule{content} rule requires a~different number of children to be inserted (e.g. the first alternative has \parserrule{element}+).
+This means that when we would follow the shortcut path and assign the \interface{IContent} interface to the \concept{Element{\_}1} and to the \concept{Element{\_}2} concept, we will lose the [1..n] cardinality information since we would only enable the user to insert one child of the \interface{IContent} child.
+This conflict is caused, because we created an \interface{IContent} child link with cardinality [1..1], but the grammar says, there could be more \parserrule{elements} inside this child.
+If we disregarded the cardinality restriction, the child link could ultimately hold only one \concept{Element{\_}1} or \concept{Element{\_}2} concept.
+But the \parserrule{content} rule says, there can be more ([1..n]) \parserrule{element} rules.
 \\
 
 The smart auto-completion approach mentioned above could solve this problem by generating lists of children with the corresponding cardinality.

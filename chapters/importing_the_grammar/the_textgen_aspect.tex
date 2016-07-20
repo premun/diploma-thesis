@@ -124,7 +124,9 @@ The problem we find here is that with all the features ANTLR has to offer, there
 In the worst scenario, from the TextGen point of view, the language is skipping all whitespace characters silently and thus removing the information from the grammar completely.
 \\
 
-This leaves us with the original question and the root problem --- \textbf{how does our TextGen aspect know between which children there must be a~whitespace and where it is forbidden so that the produced code is a~valid one?}
+This leaves us with the original question and the root problem:
+\\
+\textbf{How does our TextGen aspect know between which children there must be a~whitespace and where it is forbidden so that the produced code is a~valid one?}
 
 \subsubsection{Possible Improvements}
 
@@ -259,8 +261,7 @@ If we wanted to manually adjust this generated code, so it generates nice indent
 This is a~very fast and small adjustment, so we concluded that it is right to expect the user to do this kind of adjustments on his own.
 Resulting adjusted aspect is shown below in Figure~\ref{fig:textgen_adjusted}.
 
-% TODO: zarovnat nahoru
-\begin{figure}[!ht]
+\begin{figure}[t!]
 	\centering
 	\includegraphics[width=85mm]{./img/textgen_adjusted.png}
 	\caption{Adjusted indentation inside the TextGen aspect}

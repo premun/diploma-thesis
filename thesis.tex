@@ -47,8 +47,13 @@
 
 %%% Appendum
 \include{formalities/bibliography}
+
+% Allow appendices to start at the left page too, when printing two-side
+\makeatletter
+\@openrightfalse
+\makeatother
+
 \include{formalities/attachments}
 \include{formalities/listoffigures}
 
-\openright
 \end{document}

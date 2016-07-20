@@ -6,7 +6,7 @@ That means creating concepts inside the structure aspect and linking them togeth
 \\
 
 We will describe several different attempts (Sections~\ref{chap:straightforward_approach} and~\ref{chap:shortcut_approach}) the author has tried out and show some problems these attempts introduced.
-We consider it a better approach than just simple description of the final solution because it might prevent others from falling into similar pitfalls such as we discovered ourselves.
+We consider it a~better approach than just simple description of the final solution because it might prevent others from falling into similar pitfalls such as we discovered ourselves.
 
 
 \subsection{Concept Types}
@@ -16,12 +16,12 @@ As stated before, concepts are building blocks of all MPS languages and they can
 They can:
 
 \begin{itemize}
-	\item extend a parent concept
+	\item extend a~parent concept
 	\item inherit any number of interfaces (interface concepts)
-	\item have properties (similar to class fields) with a given data type --- either a primitive type such as string or integer, or a constraint data type --- a string whose value is restricted by a regular expression
-	\item have children concepts (defined as a concept or an interface concept)
+	\item have properties (similar to class fields) with a~given data type --- either a~primitive type such as string or integer, or a~constraint data type --- a~string whose value is restricted by a~regular expression
+	\item have children concepts (defined as a~concept or an interface concept)
 	\item hold references to other nodes (e.g. function call statement would know reference to the function definition)
-	\item have an \textit{alias} and a \textit{description} field for their better identification in auto-completion menus
+	\item have an \textit{alias} and a~\textit{description} field for their better identification in auto-completion menus
 \end{itemize}
 
 \subsection{Common Ground}
@@ -30,13 +30,13 @@ They can:
 Some of the import steps are common for both approaches (Sections~\ref{chap:straightforward_approach} and~\ref{chap:shortcut_approach}).
 \\
 
-Firstly, we have noticed that whenever there is a string literal inside a parser rule's alternative (think of the \textbf{for} keyword from a Java loop), it will appear only in that rule's projectional editor.
+Firstly, we have noticed that whenever there is a~string literal inside a~parser rule's alternative (think of the \textbf{for} keyword from a~Java loop), it will appear only in that rule's projectional editor.
 There is no need for it to have any function as it is set in stone as an unchangeable part of that alternative's appearance.
 It might serve its purpose when describing or naming this alternative inside an auto-complete menu, but we will get to that part below.
 \\
 
 Secondly, we can take the flattened lexer rules that contain the regular expression, we have built by gluing its parts together in the parsing stage.
-For each one of these, we create a constraint data type concept, which is exactly what we need.
+For each one of these, we create a~constraint data type concept, which is exactly what we need.
 We will be able to later create properties of concepts and set their data type as this constraint data type concept, effectively restricting their value using given regular expression.
 \\
 
@@ -44,7 +44,7 @@ Last, we take all literals found in the alternative and glue them together to on
 We will use the name of the parser rule, this alternative belongs to, as the description text for the concept.
 \\
 
-To illustrate what a concept for a sample alternative looks like, consider the element concept that represents the full XML tag with content:
+To illustrate what a~concept for a~sample alternative looks like, consider the element concept that represents the full XML tag with content:
 
 \begin{antlr}
 	\parserrule{element}      :   \literal{<} \lexerrule{Name} \parserrule{attribute}* \literal{>} \parserrule{content}* \literal{</} \lexerrule{Name} \literal{>}
@@ -52,7 +52,7 @@ To illustrate what a concept for a sample alternative looks like, consider the e
              \textcolor{gray}{;}
 \end{antlr}
 
-Because we are creating a new concept for each alternative of the rule, we will be numbering them correspondingly.
+Because we are creating a~new concept for each alternative of the rule, we will be numbering them correspondingly.
 The concept that will represent the first alternative of the \parserrule{element} rule, will therefore be named \concept{Element{\_}1}
 (we will mark concepts \concept{green} and interfaces \interface{purple}).
 
@@ -90,7 +90,7 @@ Final solution will be described in Section~\ref{chap:structure_solution}.
 In the end, we have decided to go with the shortcut approach using smart interfaces.
 As we have stated above, it has several advantages, concerning the solution complexity, compared to the smart auto-completion.
 It only has one disadvantage regarding the cardinality restriction, described in Section~\ref{chap:cardinality_restriction}.
-We have analyzed several ANTLR grammars (such as the JavaScript~\cite{javascript}) and we haven't found a single intermediate rule that would be suffering from this restriction.
+We have analyzed several ANTLR grammars (such as the JavaScript~\cite{javascript}) and we haven't found a~single intermediate rule that would be suffering from this restriction.
 It is quite understandable if you think about how grammars are written.
 Usually, you create the basic structure (i.e. different kinds of statements) in the simplest way possible and put the quantitative operator rather to an alternative that is referencing the structure.
 \\
@@ -103,13 +103,13 @@ Based on these observations and some grammar analysis, we concluded that advanta
 The ANTLR grammar notation offers more features than just rule definition.
 We haven't mentioned these earlier because we were focusing solely on the structure of the language.
 We will mention some features and explain why we have ignored them and why they don't matter to us.
-We will not spend a lot of time on describing details of these as they are well documented in the official ANTLR reference~\cite{ANTLR4reference}.
+We will not spend a~lot of time on describing details of these as they are well documented in the official ANTLR reference~\cite{ANTLR4reference}.
 
 \subsubsection{Modes}
 
 For example, just like any other parser/lexer, ANTLR gives us the possibility to switch the parsing context.
 We are able to create various user-specified modes and then enter these modes when certain rules/tokens are encountered.
-For each mode, we can define a different set of rules/tokens that can only be applied when the parser is in that particular mode.
+For each mode, we can define a~different set of rules/tokens that can only be applied when the parser is in that particular mode.
 The syntax is following:
 
 \begin{antlr}
@@ -130,15 +130,15 @@ It is even possible to define concepts that control mode switching and then not 
 They still get recognized by the lexer and mode is changed.
 \\
 
-The reason that this goes beyond our interest here is partially caused by the fact that modes are used on runtime when we are parsing actual code, whereas language structure is more of a static matter.
+The reason that this goes beyond our interest here is partially caused by the fact that modes are used on runtime when we are parsing actual code, whereas language structure is more of a~static matter.
 The only time we care about modes is when generating the TextGen aspect, and we will get back to it later in Section~\ref{chap:textgen}.
 
 \subsubsection{Actions, Attributes and Semantic Predicates}
 
 Actions allow us to append code to rules and this code is then executed every time the parser applies this rule.
 The code is written in the target language that you are creating the parser for.
-It is then copied as a string and inserted into the method that is bound to parsing this rule.
-Again, this is of a little interest to us.
+It is then copied as a~string and inserted into the method that is bound to parsing this rule.
+Again, this is of a~little interest to us.
 Usually, this is used when creating some specific parsers for some particular scenario.
 We, however, are expecting to parse general purpose languages that contain actions just rarely.
 And even when they did, we cannot be sure what language will it be in and how to use it.
@@ -150,4 +150,4 @@ From exactly the same reasons as with actions, attributes are of no interest to 
 \\
 
 Semantic predicates tell the parser on runtime, which rules can be applied depending on specified constraints.
-This is also a runtime matter.
+This is also a~runtime matter.

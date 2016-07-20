@@ -4,11 +4,11 @@
 The first stage of the import process is parsing the grammar file so that we can get an AST tree representing the grammar.
 The parser must be able to read any grammar file and extract the structure information.
 As stated in the chapter defending the grammar notation selection (Chapter~\ref{chap:source_grammar_notation}), there exists an ANTLRv4 grammar for the ANTLRv4 notation~\cite{ANTLR4reference}.
-This means that we can use the ANTLR library~\cite{ANTLR4} to generate a Java ANTLR parser of the ANTLRv4 notation.
+This means that we can use the ANTLR library~\cite{ANTLR4} to generate a~Java ANTLR parser of the ANTLRv4 notation.
 
 \subsection{Grammar Representation}
 
-The abstract syntax tree that comes out of the automatically generated parser, is a little bit complicated and full of information not relevant to us.
+The abstract syntax tree that comes out of the automatically generated parser, is a~little bit complicated and full of information not relevant to us.
 It also contains all structures including ANTLR's special characters (pipes, semicolons, comments...), because ANTLR doesn't understand the grammar and just parses it.
 That is why we decided to translate the complex ANTLR AST into our own simplified tree made out of our own objects.
 We discarded as much irrelevant information as possible and only kept vital data.
@@ -16,14 +16,14 @@ We can understand this simplified tree way better and it brings more clarity int
 \\
 
 Furthermore, we process the grammar in two iterations.
-In the first, we build a tree holding names of other referenced rules in the form of strings.
+In the first, we build a~tree holding names of other referenced rules in the form of strings.
 In the second, we walk this tree and resolve all these references to real pointers to other rule objects.
-We end up with a neat representation that is easy to parse in next steps of the import process.
+We end up with a~neat representation that is easy to parse in next steps of the import process.
 
 \subsection{Flattening Lexer Rules}
 One of the questions we had to deal with was lexer rule representation.
 Not minding all the syntactic sugar ANTLR is offering for their definition, in the end, lexer rules are basically just regular expressions used for parsing input source code into tokens.
-However, after the initial parsing, we end up with some kind of a tree structure that is representing the lexer rule (lexer rules can also be built from alternatives just like parser rules).
+However, after the initial parsing, we end up with some kind of a~tree structure that is representing the lexer rule (lexer rules can also be built from alternatives just like parser rules).
 We would like to take this tree that represents the lexer rule and flattens it into the regular expression.
 Later in the import process, we would like to assign this expression to some constraint entity representing the rule.
 
@@ -53,12 +53,12 @@ The regular expression describing the \lexerrule{Name} rule is following:
 	\texttt{[:a-zA-Z](([:a-zA-Z])|\textbackslash-|{\_}|\textbackslash.|[0-9])*}
 \end{center}
 
-We can notice that we can achieve this by gluing elements of each alternative together and then joining these alternatives with a classic regex OR ($|$), which is exactly its function in the ANTLR grammar notation.
-We have put these thoughts into a form of the following recursive algorithm:
+We can notice that we can achieve this by gluing elements of each alternative together and then joining these alternatives with a~classic regex OR ($|$), which is exactly its function in the ANTLR grammar notation.
+We have put these thoughts into a~form of the following recursive algorithm:
 
 \begin{antlr}
 	Flatten(\textit{R}):
-	1) Define \textit{T} as a list of empty string
+	1) Define \textit{T} as a~list of empty string
 	2) For each alternative \textit{A} of the rule \textit{R}:
 	3)     Define \textit{R} = \ap\ap
 	4)     For each element \textit{E} of \textit{A}:
@@ -67,12 +67,12 @@ We have put these thoughts into a form of the following recursive algorithm:
 	7)         \textit{R}.append(\textit{E})
 	8)         \textit{R}.append(\textit{E}.operator)
 	9)     \textit{T}.add(\textit{R})
-	10) Build a string S out of elements t\textsubscript{1}, t\textsubscript{2}, ... t\textsubscript{n} of \textit{T}:
+	10) Build a~string S out of elements t\textsubscript{1}, t\textsubscript{2}, ... t\textsubscript{n} of \textit{T}:
 	11)     (t\textsubscript{1})|(t\textsubscript{2})|...|(t\textsubscript{n})
 	12) Return \textit{S}
 \end{antlr}
 
-The output of \texttt{Flatten(Name)} then would return a regular expression in the form of:
+The output of \texttt{Flatten(Name)} then would return a~regular expression in the form of:
 
 \begin{center}
 	\texttt{([:a-zA-Z])(([:a-zA-Z])|(-)|({\_})|(.)|([0-9]))*}
@@ -80,12 +80,12 @@ The output of \texttt{Flatten(Name)} then would return a regular expression in t
 
 We have made some further adjustments, which, for example, escape special characters or remove unnecessary braces.
 Then we had to add some other minor transformations, because the regular expression notation of ANTLR is not the same as in MPS (Java).
-Special characters also had to be doubly escaped, because MPS holds regular expressions in the form of a string and not all escape sequences are allowed.
+Special characters also had to be doubly escaped, because MPS holds regular expressions in the form of a~string and not all escape sequences are allowed.
 
 \subsection{Subrules}
 \label{chap:subrules}
 
-A new feature, called \textit{subrules}\footnote{https://github.com/antlr/antlr4/blob/master/doc/parser-rules.md\#subrules}, was added to the fourth version of the ANTLR notation that makes parsing the structure a little bit more complicated for us.
+A new feature, called \textit{subrules}\footnote{https://github.com/antlr/antlr4/blob/master/doc/parser-rules.md\#subrules}, was added to the fourth version of the ANTLR notation that makes parsing the structure a~little bit more complicated for us.
 This feature allows inlining some rule expansions directly inside an alternative.
 Following excerpt from the official XML's ANTLRv4 grammar definition shows this extended syntax:
 
@@ -93,14 +93,14 @@ Following excerpt from the official XML's ANTLRv4 grammar definition shows this 
 	\parserrule{content} :   \lexerrule{TEXT}? ((\parserrule{element}? | \lexerrule{CDATA} | \lexerrule{COMMENT}) \lexerrule{TEXT}?)* ;
 \end{antlr}
 
-There is a nested block contained in the second part of the rule that has another block nested inside (in-line alternatives).
+There is a~nested block contained in the second part of the rule that has another block nested inside (in-line alternatives).
 Even though the content rule contains only one top-level alternative, it is possible to build its contents from more variations.
 There can be any number of levels of these nested blocks and each block can be annotated with its own quantification operator.
 \\
 
-This holds a complication for us because we need to parse these subrules too.
-We decided to solve this by a recursive traversal of the AST and expanding subrules just like they were classic simple parser rules.
-For each subrule block, we generate a new parser rule and then reference this rule from its original place.
+This holds a~complication for us because we need to parse these subrules too.
+We decided to solve this by a~recursive traversal of the AST and expanding subrules just like they were classic simple parser rules.
+For each subrule block, we generate a~new parser rule and then reference this rule from its original place.
 The full expanded content rule then looks like this:
 
 \begin{antlr}

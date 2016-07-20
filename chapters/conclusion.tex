@@ -8,28 +8,28 @@ Main goals of the thesis~(Chapter~\ref{chap:main_goals}) were presumably achieve
 
 Firstly, the author, in chapters~\ref{chap:jetbrains_mps} and~\ref{chap:related_projects}, explored the given environment and made some technological decisions, such as choosing the grammar notation (Chapter~\ref{chap:source_grammar_notation}).
 These decisions proved to be good ones since they enabled the author to achieve further goals quite efficiently.
-By \textit{further goals} we mainly mean an MPS plugin implementation enabling automatic import of a given ANTLRv4 grammar as an MPS language. This was, together with some interesting problems that have come up, covered in Chapter~\ref{chap:importing_the_grammar}.
-The resulting MPS language is usable and, after some customization, can be used as a solid foundation for a full MPS port of this language.
-Some simple languages, such as JSON or JavaScript, yield very good results, comparable to existing manual ports, but sparing the user from a lot of tedious and time-consuming work.
+By \textit{further goals} we mainly mean an MPS plugin implementation enabling automatic import of a~given ANTLRv4 grammar as an MPS language. This was, together with some interesting problems that have come up, covered in Chapter~\ref{chap:importing_the_grammar}.
+The resulting MPS language is usable and, after some customization, can be used as a~solid foundation for a~full MPS port of this language.
+Some simple languages, such as JSON or JavaScript, yield very good results, comparable to existing manual ports, but sparing the user from a~lot of tedious and time-consuming work.
 \\
 
 It is also hard to measure the success, because before the work on this thesis has started, it had been quite unclear, what can actually be achieved.
 For instance, it was presumed (both by JetBrains and the supervisor) that the biggest part of the research would be devoted to the problem of projectional editor generation.
-It was expected that we will spend a lot of time figuring out, how to derive the code layout from the grammar.
-However, a major part of the effort was put into the structure aspect, which turned out to hold some important problems on its own.
+It was expected that we will spend a~lot of time figuring out, how to derive the code layout from the grammar.
+However, a~major part of the effort was put into the structure aspect, which turned out to hold some important problems on its own.
 Some of these problems have been overcome and some remain unresolved.
 The most important problems that we were unable to solve, concern the structure of the language and are described in Chapter~\ref{chap:problems_with_grammars}.
-It is up to a debate, whether they can be solved at all.
+It is up to a~debate, whether they can be solved at all.
 \\
 
-During the work on this thesis, we have come to a conclusion that the source of some major problems comes from the fact that we are using the grammar for a little bit different purpose than it was designed for.
+During the work on this thesis, we have come to a~conclusion that the source of some major problems comes from the fact that we are using the grammar for a~little bit different purpose than it was designed for.
 Parsing existing source code and devising rules for creating it are two different points of view, which could be seen for example in Section~\ref{chap:textgen}.
 These problems also present potential obstacles for future follow-up work, so we believe that it is very important, we have identified them and pointed them out.
 \\
 
-As per some ongoing discussions with others researching grammar-to-MPS import, it looks like this thesis might become a useful resource for future efforts.
+As per some ongoing discussions with others researching grammar-to-MPS import, it looks like this thesis might become a~useful resource for future efforts.
 Follow-up work might look more into the problem of code layout detection, possibly exploring suggested approaches such as the one described in Section~\ref{chap:learning_approach}.
 This could lead to better results in editor and TextGen aspect generation which could defnitely use some improvement.
 Another future endeavors will definitely touch the subject of generating parsers that would enable the user to import existing source code into MPS.
-This could be a very important breakthrough that would help with adoption of the MPS editor.
+This could be a~very important breakthrough that would help with adoption of the MPS editor.
 This thesis might definitely help in this area since we have brought up some possible issues, such as the ones mentioned in Chapter~\ref{chap:problems_with_grammars}.

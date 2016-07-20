@@ -1,12 +1,12 @@
 \subsection{The Straightforward Approach}
 \label{chap:straightforward_approach}
 
-The first attempt was quite straightforward and a little bit explorative, in the way that the author had to discover the MPS API that allows programmatical language generation.
+The first attempt was quite straightforward and a~little bit explorative, in the way that the author had to discover the MPS API that allows programmatical language generation.
 Because MPS is still in development, the API isn't that well documented and some features had to be discovered through trial and error or through examination of the PE4MPS project (Section~\ref{chap:pe4mps}), which served great aid here.
 
 \subsubsection{The Algorithm}
 \label{chap:straight_algorithm}
-The main idea behind the first attempt comes from the realization that when a parser rules breaks into more alternatives, we need to create a concept for each alternative.
+The main idea behind the first attempt comes from the realization that when a~parser rules breaks into more alternatives, we need to create a~concept for each alternative.
 Then we have to somehow mark them as belonging to that parser rule.
 Consider the \parserrule{content} rule from our SimpleXML language:
 
@@ -20,7 +20,7 @@ Consider the \parserrule{content} rule from our SimpleXML language:
 
 We will need to have 4 concepts that could appear anywhere the \parserrule{content} rule is referenced.
 That is why we decided that for each rule with more than one alternative, we will create an interface concept.
-Then for each alternative of this rule, we will create a concept that will implement this interface.
+Then for each alternative of this rule, we will create a~concept that will implement this interface.
 So for our \parserrule{content} example, we will get following setup:
 
 \begin{antlr}
@@ -31,7 +31,7 @@ So for our \parserrule{content} example, we will get following setup:
 \end{antlr}
 
 Names of these concepts are derived from the name of the rule, numbers are added to alternatives correspondingly.
-For rules with a single alternative, no interface is needed.
+For rules with a~single alternative, no interface is needed.
 For rules that contain in-line block rules (Section~\ref{chap:subrules}), we have already created artificial parser rules in our tree representation during the parser phase (Section~\ref{chap:parsing_the_grammar}), which means we do not have to worry about them now.
 \\
 
@@ -45,7 +45,7 @@ Consider the \parserrule{element} rule that is referencing the \parserrule{conte
 \end{antlr}
 
 Following the algorithm mentioned above, there is one \interface{IElement} interface and two \concept{Element{\_}1}, \concept{Element{\_}2} concepts created.
-For each referenced parser rule inside a concept, we create a child link and point it to the right interface.
+For each referenced parser rule inside a~concept, we create a~child link and point it to the right interface.
 In our example, for concept \concept{Element{\_}1}, there would be two child links pointing to \interface{IAttribute} and \interface{IContent}.
 In Figure~\ref{fig:element_concept_full}, you can see the full \concept{Element{\_}1} concept.
 
@@ -78,14 +78,14 @@ We will demonstrate this problem on the SimpleXML language, using \parserrule{el
 \end{antlr}
 
 When we would be editing code in this language, the MPS auto-complete would give us aid when filling out all properties and children of inserted concepts.
-Imagine there is a freshly inserted \concept{Element{\_}1} concept (a concept representing the full XML element as is stated in the first alternative of the \parserrule{element} parser rule).
+Imagine there is a~freshly inserted \concept{Element{\_}1} concept (a concept representing the full XML element as is stated in the first alternative of the \parserrule{element} parser rule).
 This setup can be seen in the left part of Figure~\ref{fig:layer_problem}.
 Now, we would like to insert some content inside.
-Let's say we would like to insert a nested XML element inside.
+Let's say we would like to insert a~nested XML element inside.
 We would place the cursor in the content placeholder and press Ctrl+Space to view the auto-completion options.
 \\
 
-Following the algorithm mentioned above, we have created a child link of the \concept{Element{\_}1} concept of type \interface{IContent}.
+Following the algorithm mentioned above, we have created a~child link of the \concept{Element{\_}1} concept of type \interface{IContent}.
 There exist 4 concepts that implement the \interface{IContent} interface as per each alternative of the rule.
 MPS evaluates this and gives us 4 options inside the auto-complete.
 This auto-complete is captured in Figure~\ref{fig:layer_problem}.
@@ -97,8 +97,8 @@ This auto-complete is captured in Figure~\ref{fig:layer_problem}.
 	\label{fig:layer_problem}
 \end{figure}
 
-In order to correctly insert another nested element inside, we would have to first insert a \concept{Content{\_}2} concept inside \concept{Element{\_}1} that has an \interface{IElement} child inside (and nothing else).
-Then, as a second step, we would call for the auto-complete again and insert either \concept{Element{\_}1} or \concept{Element{\_}2} inside \concept{Content{\_}2}.
+In order to correctly insert another nested element inside, we would have to first insert a~\concept{Content{\_}2} concept inside \concept{Element{\_}1} that has an \interface{IElement} child inside (and nothing else).
+Then, as a~second step, we would call for the auto-complete again and insert either \concept{Element{\_}1} or \concept{Element{\_}2} inside \concept{Content{\_}2}.
 This mean that we have to go through two steps and in the first one either guess correctly (or remember the grammar rule's alternative order), to know, which item of the auto-complete we should go with.
 \\
 
@@ -108,14 +108,14 @@ This leads to confusion on user's part.
 \\
 
 We tried to ease this situation up by creating aliases for concepts derived from their content (names such as “Element content” or “CDATA content” instead of Content{\_}N), but the problem goes beyond this.
-Take into consideration that the SimpleXML grammar is a very simple one.
-More sophisticated languages may have more than two intermediary layers and writing code would consist of clicking through a large number of auto-completes like shown in the example above.
-There is also nothing preventing authors of grammars from naming these helper layers in a completely unrelated manner, which would make user's orientation even harder.
+Take into consideration that the SimpleXML grammar is a~very simple one.
+More sophisticated languages may have more than two intermediary layers and writing code would consist of clicking through a~large number of auto-completes like shown in the example above.
+There is also nothing preventing authors of grammars from naming these helper layers in a~completely unrelated manner, which would make user's orientation even harder.
 After all, these layers come into existence when the grammar is being written, so that it is more readable for humans and maybe better maintainable by the author.
 It has nothing to do with making the AST simple for the ANTLR parser.
 ANTLR is very capable and handles this probably very well in any form.
 \\
 
-Furthermore, using in-line subrule blocks makes this even a bigger problem as the block rule's names are auto-generated by our parser and differ only by numbers, even though the alias assigning process improves the situation by a bit.
+Furthermore, using in-line subrule blocks makes this even a~bigger problem as the block rule's names are auto-generated by our parser and differ only by numbers, even though the alias assigning process improves the situation by a~bit.
 But from the point of view of the grammar's author, it is an invisible layer of rules nested inside.
 

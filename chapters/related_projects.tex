@@ -1,62 +1,62 @@
 \chapter{Related Projects}
 \label{chap:related_projects}
 
-From the beginning, it was clear that there are more ways how to approach the problem of a grammar import.
+From the beginning, it was clear that there are more ways how to approach the problem of a~grammar import.
 The first step in the exploration of this topic was research of projects that try to tackle the same or similar problem, as we do.
 Part of the goal of this thesis was to evaluate pros and cons of other approaches because we had to decide whether we will build on top of these projects, use their parts or just be inspired by them.
 Some of those decisions were made together with employees of the JetBrains company as they also have some vested interest in this thesis' outcome and wish for some specific functionality.
 \\
 
-Studying similar projects turned out to be a really good choice for the first step, as it gave the author of this work much better insight in what problems might arise along the way.
+Studying similar projects turned out to be a~really good choice for the first step, as it gave the author of this work much better insight in what problems might arise along the way.
 More importantly, it put goals of this thesis in perspective and helped us realize how we want to try to solve this problem.
 
 \section{PE4MPS}
 \label{chap:pe4mps}
 PE4MPS~\cite{PE4MPS} is an open source project that is trying to solve the same problem as we do.
-It is dealing with the fact that grammars lack the layout aspect in them by creating a new grammar notation called PE Grammars~\cite{PE} (the PE abbreviation comes from projectional editing).
+It is dealing with the fact that grammars lack the layout aspect in them by creating a~new grammar notation called PE Grammars~\cite{PE} (the PE abbreviation comes from projectional editing).
 
 \subsection{Project Description}
 The author decided to mimic an existing grammar notation called ANTLRv4~\cite{ANTLR4} and enrich its syntax with own constructs.
 These extensions hint the parser, what the AST node layout should look like.
 The parser then uses this information when generating the projectional editor for this node.
 The author described the PE syntax using the ANTLRv4 notation~\cite{ANTLR4reference} and then auto-generated an ANTLRv4 parser for PE grammar files.
-This PE parser then reads any PE file and stores the language structure found inside to a custom representation of Java objects.
+This PE parser then reads any PE file and stores the language structure found inside to a~custom representation of Java objects.
 \\
 
 On top of the PE parser project, the PE4MPS project is built.
 The PE4MPS project contains an MPS plugin, similar to what we are trying to build in this thesis.
 This plugin uses the parser to build the PE file representation (the aforementioned tree-like structure of Java objects) and then creates concepts and their aspects inside MPS.
-The extended syntax that PE brings, describes the layout of each element, e.g. it tells the plugin that this set of child nodes should be displayed horizontally, another set should be vertical --- each child on a separate line with some indentation and so on.
+The extended syntax that PE brings, describes the layout of each element, e.g. it tells the plugin that this set of child nodes should be displayed horizontally, another set should be vertical --- each child on a~separate line with some indentation and so on.
 
 \subsection{Approach Evaluation}
 Even though this project has some interesting ideas, we decided not to follow its approach with our own implementation.
-The author of this theses by no means wishes for defaming the PE project or declare it as a bad one.
-We only came to a conclusion that it deals with a similar problem slightly differently in a way that does not suite our cause.
+The author of this theses by no means wishes for defaming the PE project or declare it as a~bad one.
+We only came to a~conclusion that it deals with a~similar problem slightly differently in a~way that does not suite our cause.
 We will try to explain to the reader what were major factors that lead to this decision.
 \\
 
 The main goal of this thesis is to automatize as much as possible.
-We would like to import full language structure and then do a lot of mundane and time-consuming work connected to creating projectional editors.
+We would like to import full language structure and then do a~lot of mundane and time-consuming work connected to creating projectional editors.
 The problem we identify within PE is that it does not really spare us this work, but only shifts this work from projectional editor to writing PE grammars.
-So what the user could have been doing inside MPS UI using the projectional editor, which specially made for this, now has to be done using a text editor when editing grammars.
-The text editor is not as user-friendly and, more importantly, a very error prone environment.
-Even more so as so far there are only a few extensions implemented such as horizontal and vertical lists and some indentation rules and even these few features make the already not-so-simple syntax much more complex.
+So what the user could have been doing inside MPS UI using the projectional editor, which specially made for this, now has to be done using a~text editor when editing grammars.
+The text editor is not as user-friendly and, more importantly, a~very error prone environment.
+Even more so as so far there are only a~few extensions implemented such as horizontal and vertical lists and some indentation rules and even these few features make the already not-so-simple syntax much more complex.
 We conclude that adding more features would continue on making the grammar language even more complicated.
 \\
 
 Another reason for deciding to abandon this approach is that MPS always strives for simplicity when it comes to the end user of MPS languages.
 The idea is helping the user as much as possible to code inside MPS, using aids such as auto-completion.
-This enables the user to leverage the advantage of having a better understanding of the code thanks to the AST representation than regular IDEs usually have when only parsing text.
+This enables the user to leverage the advantage of having a~better understanding of the code thanks to the AST representation than regular IDEs usually have when only parsing text.
 On the contrary, users of PE would have to study ANTLR and PE's new syntax.
 Users would also need to study particular ANTLR grammar of the language they're importing so that they know which parts of the language should be adjusted.
-Some grammars have thousands of these rules, which make orientation in the structure quite difficult for a human user and would make this process even more complicated.
+Some grammars have thousands of these rules, which make orientation in the structure quite difficult for a~human user and would make this process even more complicated.
 We believe this is an inferior approach to using MPS projectional editor UI that was designed exactly for this purpose.
-It guides the user through the process, using tools like auto-completion, and of course already, has a lot of available learning materials and documentation available.
+It guides the user through the process, using tools like auto-completion, and of course already, has a~lot of available learning materials and documentation available.
 The user is then shielded from this complexity.
 \\
 
 There is another issue connected with this that we have discovered later in the process of our own implementation.
-Grammars are written by humans and therefore have some structures inside of them that help a human brain understand it better.
+Grammars are written by humans and therefore have some structures inside of them that help a~human brain understand it better.
 However, these structures add unnecessary levels in its syntax hierarchy which later lead to problems when using this language inside MPS.
 The user of PE would have no idea how to know this and which parts of the grammar are troublesome like this.
 They might adjust parts of grammar that will be left out later in the process when making the grammar simpler.
@@ -64,48 +64,48 @@ We will discuss this problem later in this thesis when describing obstacles we h
 \\
 
 Another problem we see in PE's approach is that it, from what we understood, does not implement full ANTLR syntax.
-This means that every grammar might need a non-trivial adjustment before its usage.
+This means that every grammar might need a~non-trivial adjustment before its usage.
 One of our goals is for us to be able to import as many languages out-of-the-box as possible and adopting the full specification.
 \\
 
-Even though we have found some issues with this approach, the PE4MPS project served us a huge aid when dealing with MPS itself.
+Even though we have found some issues with this approach, the PE4MPS project served us a~huge aid when dealing with MPS itself.
 MPS has good documentation and learning materials describing working with it (how to create languages and use them).
-A big obstacle for us was, however, a lacking MPS documentation when it came to its advanced internal API.
-This API is used for example for programmatic language generation inside MPS which is rather a deep level use case.
+A big obstacle for us was, however, a~lacking MPS documentation when it came to its advanced internal API.
+This API is used for example for programmatic language generation inside MPS which is rather a~deep level use case.
 There is no reference and coding inside MPS using the BaseLanguage language is not easy.
-For example, discovering the API is (without proper intelligence) not a pleasant experience at all because the programmer needs to advance in a trial-and-error fashion.
+For example, discovering the API is (without proper intelligence) not a~pleasant experience at all because the programmer needs to advance in a~trial-and-error fashion.
 The author of the PE4MPS project has dealt with this too (we discovered that through some correspondence with them) and had to tunnel through some non-trivial obstacles.
-This helped us a lot because we had something to hold on to when trying to use the API ourselves.
+This helped us a~lot because we had something to hold on to when trying to use the API ourselves.
 \\
 
 Overall, the PE4MPS project showed us what the added complexity of projectional editor generation is.
-It gave us an understanding of how big of a chunk of information concerning the code layout is in the grammar in fact missing.
+It gave us an understanding of how big of a~chunk of information concerning the code layout is in the grammar in fact missing.
 It also helped us to realize how we do not want to tackle this problem and how the automation should work.
 
 \section{ANTLR{\_}MPS}
-Another project that is dealing with a similar problem is ANTLR{\_}MPS~\cite{ANTLR2MPS}.
+Another project that is dealing with a~similar problem is ANTLR{\_}MPS~\cite{ANTLR2MPS}.
 The author of this project, Fabien Campagne, is the author of official MPS user handbooks~(\cite{MPS1}\cite{MPS2}), which also helped us when working on this thesis.
 The ANTLR{\_}MPS project also uses ANTLRv4 grammar notation~\cite{ANTLR4} and tries to import grammars inside MPS.
 It does not, however, deal with the problem of generating projectional editor at all, probably because it is in its early stage of development.
 The import process itself is quite different from what we've seen in the PE4MPS project, showing us the variety of approaches that are possible to go with.
 
 \subsection{Project Description}
-Using this project to import a grammar is a very complicated process.
+Using this project to import a~grammar is a~very complicated process.
 We will try to briefly describe some basic steps showing how the plugin is used.
-We have skipped some more steps because we weren't trying to describe the whole procedure, merely giving the reader a brief overview on how complicated and a bit confusing the process is.
+We have skipped some more steps because we weren't trying to describe the whole procedure, merely giving the reader a~brief overview on how complicated and a~bit confusing the process is.
 Full tutorial can be found inside the project's official repository \footnote{https://github.com/CampagneLaboratory/ANTLR{\_}MPS/blob/ ebc35f346ad1bfc67022056199ea6096221e601e/Tutorial.pdf}.
 \\
 
-The author created a whole ANTLRv4 MPS language which is an MPS port of the grammar notations' syntax.
-To import a language, the user utilizes this MPS ANTLR language.
+The author created a~whole ANTLRv4 MPS language which is an MPS port of the grammar notations' syntax.
+To import a~language, the user utilizes this MPS ANTLR language.
 They have to import the textual grammar into MPS taking the form of the MPS's ported grammar language (so that the textual grammar is converted into MPS nodes).
 This can be done automatically and it means the author of the project needed to parse the original grammar and then recreate it again using the MPS's ANTLRv4 language.
-This seems like a little bit unnecessary step.
-The plugin then creates an ANTLR visitor, which is a special Java class used for parsing.
-The user must manually compile this visitor into a .jar package and reference this file inside the MPS project.
+This seems like a~little bit unnecessary step.
+The plugin then creates an ANTLR visitor, which is a~special Java class used for parsing.
+The user must manually compile this visitor into a~.jar package and reference this file inside the MPS project.
 After that, concepts are created for each grammar rule.
 They need to be mapped manually together with the grammar's concepts which needs to be done by the user of the plugin.
-For some languages, there are hundreds of rules defined and this becomes a very tiresome and prolonged effort.
+For some languages, there are hundreds of rules defined and this becomes a~very tiresome and prolonged effort.
 There are no children or properties created for these concepts that is also up to the user of the plugin.
 There are no editor nor TextGen concepts created neither.
 

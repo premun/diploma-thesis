@@ -16,10 +16,10 @@ When building our plugin, we needed to:
 
 \subsection{Generating BaseLanguage Code}
 
-Because we are inside MPS and BaseLanguage is an MPS language, BaseLanguage code is not a text source code, but again, an AST built out of concept nodes belonging to the BaseLanguage language.
+Because we are inside MPS and BaseLanguage is an MPS language, BaseLanguage code is not a~text source code, but again, an AST built out of concept nodes belonging to the BaseLanguage language.
 This means that generating code inside MPS consists of generating some AST out of BaseLanguage nodes.
-It is a very interesting problem since it is a little bit more challenging than just generating plain text code.
-For example, take a look at this simple BaseLanguage statement, where we instantiate an object into an object's property:
+It is a~very interesting problem since it is a~little bit more challenging than just generating plain text code.
+For example, take a~look at this simple BaseLanguage statement, where we instantiate an object into an object's property:
 
 \begin{center}
 	\texttt{foo.bar = \parserrule{new node}<Element{\_}1>();}
@@ -32,11 +32,11 @@ As simple as it looks, in order to programmatically generate this statement, we 
 	\item We need to find the declaration of the foo variable.
 	\item Look up foo's property bar.
 	\item Tell the MPS, we would like to build an assignment statement.
-	\item Set the left side to some sort of a property-access-expression, using the foo declaration.
-	\item Set the right side to contain a new statement with some specific type of the template.
+	\item Set the left side to some sort of a~property-access-expression, using the foo declaration.
+	\item Set the right side to contain a~new statement with some specific type of the template.
 \end{enumerate}
 
-The full AST tree that needs to be built, in order to create a statement like this, is shown in Figure~\ref{fig:new_ast}.
+The full AST tree that needs to be built, in order to create a~statement like this, is shown in Figure~\ref{fig:new_ast}.
 We need to be building this from bottom up, node by node.
 
 \begin{figure}[h]
@@ -49,8 +49,8 @@ We need to be building this from bottom up, node by node.
 
 \subsection{Quotation}
 The example above showed, how many nodes are needed in order to represent quite basic simple statement.
-Luckily for us, the developers of MPS have thought about this and implemented a special notation that helps to build expressions.
-This notation is called \textit{quotation} and it enables us to insert statements into a special quoted block, similarly like an eval function can parse a string into a real code.
+Luckily for us, the developers of MPS have thought about this and implemented a~special notation that helps to build expressions.
+This notation is called \textit{quotation} and it enables us to insert statements into a~special quoted block, similarly like an eval function can parse a~string into a~real code.
 \\
 
 Furthermore, inside this quotation block, we can insert an anti-quotation block, from which we can reference variables in our scope outside of the original quotation.
@@ -69,4 +69,4 @@ But what if our code depends on input data?
 There are several parts of the import process, where the generated BaseLanguage code depends solely on our grammar's structure.
 In those cases, we cannot simply use quotation.
 We are left with generating statement's tree node by node as in the first example.
-The quotation can make some of these parts a little bit shorter, but doesn't solve the problem entirely.
+The quotation can make some of these parts a~little bit shorter, but doesn't solve the problem entirely.

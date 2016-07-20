@@ -1,11 +1,11 @@
-\section{The editor aspect}
+\section{The Editor Aspect}
 \label{chap:editor_aspect}
 
 After we have imported all concepts, their contents (properties) and linked them together (child links), it is time to define, what is the visual representation of these concepts.
 Without this, we are not able to start using the language inside MPS.
 \\
 
-As stated before (section~\ref{chap:about_editor_aspect}), MPS uses a cellular system, that allows placing concept's properties and children into a table-like arrangement.
+As stated before (Section~\ref{chap:about_editor_aspect}), MPS uses a cellular system, that allows placing concept's properties and children into a table-like arrangement.
 MPS has a lot of different types of cells, that we can use:
 
 \begin{itemize}
@@ -33,7 +33,7 @@ Since the layout information is missing, we have only two options, how to tackle
 
 It is a very hard problem, though since our plugin doesn't really understand the contents of the grammar on some higher level.
 
-\subsection{The interactive approach}
+\subsection{The Interactive Approach}
 
 Since the layout information is just missing, we decided to ask the user for it.
 The first idea on how to tackle this problem was to interactively prompt the user during the import process.
@@ -41,7 +41,7 @@ We would somehow select rules, that we consider important, and give the user sev
 The user would pick one and we would use this information to create the editor aspect.
 There are some problems with this, though, that led to rejecting this approach.
 
-\subsubsection{Detecting interesting rules}
+\subsubsection{Detecting Interesting Rules}
 
 Firstly, we would have to be able to tell, which rules might be worth "discussing" with the user.
 \\
@@ -65,7 +65,7 @@ Usually, characters such as braces are a good indicator of some indenting.
 We, however, did not implement any of these heuristics, because, in the end, we decided to abandon the interactive approach completely, as described below in \ref{chap:interactive_approach_evaluation}.
 That is why we will not go into more detail here.
 
-\subsubsection{Fixing rule layout}
+\subsubsection{Fixing Rule Layout}
 
 Once we have detected a rule, that might have some interesting layout, we would ask the user to help us with adjusting it.
 Consider, for example, the first alternative of the \parserrule{element} rule from the XML language:
@@ -86,7 +86,7 @@ The other option could be in form of some sophisticated smart dialog, where the 
 This would be probably better, but we would be reimplementing already existing functionality, that is already present inside MPS. 
 Again, we are not going into any more detail here, as this approach was rejected because of reasons mentioned below.
 
-\subsubsection{Approach evaluation}
+\subsubsection{Approach Evaluation}
 \label{chap:interactive_approach_evaluation}
 
 The author of this thesis came to a conclusion, that the results of the interactive approach would be most likely quite suboptimal.
@@ -112,7 +112,7 @@ And even if we accomplished everything mentioned above, we still believe (and ha
 From reasons stated above, we rejected the interactive approach.
 From exactly the same reasons, we concluded, that any approach, that would require user input, would be suboptimal to just leaving the user adjusting the layout inside the MPS editor designer. 
 
-\subsection{The learning approach}
+\subsection{The Learning Approach}
 \label{chap:learning_approach}
 
 Since we have rejected user-input based approaches, we are left with heuristics.
@@ -121,7 +121,7 @@ We have, however, not implemented it to a stage, that would be presentable, as w
 We would like to describe it anyway, so possible follow-up work might take it into consideration.
 \\
 
-\subsubsection{Approach principle}
+\subsubsection{Approach Principle}
 
 The learning approach would require the user to, together with the grammar file, supply a set of valid source files written in the imported language.
 
@@ -143,7 +143,7 @@ We have, however, found a simple way, how to mine information very efficiently.
 
 When the ANTLR parser is parsing the code, in its first stage, it reads the input and tries to split it into tokens.
 In the second stage, it tries to map the token stream onto parser rules of the language and build an AST.
-Earlier, in 2), we said, that we would change the code of the parser.
+Earlier, in step 2, we said, that we would change the code of the parser.
 We would make sure, that each parsed token would remember additional information --- the number of the line it appeared on.
 This is an easily accessible property of the parser and the ANTLR framework gives us a lot of room for an adjustment like this.
 \\
@@ -184,7 +184,7 @@ it would yield something like this:
 From this, we could clearly derive, that there is a line break between the first closing \textit{greater-than} bracket, the content and then again when the closing tag starts.
 Probably, we might also be able to detect indentation, if we would decide to store the column information too, but we haven't explored this possibility.
 
-\subsubsection{Approach evaluation}
+\subsubsection{Approach Evaluation}
 
 We have started implementing a proof of concept for this approach, so that we can see, whether it is a viable solution.
 Unfortunately, there were some obstacles, due to which we haven't finished the implementation.
@@ -199,10 +199,10 @@ Mapping the parsed ANTLR AST to the MPS one is a complex problem, that is also c
 This is considered as an advanced functionality, that will probably be subject to a separate follow-up work.
 \\
 
-Because of the overall complexity of this approach and because of reasons stated in \ref{chap:editor_solution}, we have decided to abandon the implementation and only suggest it as a possible follow-up.
+Because of the overall complexity of this approach and because of reasons stated in Section~\ref{chap:editor_solution}, we have decided to abandon the implementation and only suggest it as a possible follow-up.
 We, however, concluded, that this might be a viable solution for detecting code layout.
 
-\subsection{Our solution}
+\subsection{Our Solution}
 \label{chap:editor_solution}
 
 When the author of this thesis worked on the plugin, he noticed, that the most tiresome and likely error-prone part of working on the editor aspect is incorporating all concept's properties, children, and constant fields into the editor.
@@ -222,6 +222,6 @@ In Figure \ref{fig:editor_adjustment}, we can see an editor adjustment of the \c
 
 From these reasons, we concluded, that for our cause, it might be sufficient, if the plugin only prepared contents of all editor aspects and the end user would take it from there, reaching optimal results in a very short time.
 We have confirmed this assumption by importing the JavaScript language~\cite{javascript} and manually adjusting all editors, that needed it, in a less than hour time.
-We have described this further in chapter~\ref{chap:examples}.
-Further improvements might be a subject for a follow-up work, potentially leveraging the second approach, we have described above in \ref{chap:learning_approach}.
+We have described this further in Chapter~\ref{chap:examples}.
+Further improvements might be a subject for a follow-up work, potentially leveraging the second approach, we have described above in Section~\ref{chap:learning_approach}.
 

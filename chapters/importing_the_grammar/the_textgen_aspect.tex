@@ -1,4 +1,4 @@
-\section{The TextGen aspect}
+\section{The TextGen Aspect}
 \label{chap:textgen}
 
 TextGen aspect's purpose is telling each concept, what the real text code generated out of it will be, once we want to turn our MPS code into a real program.
@@ -8,7 +8,7 @@ It is, however, not returning a string as perhaps expected, but rather manipulat
 When generating the code of a program, MPS calls this method for the root concept of the program.
 It is up to this concept's TextGen method to append its children into the stream by invoking their TextGen methods subsequently.
 
-\subsection{Our goal}
+\subsection{Our Goal}
 
 What we would like to do here, is to create a TextGen aspect for each concept and generate some BaseLanguage code for its TextGen method.
 The TextGen method is, again, an AST built out of concept nodes as described in section \ref{chap:generating_code_inside_mps}.
@@ -25,7 +25,7 @@ A very basic example of a BaseLanguage code, that we would like to generate for 
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=85mm]{./img/textgen_example.png}
+	\includegraphics[width=90mm]{./img/textgen_example.png}
 	\caption{Example of a TextGen aspect}
 	\label{fig:textgen_example}
 \end{figure}
@@ -33,7 +33,7 @@ A very basic example of a BaseLanguage code, that we would like to generate for 
 We can see that we gradually append all literals, properties, and children in the same order as they appear in the grammar definition.
 This part of the process holds no first-hand complications.
 We still need to generate BaseLanguage code dynamically, which in some cases might be a challenge.
-We Figured how to overcome those challenges earlier in section \ref{chap:generating_code_inside_mps}.
+We figured how to overcome those challenges earlier in Section~\ref{chap:generating_code_inside_mps}.
 There are, however, some hidden problems along the path.
 
 \subsection{Whitespaces}
@@ -51,7 +51,7 @@ So how does the parser know how to split tokens, how many whitespace characters 
 	\item And how about multiple attributes --- do they need to be separated by spaces?
 \end{itemize}
 
-\subsubsection{Whitespace handling in ANTLR}
+\subsubsection{Whitespace Handling in ANTLR}
 
 We have left the whitespace handling part out earlier in order to keep things more simple as we were paying attention to the structure of the language in the first place.
 There are two ways, how we can deal with whitespaces in ANTLR:
@@ -70,13 +70,13 @@ There are two ways, how we can deal with whitespaces in ANTLR:
 	There are however cases, where this is inevitable due to the nature of the ANTLR lexer.
 \end{itemize}
 
-\subsubsection{The whitespace problem}
+\subsubsection{The Whitespace Problem}
 
 The problem, that arises here, is that the skip syntax hides the whitespace information from the grammar.
 We have no way of tracing this information back.
 If, on the other hand, we decided to go with the explicit definition, and put \lexerrule{WHITESPACE} tokens everywhere, we would encounter much bigger problem.
-From the point of view of the TextGen aspect, it would help us a bit, but not completely, as we still don't know what string represents the rule).
-Secondly, when creating the structural aspect, we would create a property for each of these token references as per \ref{chap:common_ground}.
+From the point of view of the TextGen aspect, it would help us a bit, but not completely, as we still don't know what string represents the rule.
+Secondly, when creating the structural aspect, we would create a property for each of these token references as per Section~\ref{chap:common_ground}.
 The effect of that would be, that the imported MPS language will become unusable.
 The code will be full of placeholders waiting for whitespace characters (even though they might be unnecessary, i.e. [0..n]).
 \\
@@ -117,16 +117,16 @@ Consider the following excerpt from the official ANTLR XML grammar:
 What is happening here, is that the author decided to skip whitespace characters only when we are inside of XML tags (see that the \parserrule{element} contains no explicit whitespace tokens).
 On the outside, they are being cleverly swallowed by the \parserrule{chardata} rule (its second alternative), that wraps any content.
 The \parserrule{content} rule is written a bit differently from our SimpleXML version.
-It has a little bit more complicated, but the shorter structure, showing all the different ways we can express the grammar in.
+It is a little bit more complicated, but the shorter structure, showing all the different ways we can express the grammar in.
 \\
 
 The problem we find here is, that with all the features ANTLR has to offer, there are just too many ways, how we can handle whitespaces and they can get all mixed up together just like the previous example showed.
-Worst case scenario, from the TextGen point of view, the language is skipping all whitespace characters silently and thus removing the information from the grammar completely.
+In the worst scenario, from the TextGen point of view, the language is skipping all whitespace characters silently and thus removing the information from the grammar completely.
 \\
 
 This leaves us with the original question and the root problem --- \textbf{how does our TextGen aspect know between which children there must be a whitespace and where it is forbidden so that the produced code is a valid one?}
 
-\subsubsection{Possible improvements}
+\subsubsection{Possible Improvements}
 
 Following up on the question posed in the previous paragraph, we can ask ourselves a different question.
 If not our TextGen, how does the ANTLR parser know where whitespaces are due?
@@ -167,7 +167,7 @@ Consider a string \textbf{A}, representing the tag name (a string, that can be m
 Let string \textbf{B} be a string representing the attribute name.
 Whenever \textbf{A} and \textbf{B} share some same characters, we cannot clearly state, where one ends and the other starts (when placed together).
 More precisely, \textbf{A} can end with same characters as \textbf{B} can start with.
-Even more precisely, some suffix of \textbf{A} can be some prefix \textbf{B}.
+Even more precisely, some suffix of \textbf{A} can be some prefix of \textbf{B}.
 In our case they are coincidently both given by the \lexerrule{Name} rule, but in general case we really care about any possible substrings.
 \\
 
@@ -207,7 +207,7 @@ This means, that when someone would like to introduce an extension of a language
 Sometimes we might also want to define more projectional editors and switch between them, which would also make this dysfunctional.
 This is probably the reason that JetBrains haven't introduced their own universal TextGen so far (just like they introduced a default projectional editor).
 
-\subsection{Our solution}
+\subsection{Our Solution}
 \label{chap:textgen_solution}
 
 After the analysis, we have come to a conclusion, that the problem of TextGen layout is quite similar to the one we have seen with the projectional editor, described in chapter \ref{chap:editor_aspect}.
@@ -250,18 +250,19 @@ These few simple heuristics have left us with some very nice results (tested mos
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=85mm]{./img/textgen_final.png}
+	\includegraphics[width=95mm]{./img/textgen_final.png}
 	\caption{Generated TextGen aspect for the SimpleXML element}
 	\label{fig:textgen_final}
 \end{figure}
 
 If we wanted to manually adjust this generated code, so it generates nice indented XML code, we only need to wrap the \concept{Content{\_}2} child with indentation and change the sequence separator to a new line character.
-This is a very fast and small adjustment, so we concluded that it is OK to expect the user to do this kind of adjustments on his own.
+This is a very fast and small adjustment, so we concluded that it is right to expect the user to do this kind of adjustments on his own.
 Resulting adjusted aspect is shown below in Figure \ref{fig:textgen_adjusted}.
 
-\begin{figure}[ht]
+% TODO: zarovnat nahoru
+\begin{figure}[!ht]
 	\centering
-	\includegraphics[width=80mm]{./img/textgen_adjusted.png}
+	\includegraphics[width=85mm]{./img/textgen_adjusted.png}
 	\caption{Adjusted indentation inside the TextGen aspect}
 	\label{fig:textgen_adjusted}
 \end{figure}

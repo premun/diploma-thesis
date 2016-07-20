@@ -1,4 +1,4 @@
-\section{The SimpleXML language}
+\section{The SimpleXML Language}
 
 Throughout the whole chapter, we will be using an example language so that we are not switching from one context into another frequently.
 We will be showing what this language needs for its good usability and what problems it contains as we will add more and more features into the import process.
@@ -12,7 +12,7 @@ We will talk about these later in chapter \ref{chap:problems_with_grammars} and 
 
 \newpage
 
-\subsection{SimpleXML grammar}
+\subsection{SimpleXML Grammar}
 \label{chap:simplexml_grammar}
 
 Below, you can find the grammar describing the SimpleXML language.
@@ -59,7 +59,7 @@ As stated before, we are using the ANTLRv4 notation~\cite{ANTLR4reference}.
 	\lexerrule{CDATA}        :   \literal{<![CDATA[} \regex{.*?} \literal{]]>} ;
 \end{antlr}
 
-\pagebreak
+\newpage
 
 We have colored the grammar out so it is easier to find our way around it when referencing it.
 The grammar contains following basic elements:

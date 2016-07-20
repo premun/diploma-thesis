@@ -1,4 +1,4 @@
-\section{Programming inside MPS and the BaseLanguage}
+\section{Programming Inside MPS and the BaseLanguage}
 \label{chap:generating_code_inside_mps}
 
 In order to create some of the aspects of the imported language, such as the TextGen aspect, we will need to add complex functionality inside the aspect definition.
@@ -14,7 +14,7 @@ When building our plugin, we needed to:
 	\item Generate BaseLanguage code inside aspect definition of the imported language, that will make the language more usable.
 \end{enumerate}
 
-\subsection{Generating BaseLanguage code}
+\subsection{Generating BaseLanguage Code}
 
 Because we are inside MPS and BaseLanguage is an MPS language, BaseLanguage code is not a text source code, but again, an AST built out of concept nodes belonging to the BaseLanguage language.
 This means that generating code inside MPS consists of generating some AST out of BaseLanguage nodes.
@@ -62,7 +62,7 @@ This is what the above statements looks like when quotation (light blue) and ant
 
 The quotation block will yield the AST tree from Figure \ref{fig:new_ast} without the need for building it node by node.
 
-\subsection{Generating dynamic code}
+\subsection{Generating Dynamic Code}
 
 The quotation comes in handy when we are generating static code --- meaning, we know, in the time of implementation, what code we want to generate.
 But what if our code depends on input data?

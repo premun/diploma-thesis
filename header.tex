@@ -3,27 +3,27 @@
 %% Settings for single-side (simplex) printing
 % Margins: left 40mm, right 25mm, top and bottom 25mm
 % (but beware, LaTeX adds 1in implicitly)
-\documentclass[12pt,a4paper]{report}
-\setlength\textwidth{145mm}
-\setlength\textheight{247mm}
-\setlength\oddsidemargin{15mm}
-\setlength\evensidemargin{15mm}
-\setlength\topmargin{0mm}
-\setlength\headsep{0mm}
-\setlength\headheight{0mm}
-% \openright makes the following text appear on a right-hand page
-\let\openright=\clearpage
-
-%% Settings for two-sided (duplex) printing
-% \documentclass[12pt,a4paper,twoside,openright]{report}
+% \documentclass[12pt,a4paper]{report}
 % \setlength\textwidth{145mm}
 % \setlength\textheight{247mm}
-% \setlength\oddsidemargin{14.2mm}
-% \setlength\evensidemargin{0mm}
+% \setlength\oddsidemargin{15mm}
+% \setlength\evensidemargin{15mm}
 % \setlength\topmargin{0mm}
 % \setlength\headsep{0mm}
 % \setlength\headheight{0mm}
-% \let\openright=\cleardoublepage
+% \openright makes the following text appear on a right-hand page
+% \let\openright=\clearpage
+
+%% Settings for two-sided (duplex) printing
+\documentclass[12pt,a4paper,twoside,openright]{report}
+\setlength\textwidth{145mm}
+\setlength\textheight{247mm}
+\setlength\oddsidemargin{14.2mm}
+\setlength\evensidemargin{0mm}
+\setlength\topmargin{0mm}
+\setlength\headsep{0mm}
+\setlength\headheight{0mm}
+\let\openright=\cleardoublepage
 
 %% Character encoding
 \usepackage[utf8]{inputenc}
@@ -60,7 +60,7 @@
 \def\ThesisTitle{Grammar to JetBrains MPS Convertor}
 
 % Author of the thesis
-\def\ThesisAuthor{Přemysl Vysoký}
+\def\ThesisAuthor{Bc. Přemysl Vysoký}
 
 % Year when the thesis is submitted
 \def\YearSubmitted{2016}
@@ -82,20 +82,20 @@
 \def\StudyBranch{Software Systems}
 
 \def\Abstract{%
-JetBrains MPS is a language workbench focusing on domain-specific languages. Unlike many competing language workbenches and in contrast to other editors, it uses a projectional editor for code.
-The developer directly manipulates the program in its tree form (AST), not by editing a text source code.
-This requires quite time-consuming and complicated MPS language definition.
-The thesis elaborates on the possibility of automating the process of creating MPS language definition from an existing language grammar.
-It introduces the MPS editor and the given problem and evaluates approaches of related projects.
-Then, it describes author's efforts to implement an MPS plugin, that allows this import.
-It justifies the chosen approach and the selection of tools used for implementation.
-We point out important problems, that any similar project might deal with and we introduce some possible solutions.
-Furthermore, the work contains examples of imported languages, showing the potency of the chosen approach.
-The thesis aims to lay the groundwork for future follow-ups and suggest possible improvements.
+JetBrains MPS is a language workbench focusing on domain-specific languages.
+Unlike many other language workbenches and IDEs, it uses a projectional editor for code.
+The developer directly manipulates the program in its tree form (AST) and not by editing a text source code.
+This brings many advantages, but on the other hand requires time-consuming and complicated MPS language definition.
+The thesis elaborates on the possibility of automating the process of creating MPS language definition from its grammar description.
+It introduces the MPS editor, evaluates approaches of related projects and describes author's efforts to implement an MPS plugin that allows this import.
+The chosen approach and the selection of tools used for implementation are justified in the thesis.
+We point out important problems that any similar project might deal with and we introduce some possible solutions.
+Furthermore, the thesis contains examples of imported languages, showing the potency of the chosen approach.
+The thesis also aims to lay groundwork for future extensions and suggest possible improvements.
 }
 
 \def\Keywords{%
-{JetBrains MPS}, {grammar}, {convertor}, {language}
+	{JetBrains MPS}, {grammar}, {convertor}, {import}, {programming language}, {projectional editor}
 }
 
 %% The hyperref package for clickable links in PDF and also for storing

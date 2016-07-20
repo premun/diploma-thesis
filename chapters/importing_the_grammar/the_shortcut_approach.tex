@@ -1,4 +1,4 @@
-\subsection{The shortcut approach}
+\subsection{The Shortcut Approach}
 \label{chap:shortcut_approach}
 
 After the problem with layers crossed our path in the first attempt, we took a step back and tried to reevaluate our approach.
@@ -40,7 +40,7 @@ They cannot transparently break into more rules and for the sake of text we will
 
 We will describe an algorithm, that will find all end rules for a given parser rule, and later utilize it.
 
-\subsubsection{The algorithm}
+\subsubsection{The Algorithm}
 To find end rules for each parser rule, we can recursively scan through the parser tree, that we have built before.
 For each parser rule, we will try to find paths leading to some end rule through its alternatives:
 
@@ -67,25 +67,26 @@ We have expressed this algorithm using a pseudo-code:
 	7)          Let \parserrule{I} be interface/concept representing rule \parserrule{E}
 	8)          \parserrule{L1}.Add(\parserrule{I})
 	9)          \parserrule{P} = FindPathsToEndNodes(\parserrule{E}, \parserrule{L1})
-	10)          \parserrule{Q} = Merge(\parserrule{Q}, \parserrule{P})
-	11)      Else
-	12)          \parserrule{L1}.Add(\parserrule{R})
-	13)          Let \parserrule{P} be concept representing \parserrule{A}
-	14)          \parserrule{L1}.Add(\parserrule{P})
-	15)          \parserrule{Q}.Add(\parserrule{L1})
-	16)  Return \parserrule{Q}
+	10)         \parserrule{Q} = Merge(\parserrule{Q}, \parserrule{P})
+	11)     Else
+	12)         \parserrule{L1}.Add(\parserrule{R})
+	13)         Let \parserrule{P} be concept representing \parserrule{A}
+	14)         \parserrule{L1}.Add(\parserrule{P})
+	15)         \parserrule{Q}.Add(\parserrule{L1})
+	16) Return \parserrule{Q}
 \end{antlr}
 
 By appending the rule that is leading to current element (line 12) and then appending that alternative's element itself (line 14), we will get a path that contains the full path and the target end rule as the last element of the chain.
-The result of this algorithm, for example for the \parserrule{content} rule, equals the listing of the five paths mentioned in the beginning of this chapter.
+The result of this algorithm, for example for the \parserrule{content} rule, equals the listing of the five paths mentioned in the beginning of this Section.
 \\
 
 We can do this for all parser rules and for each rule we will get a list of paths that lead from that particular rule to an end node.
 We will call these paths \textbf{shortcuts}, as they can provide a shortcut from the rule to the end of the chain.
-Now that we have these, we will talk about several ways, how to use them to make our language better.
+Now that we have these, we will talk about several ways, how to use them to make our imported language better.
 
-\subsubsection{Smart auto-completion}
-The first attempt on how to use shortcuts (the result of the algorithm in \ref{chap:shortcut_algorithm}) was built on top of the previous approach.
+\subsubsection{Smart Auto-completion}
+
+The first attempt on how to use shortcuts (the result of the algorithm in Section \ref{chap:shortcut_algorithm}) was built on top of the straightforward approach, described in Section \ref{chap:straightforward_approach}.
 There were no structural changes when it came to interfaces or linking concepts together.
 We imported everything just the same and then added some more functionality.
 \\
@@ -96,11 +97,11 @@ Luckily for us, MPS gives us the ability to create custom auto-complete menus an
 This means, that we are going to be able to construct our own menu containing only end nodes.
 Unfortunately, it requires us to implement some non-trivial mechanisms.
 
-\paragraph{Defining the auto-complete}
+\paragraph{Defining the Auto-complete}
 
 The auto-complete menu is bound to a cell of the projectional editor containing a reference to one of the children of a concept.
 Let's say we are again talking about the concept that represents the element rule's first alternative.
-As described above earlier in the process (\ref{fig:element_concept_full}), we created:
+As described above earlier in the process (Section \ref{fig:element_concept_full}), we created:
 
 \begin{itemize}
 	\item An interface \interface{IContent} representing four different alternatives that the content rule can break into
@@ -114,7 +115,7 @@ The cell, together with the auto-complete property can be seen in Figure \ref{fi
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=0.7]{./img/autocomplete_cell.png}
+	\includegraphics[scale=0.72]{./img/autocomplete_cell.png}
 	\caption{Auto-complete property}
 	\label{fig:autocomplete_cell}
 \end{figure}
@@ -132,7 +133,7 @@ We would like to create an auto-complete for this cell, that would contain follo
 
 Because we are inside MPS everything is a concept node.
 In order to create an auto-complete menu, we need to create some BaseLanguage node and put it inside some AST (referencing the menu).
-More precisely, we will create an instance a concept called \texttt{CellMenuPart{\_}ReplaceChild{\_}CustomActionConcept}, contained in one of many MPS's core languages.
+More precisely, we will create an instance of a concept called \texttt{CellMenuPart{\_}ReplaceChild{\_}CustomActionConcept}, contained in one of many MPS's core languages.
 \\
 
 For this concept, we will define a number of auto-complete options, one for each end concept, that we want to offer in the menu.
@@ -177,7 +178,7 @@ For matching text we used the shortest unique prefix of alias among all other op
 The algorithm for searching shortest unique prefixes in a set of strings is not important from our thesis' point of view, so we decided to not go into further detail.
 
 
-\paragraph{The layer problem again}
+\paragraph{The Layer Problem Again}
 
 After we implemented the auto-complete menu, coding in the imported language started to be very reasonable and comfortable, since we eradicated intermediate layers.
 Or did we?
@@ -195,7 +196,7 @@ What happened instead is that the \concept{Element{\_}1} node got deleted, but t
 The \concept{Content{\_}2} concept has only one child of type Element and that is why our user only sees \concept{Element{\_}1} and \concept{Element{\_}2} as options in the auto-complete.
 
 
-\paragraph {The deletion context}
+\paragraph {The Deletion Context}
 
 Solution to this resurrected layer problem lies in controlling the deletion event.
 Once again, MPS' authors have equipped us with tools for doing this.
@@ -231,7 +232,7 @@ We must not forget to pin this handler to every cell, that we pin the auto-compl
 After we had done this, the layer problem has finally been eradicated.
 The language became a bit more usable once more.
 
-\subsubsection{Smart interfaces}
+\subsubsection{Smart Interfaces}
 
 After we have implemented the smart auto-complete, we realized, that there might be another way to accomplish almost the same result.
 It would mean changing the first step concerning interfaces and concept linking.
@@ -239,7 +240,7 @@ It would mean changing the first step concerning interfaces and concept linking.
 
 The main idea behind this is the realization, that if for each concept interface there exists a finite set of end concepts, we could just create a special interface and let all these and only these end concepts implement it.
 It is important, that other non-end concepts, that are in the shortcut path, will not implement it.
-Otherwise, that would put us right back where we started with the straightforward approach \ref{chap:straightforward_approach} and the layer problem \ref{chap:layer_problem}.
+Otherwise, that would put us right back where we started with the straightforward approach (Section \ref{chap:straightforward_approach}) and the layer problem (Section \ref{chap:layer_problem}).
 To give an example regarding our content rule, we would create an \interface{IContent} interface concept and only following concepts would implement it:
 
 \begin{itemize}
@@ -260,8 +261,9 @@ We still need to find end concepts for each rule, so we will keep the same algor
 We, however, do not need to implement our own auto-completion and, subsequently with it, no deletion handlers.
 The built-in default auto-completion will start to behave exactly the same way our smart auto-completion does.
 
-\paragraph{Cardinality restriction}
+\paragraph{Cardinality Restriction}
 \label{chap:cardinality_restriction}
+% TODO: vysvetlit lip
 
 So far it looks like the last approach is superior to the auto-completion one.
 It avoids complicated code generation and even resulting MPS languages are more simple and better performant, as they are not bloated with auto-completion code.

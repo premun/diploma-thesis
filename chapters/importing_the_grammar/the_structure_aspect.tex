@@ -1,4 +1,4 @@
-\section{The structure aspect}
+\section{The Structure Aspect}
 
 After we have mined the structure of the language out of the grammar file, we can finally start working with MPS.
 We need to translate our tree structure into the terms of MPS.
@@ -9,7 +9,7 @@ We will describe several different attempts (sections \ref{chap:straightforward_
 We consider it a better approach than just simple description of the final solution because it might prevent others from falling into similar pitfalls such as we discovered ourselves.
 
 
-\subsection{Concept types}
+\subsection{Concept Types}
 
 Before we start describing how we decided to import our tree structure into MPS, we should remind in more detail which means of expression are available to us.
 As stated before, concepts are building blocks of all MPS languages and they can be treated similarly as Java classes.
@@ -21,10 +21,10 @@ They can:
 	\item have properties (similar to class fields) with a given data type --- either a primitive type such as string or integer, or a constraint data type --- a string whose value is restricted by a regular expression
 	\item have children concepts (defined as a concept or an interface concept)
 	\item hold references to other nodes (e.g. function call statement would know reference to the function definition)
-	\item have an \textit{alias} and a \textit{description} field for their identification in auto-completion menus
+	\item have an \textit{alias} and a \textit{description} field for their better identification in auto-completion menus
 \end{itemize}
 
-\subsection{Common ground}
+\subsection{Common Ground}
 \label{chap:common_ground}
 
 Some of the import steps are common for both approaches (\ref{chap:straightforward_approach}, \ref{chap:shortcut_approach}).
@@ -69,7 +69,7 @@ Result of this first step can be seen in Figure \ref{fig:element_concept_common}
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=0.7]{./img/element_concept_common.png}
+	\includegraphics[scale=0.75]{./img/element_concept_common.png}
 	\caption{Resulting Element{\_}1 concept}
 	\label{fig:element_concept_common}
 \end{figure}
@@ -78,17 +78,13 @@ Next, we are going to describe two different approaches --- the straightforward 
 The difference between these two lies in the way we create children fields for parser rules and in the way we are going to link them together using interface concepts.
 Final solution will be described in section \ref{chap:structure_solution}.
 
-\pagebreak
+\newpage
 
 \input{chapters/importing_the_grammar/the_straightforward_approach}
 
-\pagebreak
-
 \input{chapters/importing_the_grammar/the_shortcut_approach}
 
-\pagebreak
-
-\subsection{Our solution}
+\subsection{Our Solution}
 \label{chap:structure_solution}
 
 In the end, we have decided to go with the shortcut approach using smart interfaces.
@@ -101,7 +97,7 @@ Usually, you create the basic structure (i.e. different kinds of statements) in 
 
 Based on these observations and some grammar analysis, we concluded that advantages prevail and used the last mentioned approach.
 
-\subsection{The structure aspect and other ANTLRv4 features}
+\subsection{The Structure Aspect and Other ANTLRv4 Features}
 \label{chap:antlr_features}
 
 The ANTLR grammar notation offers more features than just rule definition.
@@ -135,9 +131,9 @@ They still get recognized by the lexer and mode is changed.
 \\
 
 The reason that this goes beyond our interest here is partially caused by the fact, that modes are used on runtime when we are parsing actual code, whereas language structure is more of a static matter.
-The only time we care about modes is when generating the TextGen aspect, and we will get back to it later in chapter \ref{chap:textgen}.
+The only time we care about modes is when generating the TextGen aspect, and we will get back to it later in Chapter \ref{chap:textgen}.
 
-\subsubsection{Actions, attributes and semantic predicates}
+\subsubsection{Actions, Attributes and Semantic Predicates}
 
 Actions allow us to append code to rules and this code is then executed every time the parser applies this rule.
 The code is written in the target language that you are creating the parser for.
@@ -153,5 +149,5 @@ We can store some arbitrary information there and later access it for example in
 From exactly the same reasons as with actions, attributes are of no interest to us.
 \\
 
-Semantic predicates tell the parser on runtime, which rules can be applied depending on user specified constraints.
-Again, this is a runtime matter and we will ignore it.
+Semantic predicates tell the parser on runtime, which rules can be applied depending on specified constraints.
+This is also a runtime matter.

@@ -1,4 +1,4 @@
-\chapter{Problems with grammars}
+\chapter{Problems with Grammars}
 \label{chap:problems_with_grammars}
 
 As we could see in previous chapters, it is very easy to write a grammar in a way, that will cause problems once it is imported into MPS.
@@ -7,7 +7,7 @@ We have not known about these problems and they occurred during the implementati
 In this chapter, we will try to summarize our observations and show a few examples of possible complications.
 \\
 
-\section{Structural problems}
+\section{Structural Problems}
 
 As a first example, we will describe some problematic structures.
 When writing the grammar, it might happen, that we create some patterns, that work just fine with ANTLR parser, but pose problems for the usability of the resulting MPS language.
@@ -91,7 +91,7 @@ It also required us to change the grammar in some other places, but these were j
 It made our MPS language just right, but it also had some bad side effects.
 We talk about these side effects further down this chapter in section \ref{chap:breaking_the_parser}.
 
-\section{Other language tweaks}
+\section{Other Language Tweaks}
 
 There are also some cases, where we do not have a big structural problem per se, but altering the grammar might yield far better MPS language.
 We will show two examples, where we don't want to improve the structure, but again, the usability of the resulting MPS language.
@@ -131,7 +131,7 @@ It is hard to decide which solution to this problem is the best.
 Users might have different intentions, requirements or goals for their MPS language and all approaches lead to some results.
 \\
 
-As the second example, we will show the ECMAScript\footnote{https://raw.githubusercontent.com/antlr/grammars-v4/master/ecmascript/ECMAScript.g4} language otherwise known as JavaScript.
+As the second example, we will show the ECMAScript\footnote{https://github.com/antlr/grammars-v4/blob/master/ecmascript/ECMAScript.g4} language otherwise known as JavaScript.
 Every statement in JavaScript needs to be either followed by a semicolon, newline, file end or end of the block.
 
 \begin{antlr}
@@ -165,21 +165,21 @@ We just change the \parserrule{eos} rule to following form:
 Again, we changed the grammar in a way, that it won't describe the same ECMAScript language as before, but will definitely make our MPS language more usable.
 Again, we can ask ourselves, whether it is an intended action --- whether we aim for a full port of the language or an MPS alternative.
 
-\section{Adjusting grammars}
+\section{Adjusting Grammars}
 Above, we concluded, that adjusting the grammar itself might be sometimes the only proper solution to some complex situations.
 Sometimes it might be a very fast mean of tweaking our MPS language's usability.
 We also think, that the end user of our plugin will be quite educated in this field since they will already be trying to create a computer language.
 It is also expected, that this user will continue on improving the language after the initial import, adding more human touch to it.
 From these reasons, we concluded, that end users of the plugin might also be capable of performing similar grammar adjustments themselves.
 
-\section{Breaking the parser}
+\section{Breaking the Parser}
 \label{chap:breaking_the_parser}
 
 There is one big problem with grammar adjustment, that we would like to point out.
 The problem is, that it is very easy to change the grammar in a way, that will break the ANTLR parser generated out of it.
 By breaking we mean, that it stops parsing the original language.
 
-\subsection{Breaking it is easy}
+\subsection{Breaking It Is Easy}
 
 As stated before, when creating the SimpleXML grammar, we have started off with the original XML grammar\footnote{https://github.com/antlr/grammars-v4/tree/master/xml} and did some adjustments to it.
 After that, we ended up with a grammar just good enough for our plugin.
@@ -199,7 +199,7 @@ The greedy way, in which ANTLR matches input on defined tokens and prioritizes t
 When a rule, such as the \lexerrule{TEXT} rule, matches a wide range of input, it might happen, that when parsing, it is prioritized over other rules and swallows a lot more input than the author of it intended.
 Usually, these dangerous rules are bound to some parser context, which makes them behave well.
 
-\subsection{Breaking it is a problem}
+\subsection{Breaking It Is a Problem}
 
 The underlying question is --- \textbf{do we really care about the parser, being broken?}
 Our goal here is to create an MPS port of the language.

@@ -15,7 +15,7 @@ It is being developed as an open-source product under the Apache 2.0 license.
 
 In this chapter, we will explain fundamental basics of MPS as it is crucial in the understanding of what we are trying to achieve in this thesis.
 
-\section{Abstract syntax tree}
+\section{Abstract Syntax Tree}
 At the first sight, MPS might look like a typical IDE, but it differs from the rest in one important aspect.
 MPS does not work with the textual representation of the code as usual, but rather with its AST (abstract syntax tree), that is the model of the code.
 The code itself, which is later compiled and run, is built out of this tree.
@@ -35,7 +35,7 @@ These defined generators can target any language and, possibly, we can transform
 This generated code can then be for example platform dependent, but the model itself is not tied to any specific platform or environment.
 This mechanism gives us, for instance, the possibility to extend existing languages easily and to create various syntactic sugar, targeting the same language again, but hiding complicated mechanisms from the user.
 
-\section{Projectional editor}
+\section{Projectional Editor}
 As stated before, MPS is not an ordinary tool, but its most distinctive feature might be the projectional editor.
 The projectional editor is the place where “interaction” between the code and the programmer takes place.
 The idea behind projectional editing is following.
@@ -74,7 +74,7 @@ Their type is narrowed down by the language structure definition (meaning that w
 \\
 
 Now, the representation of code inside the projectional editor can have any visual form and is not bound to the textual representation at all.
-It can be a text-like representation similar to what we are used to or for example blocks of both branches can be aligned next to each other like shown in Figure \ref{fig:if_editor}.
+It can be a text-like representation similar to what we are used to, or for example blocks of both branches can be aligned next to each other like shown in Figure \ref{fig:if_editor}.
 \\
 
 \begin{figure}[h]
@@ -96,23 +96,23 @@ There are many different types of cells, each behaving a little bit different to
 We are talking about various horizontal or vertical lists etc.
 More extra cells can be added on top of that holding no content but specifying additional layout adjustments such as indentation.
 Each cell can have special context menus bound to it, its formatting can be customized and so on.
-In Figure {\ref{fig:if_editor_definition})}, you can see what a real editor definition might look like for the if statement of the BaseLanguage language.
+In Figure \ref{fig:if_editor_definition}, you can see what a real editor definition might look like for the if statement of the BaseLanguage language.
 
-\section{Languages and solutions}
+\section{Languages and Solutions}
 
 The editor itself breaks up into two main parts --- language and solution editors.
 The former is used for language definition, where we model languages' structure.
 The latter one then imports these MPS languages and enables the user to write code using them.
 Multiple languages can be used together inside one solution, effectively combining their features into one project.
 
-\subsection{Plugin solutions}
+\subsection{Plugin Solutions}
 
 Users can also create a "plugin solution" which is a special kind of solution, that can also import languages, but more importantly can tamper with the MPS editor itself.
 It is able to introduce elements inside the MPS such as menu items, window panels and more.
 The big advantage of MPS is that everything is happening live and just by mere regeneration (rebuilding) of a plugin solution, changes are immediately incorporated without the need of restarting the IDE.
 Plugin solutions are important in this thesis and were used to accomplish an important part of the work as later described.
 
-\section{Creating a language in MPS}
+\section{Creating a Language in MPS}
 
 This section will illustrate how a language is created inside MPS, what elements make it up and what needs to be done in order to make the language usable.
 \\
@@ -130,7 +130,7 @@ Most importantly, concepts have child concepts and that is how the AST itself is
 We will describe some of these aspects more closely, as it will give the reader better understanding of the problem, that is being solved.
 Some are less important for our cause, some are vital.
 
-\subsection{Structure aspect}
+\subsection{Structure Aspect}
 
 The structure aspect is the most important aspect, as all concepts must be first defined here.
 This aspect treats the concept somewhat like a Java class.
@@ -154,7 +154,7 @@ In Figure \ref{fig:if_statement_structure}, you can see the structure aspect def
 	\label{fig:if_statement_structure}
 \end{figure}
 
-\subsection{Editor aspect}
+\subsection{Editor Aspect}
 \label{chap:about_editor_aspect}
 
 Editor aspect is where the user defines what the projectional editor representation of a code fragment (an AST node) looks like.
@@ -171,7 +171,7 @@ This provides basic ability to use the concept when coding but it is not very us
 	\label{fig:if_editor_definition}
 \end{figure}
 
-\subsection{TextGen aspect}
+\subsection{TextGen Aspect}
 The TextGen aspect is a one we also care about.
 It defines how a certain node will be translated into a text source code.
 This will allow us to generate source code in text form out of an AST model and ultimately to generate a text program out of the code user writes in the imported language.
@@ -190,7 +190,7 @@ Again, we included an example of the if statement (Figure \ref{fig:if_statement_
 	\label{fig:if_statement_textgen}
 \end{figure}
 
-\subsection{Other aspects}
+\subsection{Other Aspects}
 Other aspects, that can be found inside MPS, are not interesting for us from this thesis' point of view.
 They are mostly high level and very complicated aspects such as type checking or data-flow analysis (unreachable code detection etc.).
 Creating these automatically and programmatically wouldn't be possible without human intervention as the information needed just isn't contained inside the grammar file.

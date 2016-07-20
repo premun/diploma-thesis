@@ -1,4 +1,4 @@
-\section{Parsing the grammar}
+\section{Parsing the Grammar}
 \label{chap:parsing_the_grammar}
 
 The first stage of the import process is parsing the grammar file so that we can get an AST tree representing the grammar.
@@ -6,7 +6,7 @@ The parser must be able to read any grammar file and extract the structure infor
 As stated in the chapter defending the grammar notation selection (chapter~\ref{chap:source_grammar_notation}), there exists an ANTLRv4 grammar for the ANTLRv4 notation~\cite{ANTLR4reference}.
 This means that we can use the ANTLR library~\cite{ANTLR4} to generate a Java ANTLR parser of the ANTLRv4 notation.
 
-\subsection{Grammar representation}
+\subsection{Grammar Representation}
 
 The abstract syntax tree, that comes out of the automatically generated parser, is a little bit complicated and full of information not relevant to us.
 It also contains all structures including ANTLR's special characters (pipes, semicolons, comments...), because ANTLR doesn't understand the grammar and just parses it.
@@ -15,19 +15,19 @@ We discarded as much irrelevant information as possible and only kept vital data
 We can understand this simplified tree way better and it brings more clarity into our solution.
 \\
 
-\textbf{TODO: popsat parsing algorithm, pridat ukazku stromu}
-%Furthermore, we process the grammar in two iterations.
-%In the first we build a tree holding names of other referenced rules in the form of strings and in the second we walk this tree and resolve all these references to real pointers to other rule objects.
-%We end up with a neat representation that is easy to parse in next steps of the import process.
+Furthermore, we process the grammar in two iterations.
+In the first, we build a tree holding names of other referenced rules in the form of strings.
+In the second, we walk this tree and resolve all these references to real pointers to other rule objects.
+We end up with a neat representation that is easy to parse in next steps of the import process.
 
-\subsection{Flattening lexer rules}
+\subsection{Flattening Lexer Rules}
 One of the questions we had to deal with was lexer rule representation.
 Not minding all the syntactic sugar ANTLR is offering for their definition, in the end, lexer rules are basically just regular expressions used for parsing input source code into tokens.
 However, after the initial parsing, we end up with some kind of a tree structure, that is representing the lexer rule (lexer rules can also be built from alternatives just like parser rules).
 We would like to take this tree that represents the lexer rule and flattens it into the regular expression.
 Later in the import process, we would like to assign this expression to some constraint entity representing the rule.
 
-\pagebreak
+\newpage
 
 Let's look at the lexer rule \lexerrule{Name}, that we have in our SimpleXML language, together with its sub-rules:
 

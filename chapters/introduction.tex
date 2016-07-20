@@ -17,8 +17,6 @@ There is a huge variety of new languages constructed for MPS that usually solve 
 However, building these languages is a complicated and time-consuming process and a lot of effort must be put into them before they are ready for use.
 This thesis will look into the possibility of automatic import of already existing general purpose languages into MPS using a grammar description of their syntax.
 
-\section{Motivation}
-
 Usually, languages created in MPS are tied to a very narrow domain and solve very specific problems.
 They are mostly small extensions of existing languages or some stub languages used for educational purposes.
 It would, however, be very nice if we could leverage all the features that MPS has to offer together with general purpose languages we know from the outside world.
@@ -33,7 +31,7 @@ There are other attempts where for example the C language is also manually tailo
 These examples show that recreating a full language inside MPS is not an easy task and a lot of time must be spent on implementing all aspects of the language.
 A big part of this effort is, however, quite straightforward and could be possibly automated, which would speed up the process of adoption of new languages.
 
-\section{Main goals}
+\section{Main Goals}
 \label{chap:main_goals}
 
 The main goal of this thesis is to explore the possibility of automatic import of already existing languages into MPS from the grammar description of their syntax.
@@ -52,7 +50,7 @@ Not all of these problems have an optimal solution, and therefore it is up to th
 
 Once we will introduce the MPS editor more closely, we will revisit the goals of the thesis in more detail.
 
-\section{Thesis overview}
+\section{Thesis Overview}
 
 In the beginning of the thesis, we will describe the MPS editor.
 We will briefly introduce fundamental basics of the target environment, as it is needed for an understanding of what we are trying to achieve.
@@ -72,6 +70,6 @@ We will describe its architecture and talk about some problems connected to the 
 We will also show how to install and use the plugin and also show some example languages imported with it.
 \\
 
-In the last part of the thesis, we will look at some problems that grammar might pose.
+In the last part of the thesis, we will look at some problems that grammar import might pose.
 We will talk about these problems with respect to the obstacles we tried to overcome and which we described in the middle part of the thesis, that is devoted to the import process.
 We will also look into possible follow-up work, that might build on top of this thesis, and discuss some potential problems it might hold.

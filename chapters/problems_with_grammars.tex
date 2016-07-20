@@ -11,8 +11,8 @@ In this chapter, we will try to summarize our observations and show a few exampl
 
 As a first example, we will describe some problematic structures.
 When writing the grammar, it might happen, that we create some patterns, that work just fine with ANTLR parser, but pose problems for the usability of the resulting MPS language.
-For example, we might want to use some syntactic sugar such as subrule blocks, which we talked about in section \ref{chap:subrules}.
-The problem, that arises here, is similar to the layer problem, we mentioned in section \ref{chap:layer_problem}.
+For example, we might want to use some syntactic sugar such as subrule blocks, which we talked about in Section~\ref{chap:subrules}.
+The problem, that arises here, is similar to the layer problem, we mentioned in Section~\ref{chap:layer_problem}.
 It, however, cannot be resolved automatically.
 Let's look at the \parserrule{content} rule of the original XML grammar:
 
@@ -20,13 +20,13 @@ Let's look at the \parserrule{content} rule of the original XML grammar:
 	\parserrule{content} :   \lexerrule{TEXT}? ((\parserrule{element} | \lexerrule{CDATA} | \lexerrule{COMMENT}) \lexerrule{TEXT}?)* ;
 \end{antlr}
 
-As we have shown in chapter \ref{chap:whitespaces}, the author of the grammar decided to handle whitespace not by skipping it using ANTLR actions, but rather by wrapping other content with a rule that contains these whitespace characters (the \lexerrule{TEXT} rule).
+As we have shown in Chapter~\ref{chap:whitespaces}, the author of the grammar decided to handle whitespace not by skipping it using ANTLR actions, but rather by wrapping other content with a rule that contains these whitespace characters (the \lexerrule{TEXT} rule).
 Then, using the subrule notation, as we can see above, the author made sure, that any content might be eventually wrapped in whitespace or text.
 This will enable the parser to handle mixed content (text, comments, tags or CDATA sections) inside an XML tag.
 \\
 
 Now let's look, why this poses a problem for us.
-In section \ref{chap:subrules}, we have described the way, how we handle subrules.
+in Section~\ref{chap:subrules}, we have described the way, how we handle subrules.
 We unroll them into a set of parser rules and process them in the same way as if they were expanded from the beginning.
 The rule above is unrolled to following structure:
 
@@ -46,7 +46,7 @@ This transformation just translates the shortened subrule notation into a classi
 \\
 
 When we import this structure inside MPS, the language will not be pleasant to use.
-The projectional editor will be full of (most likely) empty \lexerrule{TEXT} placeholders as shown in Figure \ref{fig:text_placeholders}.
+The projectional editor will be full of (most likely) empty \lexerrule{TEXT} placeholders as shown in Figure~\ref{fig:text_placeholders}.
 Sometimes they will contain text, sometimes spaces, but mostly they will distract us and pollute the projectional editor.
 
 \begin{figure}[h]
@@ -57,7 +57,7 @@ Sometimes they will contain text, sometimes spaces, but mostly they will distrac
 \end{figure}
 
 Furthermore, when the user wants to insert some content inside an XML tag, he will be forced through two layers and to choose between a weird set of some weirdly named block rules, about whose meaning he has no idea.
-We can see the process in Figure \ref{fig:subrule_problem}.
+We can see the process in Figure~\ref{fig:subrule_problem}.
 The auto-completion options represent all end rule alternatives of the artificially created \parserrule{content{\_}block{\_}1{\_}2} subrule.
 \\
 
@@ -69,7 +69,7 @@ The auto-completion options represent all end rule alternatives of the artificia
 \end{figure}
 
 There is, however, no way, how we could detect or prevent this when parsing the grammar, since the plugin has no higher understanding of the grammar.
-We cannot detect any smart shortcut, like described in section \ref{chap:shortcut_approach}, skipping the first layer of the auto-complete (\parserrule{content{\_}block{\_}1{\_}1}).
+We cannot detect any smart shortcut, like described in Section~\ref{chap:shortcut_approach}, skipping the first layer of the auto-complete (\parserrule{content{\_}block{\_}1{\_}1}).
 The reason is, that the first block rule contains more elements.
 Subrules can also be nested inside of each other freely and there can be any setup within multiple levels, additionally with various quantitative operators.
 We could, of course, try to parse the subrule block differently somehow, but for each possible solution, we can always find a very simple case, that will break it.
@@ -89,7 +89,7 @@ We have restructured the content rule into a more simple version:
 
 It also required us to change the grammar in some other places, but these were just minor changes, mostly concerning cardinality.
 It made our MPS language just right, but it also had some bad side effects.
-We talk about these side effects further down this chapter in section \ref{chap:breaking_the_parser}.
+We talk about these side effects further down this chapter in Section~\ref{chap:breaking_the_parser}.
 
 \section{Other Language Tweaks}
 

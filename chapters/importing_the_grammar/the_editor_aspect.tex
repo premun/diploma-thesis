@@ -62,7 +62,7 @@ There are dozens of rules, that have this form (method parameters, operands, ...
 
 Another heuristic suggestion was detecting pair symbols among alternative's literal elements.
 Usually, characters such as braces are a good indicator of some indenting.
-We, however, did not implement any of these heuristics, because, in the end, we decided to abandon the interactive approach completely, as described below in \ref{chap:interactive_approach_evaluation}.
+We, however, did not implement any of these heuristics, because, in the end, we decided to abandon the interactive approach completely, as described below in Section~\ref{chap:interactive_approach_evaluation}.
 That is why we will not go into more detail here.
 
 \subsubsection{Fixing Rule Layout}
@@ -83,7 +83,7 @@ The user would probably end up finalizing the layout himself.
 \\
 
 The other option could be in form of some sophisticated smart dialog, where the user would control the layout by dragging the elements around or position them through some text field.
-This would be probably better, but we would be reimplementing already existing functionality, that is already present inside MPS. 
+This would be probably better, but we would be reimplementing already existing functionality, that is already present inside MPS.
 Again, we are not going into any more detail here, as this approach was rejected because of reasons mentioned below.
 
 \subsubsection{Approach Evaluation}
@@ -110,7 +110,7 @@ And even if we accomplished everything mentioned above, we still believe (and ha
 \\
 
 From reasons stated above, we rejected the interactive approach.
-From exactly the same reasons, we concluded, that any approach, that would require user input, would be suboptimal to just leaving the user adjusting the layout inside the MPS editor designer. 
+From exactly the same reasons, we concluded, that any approach, that would require user input, would be suboptimal to just leaving the user adjusting the layout inside the MPS editor designer.
 
 \subsection{The Learning Approach}
 \label{chap:learning_approach}
@@ -127,11 +127,11 @@ The learning approach would require the user to, together with the grammar file,
 
 \begin{enumerate}
 	\item The plugin would automatically generate an ANTLR parser for this language using the ANTLR library, which provides this functionality.
-	
+
 	\item It would alter the code of the generated parser and add some additional functionality, described below.
-	
+
 	\item It would compile the parser into an executable form.
-	
+
 	\item It would use the parser to parse the supplied source code and extract information about the layout of the code.
 \end{enumerate}
 
@@ -190,7 +190,7 @@ We have started implementing a proof of concept for this approach, so that we ca
 Unfortunately, there were some obstacles, due to which we haven't finished the implementation.
 The biggest problem, that we have identified, was parser generation.
 We found out, that even a small tweaks in the grammar, that the user might perform in order to improve the resulting MPS language, can break it enough so that the automatically generated ANTLR parser is not parsing the code correctly.
-We talk further about this problem in more detail in chapter \ref{chap:breaking_the_parser}.
+We talk further about this problem in more detail in Chapter~\ref{chap:breaking_the_parser}.
 \\
 
 Other problems, that we have identified, were connected to the environment, where it might not be always possible, to perform actions such as parser generation, parser compilation or dynamic loading of the parser.
@@ -209,8 +209,8 @@ When the author of this thesis worked on the plugin, he noticed, that the most t
 This means a manual creation of all cells, that should appear in the visual representation.
 We identified this phase as a time consuming but also quite straightforward, as it does not require any major thought on user's part.
 We have also further noticed, that when the plugin would do this heavy lifting, even without layout detection, further adjustments of the editor are very fast since MPS enables doing this very efficiently.
-We noticed, that even the most obvious way of editor generation, such as plain inlining of all of the cells in a single row (shown in Figure \ref{fig:editor_adjustment} on top), might be a sufficient solution.
-In Figure \ref{fig:editor_adjustment}, we can see an editor adjustment of the \concept{Element{\_}1} concept, that can be done in just a few clicks, but finalizes the editor to its perfect form, better than any heuristics would come up with.
+We noticed, that even the most obvious way of editor generation, such as plain inlining of all of the cells in a single row (shown in Figure~\ref{fig:editor_adjustment} on top), might be a sufficient solution.
+In Figure~\ref{fig:editor_adjustment}, we can see an editor adjustment of the \concept{Element{\_}1} concept, that can be done in just a few clicks, but finalizes the editor to its perfect form, better than any heuristics would come up with.
 \\
 
 \begin{figure}[h]

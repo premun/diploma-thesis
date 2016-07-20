@@ -59,7 +59,7 @@ Let's assume we have a language with typical if/else structure similar to the on
 
 \vspace{3mm}
 
-Its abstract syntax tree representation then might look something like shown on Figure \ref{fig:if_ast}.
+Its abstract syntax tree representation then might look something like shown on Figure~\ref{fig:if_ast}.
 \\
 
 \begin{figure}[h]
@@ -74,7 +74,7 @@ Their type is narrowed down by the language structure definition (meaning that w
 \\
 
 Now, the representation of code inside the projectional editor can have any visual form and is not bound to the textual representation at all.
-It can be a text-like representation similar to what we are used to, or for example blocks of both branches can be aligned next to each other like shown in Figure \ref{fig:if_editor}.
+It can be a text-like representation similar to what we are used to, or for example blocks of both branches can be aligned next to each other like shown in Figure~\ref{fig:if_editor}.
 \\
 
 \begin{figure}[h]
@@ -96,7 +96,7 @@ There are many different types of cells, each behaving a little bit different to
 We are talking about various horizontal or vertical lists etc.
 More extra cells can be added on top of that holding no content but specifying additional layout adjustments such as indentation.
 Each cell can have special context menus bound to it, its formatting can be customized and so on.
-In Figure \ref{fig:if_editor_definition}, you can see what a real editor definition might look like for the if statement of the BaseLanguage language.
+In Figure~\ref{fig:if_editor_definition}, you can see what a real editor definition might look like for the if statement of the BaseLanguage language.
 
 \section{Languages and Solutions}
 
@@ -145,7 +145,7 @@ User can define the name, inheritance, interfaces and concept fields:
 \end{itemize}
 
 The concept can be further marked as a \textit{rootable} one, which means it can be a top level element for some code in a given language.
-In Figure \ref{fig:if_statement_structure}, you can see the structure aspect definition for the if statement.
+In Figure~\ref{fig:if_statement_structure}, you can see the structure aspect definition for the if statement.
 
 \begin{figure}[h]
 	\centering
@@ -181,7 +181,7 @@ The TextGen aspect is basically just one method definition for each concept of t
 This method has several parameters such as the currently processed node and some contextual information.
 It is, however, not returning a string as perhaps expected, but rather manipulates an output buffer/stream using some built-in functions.
 MPS then calls this method for the root concept of the program and it is up to this concept's TextGen method to append its children into the stream by calling their TextGen methods.
-Again, we included an example of the if statement (Figure \ref{fig:if_statement_textgen}).
+Again, we included an example of the if statement (Figure~\ref{fig:if_statement_textgen}).
 
 \begin{figure}[h]
 	\centering

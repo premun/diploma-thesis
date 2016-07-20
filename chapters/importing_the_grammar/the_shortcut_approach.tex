@@ -19,7 +19,7 @@ Consider again the \parserrule{content} rule and its child rules:
 	\parserrule{comment}    :   \literal{<!--} \lexerrule{TEXT} \literal{-->} ;
 \end{antlr}
 
-We started building on top of the algorithm mentioned in \ref{chap:straight_algorithm}.
+We started building on top of the algorithm mentioned in Section~\ref{chap:straight_algorithm}.
 This leaves us again with a concept for each alternative and an interface for parser rules containing more alternatives.
 We can see that the content rule can ultimately expand into following concepts:
 
@@ -32,7 +32,7 @@ We can see that the content rule can ultimately expand into following concepts:
 	\item \textbf{Content{\_}4} (CDATA)
 \end{itemize}
 
-The layer problem (\ref{chap:layer_problem}) dwells in the need of inserting the \concept{Content{\_}2} concept before being able to insert one of the \concept{Element{\_}1} or \concept{Element{\_}2} concepts.
+The layer problem (Section~\ref{chap:layer_problem}) dwells in the need of inserting the \concept{Content{\_}2} concept before being able to insert one of the \concept{Element{\_}1} or \concept{Element{\_}2} concepts.
 We would like to avoid that and offer directly the concepts that are at the end of the chain (in bold).
 These are concepts we would like to see in the auto-completion menu.
 They cannot transparently break into more rules and for the sake of text we will call them \textbf{end concepts}, or when talking about the grammar rule tree \textbf{end rules}.
@@ -86,7 +86,7 @@ Now that we have these, we will talk about several ways, how to use them to make
 
 \subsubsection{Smart Auto-completion}
 
-The first attempt on how to use shortcuts (the result of the algorithm in Section \ref{chap:shortcut_algorithm}) was built on top of the straightforward approach, described in Section \ref{chap:straightforward_approach}.
+The first attempt on how to use shortcuts (the result of the algorithm in Section~\ref{chap:shortcut_algorithm}) was built on top of the straightforward approach, described in Section~\ref{chap:straightforward_approach}.
 There were no structural changes when it came to interfaces or linking concepts together.
 We imported everything just the same and then added some more functionality.
 \\
@@ -101,7 +101,7 @@ Unfortunately, it requires us to implement some non-trivial mechanisms.
 
 The auto-complete menu is bound to a cell of the projectional editor containing a reference to one of the children of a concept.
 Let's say we are again talking about the concept that represents the element rule's first alternative.
-As described above earlier in the process (Section \ref{fig:element_concept_full}), we created:
+As described above earlier in the process (Section~\ref{fig:element_concept_full}), we created:
 
 \begin{itemize}
 	\item An interface \interface{IContent} representing four different alternatives that the content rule can break into
@@ -110,7 +110,7 @@ As described above earlier in the process (Section \ref{fig:element_concept_full
 \end{itemize}
 
 Somewhere in the editor aspect of the \concept{Element{\_}1} concept, there will be a cell referencing the concept interface \interface{IContent}.
-The cell, together with the auto-complete property can be seen in Figure \ref{fig:autocomplete_cell}.
+The cell, together with the auto-complete property can be seen in Figure~\ref{fig:autocomplete_cell}.
 \\
 
 \begin{figure}[h]
@@ -146,7 +146,7 @@ We need to create BaseLanguage statements, that will instantiate the end concept
 There is one small problem, though.
 Let's say the user selected the second option and decided to insert another \concept{Element{\_}1} inside.
 The problem is, that \concept{Element{\_}1} doesn't implement the \interface{IContent} interface.
-It only implements the \interface{IElement} interface as per the algorithm of the straightforward approach (\ref{chap:straight_algorithm}).
+It only implements the \interface{IElement} interface as per the algorithm of the straightforward approach (Section~\ref{chap:straight_algorithm}).
 The shortcut, that leads to this end concept leads through the \concept{Content{\_}2} concept, that has an Element child.
 This means, that we have to follow the whole path and chain individual nodes, beginning with the \concept{Content{\_}2} concept.
 For this particular case it would mean to:
@@ -161,9 +161,9 @@ For this particular case it would mean to:
 	\item Return \concept{Content{\_}2} node.
 \end{itemize}
 
-As we said earlier in section \ref{chap:generating_code_inside_mps}, generating BaseLanguage code is a bit more complicated because we need to either use a quotation or create a large number of AST nodes.
+As we said earlier in Section~\ref{chap:generating_code_inside_mps}, generating BaseLanguage code is a bit more complicated because we need to either use a quotation or create a large number of AST nodes.
 Using a quotation, in this case, was sometimes impossible as everything is very dynamic.
-The finished option concept is shown in Figure \ref{fig:autocomplete_action}.
+The finished option concept is shown in Figure~\ref{fig:autocomplete_action}.
 
 \begin{figure}[h]
 	\centering
@@ -173,7 +173,7 @@ The finished option concept is shown in Figure \ref{fig:autocomplete_action}.
 \end{figure}
 
 For the description text we used concept's alias.
-We talk about creating aliases in section \ref{chap:common_ground}.
+We talk about creating aliases in Section~\ref{chap:common_ground}.
 For matching text we used the shortest unique prefix of alias among all other options' aliases in given auto-complete menu.
 The algorithm for searching shortest unique prefixes in a set of strings is not important from our thesis' point of view, so we decided to not go into further detail.
 
@@ -209,7 +209,7 @@ We decided that it will be the easiest to store the length of the path, that is 
 So when we are creating nodes, while building the path in the creator method, we tell each node, how deep or far on the path the node is.
 In order to do this, we created a \concept{BaseConcept}, a parent abstract concept, from which we will inherit all other concepts.
 This abstract concept will define a special integer property, that will hold our information, effectively making all other concepts inherit it too.
-We called this property \textit{{\_}{\_}DeleteContext} and enhanced the creator method as shown in Figure \ref{fig:autocomplete_action_delete_context}.
+We called this property \textit{{\_}{\_}DeleteContext} and enhanced the creator method as shown in Figure~\ref{fig:autocomplete_action_delete_context}.
 
 \begin{figure}[h]
 	\centering
@@ -219,7 +219,7 @@ We called this property \textit{{\_}{\_}DeleteContext} and enhanced the creator 
 \end{figure}
 
 The last thing remaining, is creating the backspace action.
-Apart from some problems with referencing the \textit{{\_}{\_}DeleteContext} property, which must be reached through the abstract \concept{BaseConcept} type, it is quite straightforward to generate a BaseLanguage code like shown below (Figure \ref{fig:backspace_action}).
+Apart from some problems with referencing the \textit{{\_}{\_}DeleteContext} property, which must be reached through the abstract \concept{BaseConcept} type, it is quite straightforward to generate a BaseLanguage code like shown below (Figure~\ref{fig:backspace_action}).
 
 \begin{figure}[h]
 	\centering
@@ -240,7 +240,7 @@ It would mean changing the first step concerning interfaces and concept linking.
 
 The main idea behind this is the realization, that if for each concept interface there exists a finite set of end concepts, we could just create a special interface and let all these and only these end concepts implement it.
 It is important, that other non-end concepts, that are in the shortcut path, will not implement it.
-Otherwise, that would put us right back where we started with the straightforward approach (Section \ref{chap:straightforward_approach}) and the layer problem (Section \ref{chap:layer_problem}).
+Otherwise, that would put us right back where we started with the straightforward approach (Section~\ref{chap:straightforward_approach}) and the layer problem (Section~\ref{chap:layer_problem}).
 To give an example regarding our content rule, we would create an \interface{IContent} interface concept and only following concepts would implement it:
 
 \begin{itemize}
@@ -286,7 +286,7 @@ This small change will prevent us from creating a shortcut leading through this 
 We are trying to say, that shortcuts, that can be used for the smart interfaces approach, can only lead through rules, that have cardinality [1..1].
 This means through an alternative with a single child element, that is a reference to a parser rule AND has the [1..1] cardinality.
 In the original \parserrule{content} rule, all alternatives look like this, so there was no problem.
-Speaking in terms of the shortcut algorithm \ref{chap:shortcut_algorithm}, we would alter line number 6 and add this restriction to the condition.
+Speaking in terms of the shortcut algorithm (Section~\ref{chap:shortcut_algorithm}), we would alter line number 6 and add this restriction to the condition.
 \\
 
 This restriction is caused by the fact that we would be unable to control changing children cardinality on the whole shortcut path.

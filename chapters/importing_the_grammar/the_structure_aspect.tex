@@ -5,7 +5,7 @@ We need to translate our tree structure into the terms of MPS.
 That means creating concepts inside the structure aspect and linking them together appropriately.
 \\
 
-We will describe several different attempts (sections \ref{chap:straightforward_approach} and \ref{chap:shortcut_approach}) the author has tried out and show some problems these attempts introduced.
+We will describe several different attempts (Sections~\ref{chap:straightforward_approach} and~\ref{chap:shortcut_approach}) the author has tried out and show some problems these attempts introduced.
 We consider it a better approach than just simple description of the final solution because it might prevent others from falling into similar pitfalls such as we discovered ourselves.
 
 
@@ -27,7 +27,7 @@ They can:
 \subsection{Common Ground}
 \label{chap:common_ground}
 
-Some of the import steps are common for both approaches (\ref{chap:straightforward_approach}, \ref{chap:shortcut_approach}).
+Some of the import steps are common for both approaches (Sections~\ref{chap:straightforward_approach} and~\ref{chap:shortcut_approach}).
 \\
 
 Firstly, we have noticed, that whenever there is a string literal inside a parser rule's alternative (think of the \textbf{for} keyword from a Java loop), it will appear only in that rule's projectional editor.
@@ -65,7 +65,7 @@ The concept, that will represent the first alternative of the \parserrule{elemen
 	\item Parser rules references (\parserrule{attribute} and \parserrule{content}) will be explained further down the road as they are the part where approaches differ.
 \end{itemize}
 
-Result of this first step can be seen in Figure \ref{fig:element_concept_common}.
+Result of this first step can be seen in Figure~\ref{fig:element_concept_common}.
 
 \begin{figure}[h]
 	\centering
@@ -74,9 +74,9 @@ Result of this first step can be seen in Figure \ref{fig:element_concept_common}
 	\label{fig:element_concept_common}
 \end{figure}
 
-Next, we are going to describe two different approaches --- the straightforward approach (section \ref{chap:straightforward_approach}) and the shortcut approach (section \ref{chap:shortcut_approach}).
+Next, we are going to describe two different approaches --- the straightforward approach (Section~\ref{chap:straightforward_approach}) and the shortcut approach (Section~\ref{chap:shortcut_approach}).
 The difference between these two lies in the way we create children fields for parser rules and in the way we are going to link them together using interface concepts.
-Final solution will be described in section \ref{chap:structure_solution}.
+Final solution will be described in Section~\ref{chap:structure_solution}.
 
 \newpage
 
@@ -89,7 +89,7 @@ Final solution will be described in section \ref{chap:structure_solution}.
 
 In the end, we have decided to go with the shortcut approach using smart interfaces.
 As we have stated above, it has several advantages, concerning the solution complexity, compared to the smart auto-completion.
-It only has one disadvantage regarding the cardinality restriction, described in \ref{chap:cardinality_restriction}.
+It only has one disadvantage regarding the cardinality restriction, described in Section~\ref{chap:cardinality_restriction}.
 We have analyzed several ANTLR grammars (such as the JavaScript~\cite{javascript}) and we haven't found a single intermediate rule, that would be suffering from this restriction.
 It is quite understandable if you think about how grammars are written.
 Usually, you create the basic structure (i.e. different kinds of statements) in the simplest way possible and put the quantitative operator rather to an alternative that is referencing the structure.
@@ -131,7 +131,7 @@ They still get recognized by the lexer and mode is changed.
 \\
 
 The reason that this goes beyond our interest here is partially caused by the fact, that modes are used on runtime when we are parsing actual code, whereas language structure is more of a static matter.
-The only time we care about modes is when generating the TextGen aspect, and we will get back to it later in Chapter \ref{chap:textgen}.
+The only time we care about modes is when generating the TextGen aspect, and we will get back to it later in Section~\ref{chap:textgen}.
 
 \subsubsection{Actions, Attributes and Semantic Predicates}
 

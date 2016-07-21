@@ -62,7 +62,7 @@ Let's assume we have a~language with typical if/else structure similar to the on
 Its abstract syntax tree representation then might look something like shown on Figure~\ref{fig:if_ast}.
 \\
 
-\begin{figure}[h]
+\begin{figure}[ht]
 	\centering
 	\includegraphics[scale=0.75]{./img/if_statement_ast.png}
 	\caption{"If statement" abstract syntax tree}
@@ -77,7 +77,7 @@ Now, the representation of code inside the projectional editor can have any visu
 It can be a~text-like representation similar to what we are used to, or for example blocks of both branches can be aligned next to each other like shown in Figure~\ref{fig:if_editor}.
 \\
 
-\begin{figure}[h]
+\begin{figure}[ht]
 	\centering
 	\hspace{-4mm}
 	\includegraphics[scale=0.75]{./img/if_statement_editor.png}
@@ -147,7 +147,7 @@ User can define the name, inheritance, interfaces and concept fields:
 The concept can be further marked as a~\textit{rootable} one, which means it can be a~top level element for some code in a~given language.
 In Figure~\ref{fig:if_statement_structure}, you can see the structure aspect definition for the if statement.
 
-\begin{figure}[h]
+\begin{figure}[ht]
 	\centering
 	\includegraphics[scale=0.75]{./img/if_statement_structure.png}
 	\caption{"If statement" structure aspect definition}
@@ -164,7 +164,7 @@ All elements can be styled using a~language similar to CSS.
 If editor concept is not defined, MPS will provide a~default one that stylizes the concept into a~JSON-like form, displaying all its fields nested in a~JSON-like object.
 This provides basic ability to use the concept when coding but it is not very user-friendly.
 
-\begin{figure}[h]
+\begin{figure}[ht]
 	\centering
 	\includegraphics[width=\textwidth]{./img/if_statement_editor_definition.png}
 	\caption{"If statement" editor aspect definition}
@@ -183,7 +183,7 @@ It is, however, not returning a~string as perhaps expected, but rather manipulat
 MPS then calls this method for the root concept of the program and it is up to this concept's TextGen method to append its children into the stream by calling their TextGen methods.
 Again, we included an example of the if statement (Figure~\ref{fig:if_statement_textgen}).
 
-\begin{figure}[h]
+\begin{figure}[ht]
 	\centering
 	\includegraphics[scale=0.70]{./img/if_statement_textgen.png}
 	\caption{"If statement" TextGen aspect definition}

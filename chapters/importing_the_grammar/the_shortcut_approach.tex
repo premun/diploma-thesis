@@ -115,7 +115,7 @@ Somewhere in the editor aspect of the \concept{Element{\_}1} concept, there will
 The cell, together with the auto-complete property can be seen in Figure~\ref{fig:autocomplete_cell}.
 \\
 
-\begin{figure}[h]
+\begin{figure}[ht]
 	\centering
 	\includegraphics[scale=0.72]{./img/autocomplete_cell.png}
 	\caption{Auto-complete property}
@@ -167,7 +167,7 @@ As we said earlier in Section~\ref{chap:generating_code_inside_mps}, generating 
 Using a~quotation, in this case, was sometimes impossible as everything is very dynamic.
 The finished option concept is shown in Figure~\ref{fig:autocomplete_action}.
 
-\begin{figure}[h]
+\begin{figure}[ht]
 	\centering
 	\includegraphics[width=\textwidth]{./img/autocomplete_action.png}
 	\caption{Auto-complete action code (Element{\_}1 concept)}
@@ -213,7 +213,7 @@ In order to do this, we created a~\concept{BaseConcept}, a~parent abstract conce
 This abstract concept will define a~special integer property that will hold our information, effectively making all other concepts inherit it too.
 We called this property \textit{{\_}{\_}DeleteContext} and enhanced the creator method as shown in Figure~\ref{fig:autocomplete_action_delete_context}.
 
-\begin{figure}[h]
+\begin{figure}[ht]
 	\centering
 	\includegraphics[width=\textwidth]{./img/autocomplete_action_delete_context.png}
 	\caption{Auto-complete action extended with deletion context}
@@ -223,7 +223,7 @@ We called this property \textit{{\_}{\_}DeleteContext} and enhanced the creator 
 The last thing remaining, is creating the backspace action.
 Apart from some problems with referencing the \textit{{\_}{\_}DeleteContext} property, which must be reached through the abstract \concept{BaseConcept} type, it is quite straightforward to generate a~BaseLanguage code like shown below (Figure~\ref{fig:backspace_action}).
 
-\begin{figure}[h]
+\begin{figure}[ht]
 	\centering
 	\includegraphics[width=\textwidth]{./img/backspace_action.png}
 	\caption{Backspace action implementation}

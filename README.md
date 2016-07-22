@@ -6,6 +6,7 @@ The software part can be found in [this repository](https://github.com/premun/in
 ## Download
 
 You can dowload the compiled PDF [here](https://github.com/premun/diploma-thesis/blob/master/Grammar%20to%20JetBrains%20MPS%20Convertor.pdf).
+Attachments of the thesis can be found [here](https://github.com/premun/diploma-thesis/blob/master/Attachments.zip).
 
 ## Building
 Main file of the project is `thesis.tex`.
